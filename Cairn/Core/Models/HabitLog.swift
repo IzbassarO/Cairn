@@ -3,11 +3,11 @@ import SwiftData
 
 @Model
 final class HabitLog {
-    @Attribute(.unique) var id: UUID
+    var id: UUID = UUID()
     var habit: Habit?
-    var loggedAt: Date
+    var loggedAt: Date = Date.distantPast
     var note: String?
-    var sourceRaw: Int
+    var sourceRaw: Int = 0
     var moodRaw: Int?
 
     init(

@@ -1,0 +1,185 @@
+import SwiftUI
+import SwiftData
+
+struct HabitCreationSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var context
+    @Query private var habits: [Habit]
+
+    @State private var selectedTemplate: HabitTemplate?
+    @State private var customName: String = ""
+    @State private var enableReminder: Bool = true
+    @State private var reminderTime: Date = Date()
+
+    var body: some View {
+        NavigationStack {
+            Group {
+                if let template = selectedTemplate {
+                    customizeView(template: template)
+                } else {
+                    templateGrid
+                }
+            }
+            .background(Color.bgPrimary)
+        }
+    }
+
+    private var templateGrid: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: Spacing.lg) {
+                VStack(alignment: .leading, spacing: Spacing.sm) {
+                    Text("Pick something tiny.")
+                        .font(.system(size: 22, weight: .bold, design: .rounded))
+                        .foregroundStyle(Color.textPrimary)
+                    Text("ADHD brains do better with one habit at a time. Start small. You can always add more.")
+                        .font(.system(size: 15))
+                        .foregroundStyle(Color.textSecondary)
+                }
+
+                LazyVGrid(
+                    columns: [
+                        GridItem(.flexible(), spacing: Spacing.md),
+                        GridItem(.flexible(), spacing: Spacing.md)
+                    ],
+                    spacing: Spacing.md
+                ) {
+                    ForEach(HabitTemplates.all) { template in
+                        Button {
+                            selectTemplate(template)
+                        } label: {
+                            templateCard(template)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+            .padding(Spacing.md)
+        }
+        .navigationTitle("New habit")
+        .navigationBarTitleDisplayMode(.large)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Cancel") { dismiss() }
+            }
+        }
+    }
+
+    private func templateCard(_ t: HabitTemplate) -> some View {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
+            Image(systemName: t.iconName)
+                .font(.system(size: 24, weight: .regular))
+                .foregroundStyle(Color.accentSage)
+            Text(t.name)
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundStyle(Color.textPrimary)
+                .multilineTextAlignment(.leading)
+            Text(t.blurb)
+                .font(.system(size: 12))
+                .foregroundStyle(Color.textTertiary)
+                .multilineTextAlignment(.leading)
+                .lineLimit(3)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding(Spacing.md)
+        .frame(maxWidth: .infinity, minHeight: 140, alignment: .topLeading)
+        .background(
+            RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
+                .fill(Color.bgSecondary)
+        )
+    }
+
+    private func customizeView(template: HabitTemplate) -> some View {
+        Form {
+            Section {
+                HStack(spacing: Spacing.md) {
+                    Image(systemName: template.iconName)
+                        .font(.system(size: 24))
+                        .foregroundStyle(Color.accentSage)
+                        .frame(width: 44, height: 44)
+                        .background(Circle().fill(Color.accentSage.opacity(0.15)))
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(template.category.displayName)
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundStyle(Color.textTertiary)
+                            .textCase(.uppercase)
+                        Text(template.blurb)
+                            .font(.system(size: 14))
+                            .foregroundStyle(Color.textSecondary)
+                    }
+                }
+                .padding(.vertical, Spacing.xs)
+            }
+
+            Section("Name") {
+                TextField("Habit name", text: $customName)
+                    .font(.system(size: 17))
+            }
+
+            Section {
+                Toggle("Daily reminder", isOn: $enableReminder)
+                if enableReminder {
+                    DatePicker("Time", selection: $reminderTime, displayedComponents: .hourAndMinute)
+                }
+            } footer: {
+                Text(enableReminder
+                     ? "We'll remind you once a day at this time. You can always change it."
+                     : "No reminders. Use the widget or watch to log.")
+                    .font(.system(size: 12))
+            }
+        }
+        .navigationTitle("Customize")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button("Back") { selectedTemplate = nil }
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    addHabit(from: template)
+                } label: {
+                    Text("Add")
+                        .fontWeight(.semibold)
+                }
+                .disabled(customName.trimmingCharacters(in: .whitespaces).isEmpty)
+            }
+        }
+    }
+
+    private func selectTemplate(_ t: HabitTemplate) {
+        selectedTemplate = t
+        customName = t.name
+        if let h = t.suggestedHour, let m = t.suggestedMinute {
+            var comps = Calendar.current.dateComponents([.year, .month, .day], from: .now)
+            comps.hour = h
+            comps.minute = m
+            reminderTime = Calendar.current.date(from: comps) ?? Date()
+            enableReminder = true
+        } else {
+            enableReminder = false
+        }
+    }
+
+    private func addHabit(from template: HabitTemplate) {
+        let trimmed = customName.trimmingCharacters(in: .whitespaces)
+        guard !trimmed.isEmpty else { return }
+
+        let times: [Date] = enableReminder ? [reminderTime] : []
+        let habit = Habit(
+            name: trimmed,
+            iconName: template.iconName,
+            colorTokenName: template.colorTokenName,
+            category: template.category,
+            schedule: .daily,
+            notificationTimes: times,
+            sortOrder: habits.count
+        )
+        context.insert(habit)
+        do {
+            try context.save()
+            print("✅ Added habit: \(habit.name)")
+            dismiss()
+        } catch {
+            print("❌ Add habit failed: \(error)")
+        }
+    }
+}

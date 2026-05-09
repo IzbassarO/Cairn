@@ -3,14 +3,14 @@ import SwiftData
 
 @Model
 final class CoachMessage {
-    @Attribute(.unique) var id: UUID
-    var createdAt: Date
-    var kindRaw: Int
-    var body: String
-    var modelUsed: String
+    var id: UUID = UUID()
+    var createdAt: Date = Date.distantPast
+    var kindRaw: Int = 0
+    var body: String = ""
+    var modelUsed: String = ""
     var reactionRaw: Int?
-    var inputTokens: Int
-    var outputTokens: Int
+    var inputTokens: Int = 0
+    var outputTokens: Int = 0
 
     init(
         id: UUID = UUID(),

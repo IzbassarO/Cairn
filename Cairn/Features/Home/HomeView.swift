@@ -4,13 +4,14 @@ import SwiftData
 struct HomeView: View {
     @Environment(\.modelContext) private var context
     @Query(sort: \Habit.sortOrder) private var habits: [Habit]
+    @State private var showCreation = false
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: Spacing.lg) {
                     greeting
-                    cairnVisualization
+                    cairnSection
                     habitsSection
                 }
                 .padding(.horizontal, Spacing.md)
@@ -21,14 +22,21 @@ struct HomeView: View {
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: addSampleHabit) {
+                    Button {
+                        showCreation = true
+                    } label: {
                         Image(systemName: "plus.circle.fill")
+                            .font(.system(size: 22))
                             .foregroundStyle(Color.accentSage)
                     }
                     .accessibilityLabel("Add habit")
                 }
             }
+            .sheet(isPresented: $showCreation) {
+                HabitCreationSheet()
+            }
         }
+        .tint(Color.accentSage)
     }
 
     private var greeting: some View {
@@ -47,21 +55,10 @@ struct HomeView: View {
         }
     }
 
-    private var cairnVisualization: some View {
+    private var cairnSection: some View {
         CairnCard {
-            VStack(spacing: Spacing.sm) {
-                Text("Your cairn")
-                    .font(.system(size: 13))
-                    .foregroundStyle(Color.textTertiary)
-                Text("\(totalLogs) stones")
-                    .font(.system(size: 28, weight: .bold, design: .rounded))
-                    .foregroundStyle(Color.textPrimary)
-                Text("placed across \(daysActive) days")
-                    .font(.system(size: 13))
-                    .foregroundStyle(Color.textSecondary)
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, Spacing.md)
+            CairnView(stoneCount: totalLogs, daysActive: daysActive)
+                .padding(.vertical, Spacing.md)
         }
     }
 
@@ -83,14 +80,24 @@ struct HomeView: View {
 
     private var emptyState: some View {
         CairnCard {
-            VStack(spacing: Spacing.sm) {
+            VStack(spacing: Spacing.md) {
                 Text("Your cairn is empty.")
                     .font(.system(size: 18, weight: .semibold, design: .rounded))
                     .foregroundStyle(Color.textPrimary)
                 Text("Place your first stone when you're ready — no pressure, no streak.")
-                    .font(.system(size: 15))
+                    .font(.system(size: 14))
                     .foregroundStyle(Color.textSecondary)
                     .multilineTextAlignment(.center)
+                Button {
+                    showCreation = true
+                } label: {
+                    Text("Pick a habit")
+                        .font(.system(size: 15, weight: .semibold, design: .rounded))
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, Spacing.lg)
+                        .padding(.vertical, 10)
+                        .background(Capsule().fill(Color.accentSage))
+                }
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, Spacing.md)
@@ -98,11 +105,11 @@ struct HomeView: View {
     }
 
     private var totalLogs: Int {
-        habits.reduce(0) { $0 + $1.logs.count }
+        habits.reduce(0) { $0 + ($1.logs?.count ?? 0) }
     }
 
     private var daysActive: Int {
-        let allDates = Set(habits.flatMap { $0.logs.map { Calendar.current.startOfDay(for: $0.loggedAt) } })
+        let allDates = Set(habits.flatMap { ($0.logs ?? []).map { Calendar.current.startOfDay(for: $0.loggedAt) } })
         return allDates.count
     }
 
@@ -116,22 +123,6 @@ struct HomeView: View {
             print("❌ Log failed: \(error)")
         }
     }
-
-    private func addSampleHabit() {
-        do {
-            let h = Habit(
-                name: "Take meds",
-                iconName: HabitCategory.meds.defaultIcon,
-                category: .meds,
-                sortOrder: habits.count
-            )
-            context.insert(h)
-            try context.save()
-            print("✅ Added habit: \(h.name)")
-        } catch {
-            print("❌ Add failed: \(error)")
-        }
-    }
 }
 
 struct HabitRow: View {
@@ -141,25 +132,35 @@ struct HabitRow: View {
     var body: some View {
         CairnCard {
             HStack(spacing: Spacing.md) {
-                Image(systemName: habit.iconName)
-                    .font(.system(size: 20))
-                    .foregroundStyle(Color.accentSage)
-                    .frame(width: 32)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(habit.name)
-                        .font(.system(size: 17, weight: .semibold))
-                        .foregroundStyle(Color.textPrimary)
-                    Text("\(habit.logs.count) lifetime")
-                        .font(.system(size: 13))
-                        .foregroundStyle(Color.textTertiary)
+                NavigationLink {
+                    HabitDetailView(habit: habit)
+                } label: {
+                    HStack(spacing: Spacing.md) {
+                        Image(systemName: habit.iconName)
+                            .font(.system(size: 20))
+                            .foregroundStyle(Color.accentSage)
+                            .frame(width: 32)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(habit.name)
+                                .font(.system(size: 17, weight: .semibold))
+                                .foregroundStyle(Color.textPrimary)
+                            Text("\(habit.logs?.count ?? 0) lifetime")
+                                .font(.system(size: 13))
+                                .foregroundStyle(Color.textTertiary)
+                        }
+                        Spacer()
+                    }
+                    .contentShape(Rectangle())
                 }
-                Spacer()
+                .buttonStyle(.plain)
+
                 Button(action: onLog) {
                     Image(systemName: loggedToday ? "checkmark.circle.fill" : "circle")
                         .font(.system(size: 28))
                         .foregroundStyle(loggedToday ? Color.accentSage : Color.textTertiary)
                 }
-                .accessibilityLabel(loggedToday ? "Logged" : "Log \(habit.name)")
+                .buttonStyle(.plain)
+                .accessibilityLabel(loggedToday ? "Logged today" : "Log \(habit.name)")
                 .sensoryFeedback(.success, trigger: loggedToday)
             }
         }
@@ -167,6 +168,6 @@ struct HabitRow: View {
 
     private var loggedToday: Bool {
         let today = Calendar.current.startOfDay(for: .now)
-        return habit.logs.contains { Calendar.current.startOfDay(for: $0.loggedAt) == today }
+        return (habit.logs ?? []).contains { Calendar.current.startOfDay(for: $0.loggedAt) == today }
     }
 }

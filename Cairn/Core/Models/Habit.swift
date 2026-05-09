@@ -2,38 +2,50 @@ import Foundation
 import SwiftData
 
 @Model
-final class UserProfile {
+final class Habit {
     var id: UUID = UUID()
-    var displayName: String?
-    var coachToneRaw: Int = 0
-    var quietHoursStartMinutes: Int?
-    var quietHoursEndMinutes: Int?
-    var appearanceRaw: Int = 0
-    var hasSeenOnboarding: Bool = false
-    var trialStartedAt: Date?
-    var dailyAITokensUsed: Int = 0
-    var dailyAITokensResetAt: Date = Date.distantPast
+    var name: String = ""
+    var iconName: String = "circle.fill"
+    var colorTokenName: String = "accent.sage"
+    var categoryRaw: Int = 99
+    var scheduleRaw: Int = 0
+    var notificationTimes: [Date] = []
+    var isArchived: Bool = false
+    var sortOrder: Int = 0
+    var createdAt: Date = Date.distantPast
+
+    @Relationship(deleteRule: .cascade, inverse: \HabitLog.habit)
+    var logs: [HabitLog]? = []
 
     init(
         id: UUID = UUID(),
-        coachTone: CoachTone = .gentle,
-        appearance: Appearance = .system
+        name: String,
+        iconName: String = "circle.fill",
+        colorTokenName: String = "accent.sage",
+        category: HabitCategory = .custom,
+        schedule: HabitSchedule = .daily,
+        notificationTimes: [Date] = [],
+        sortOrder: Int = 0
     ) {
         self.id = id
-        self.coachToneRaw = coachTone.rawValue
-        self.appearanceRaw = appearance.rawValue
-        self.hasSeenOnboarding = false
-        self.dailyAITokensUsed = 0
-        self.dailyAITokensResetAt = Calendar.current.startOfDay(for: .now)
+        self.name = name
+        self.iconName = iconName
+        self.colorTokenName = colorTokenName
+        self.categoryRaw = category.rawValue
+        self.scheduleRaw = schedule.rawValue
+        self.notificationTimes = notificationTimes
+        self.isArchived = false
+        self.sortOrder = sortOrder
+        self.createdAt = .now
     }
 
-    var coachTone: CoachTone {
-        get { CoachTone(rawValue: coachToneRaw) ?? .gentle }
-        set { coachToneRaw = newValue.rawValue }
+    var category: HabitCategory {
+        get { HabitCategory(rawValue: categoryRaw) ?? .custom }
+        set { categoryRaw = newValue.rawValue }
     }
 
-    var appearance: Appearance {
-        get { Appearance(rawValue: appearanceRaw) ?? .system }
-        set { appearanceRaw = newValue.rawValue }
+    var schedule: HabitSchedule {
+        get { HabitSchedule(rawValue: scheduleRaw) ?? .daily }
+        set { scheduleRaw = newValue.rawValue }
     }
 }

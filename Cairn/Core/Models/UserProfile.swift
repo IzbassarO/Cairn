@@ -3,16 +3,16 @@ import SwiftData
 
 @Model
 final class UserProfile {
-    @Attribute(.unique) var id: UUID
+    var id: UUID = UUID()
     var displayName: String?
-    var coachToneRaw: Int
+    var coachToneRaw: Int = 0
     var quietHoursStartMinutes: Int?
     var quietHoursEndMinutes: Int?
-    var appearanceRaw: Int
-    var hasSeenOnboarding: Bool
+    var appearanceRaw: Int = 0
+    var hasSeenOnboarding: Bool = false
     var trialStartedAt: Date?
-    var dailyAITokensUsed: Int
-    var dailyAITokensResetAt: Date
+    var dailyAITokensUsed: Int = 0
+    var dailyAITokensResetAt: Date = Date.distantPast
 
     init(
         id: UUID = UUID(),
