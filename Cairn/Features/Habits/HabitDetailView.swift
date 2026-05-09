@@ -8,6 +8,8 @@ struct HabitDetailView: View {
 
     @State private var showDeleteConfirm = false
 
+    private var service: HabitService { HabitService(context: context) }
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Spacing.lg) {
@@ -40,7 +42,7 @@ struct HabitDetailView: View {
             isPresented: $showDeleteConfirm,
             titleVisibility: .visible
         ) {
-            Button("Delete", role: .destructive) { deleteHabit() }
+            Button("Delete", role: .destructive) { delete() }
             Button("Cancel", role: .cancel) { }
         } message: {
             Text("This habit and its logs will be removed. Your overall stones stay with you.")
@@ -68,9 +70,9 @@ struct HabitDetailView: View {
 
     private var stats: some View {
         HStack(spacing: Spacing.md) {
-            statCard(value: "\(habit.logs?.count ?? 0)", label: "lifetime")
-            statCard(value: "\(uniqueDays)", label: "days")
-            statCard(value: "\(currentRun)", label: "current run")
+            statCard(value: "\(habit.lifetimeStones)", label: "lifetime")
+            statCard(value: "\(habit.uniqueLogDayCount)", label: "days")
+            statCard(value: "\(habit.currentRun)", label: "current run")
         }
     }
 
@@ -119,19 +121,9 @@ struct HabitDetailView: View {
         }
     }
 
-    private var uniqueDays: Int {
-        let cal = Calendar.current
-        return Set((habit.logs ?? []).map { cal.startOfDay(for: $0.loggedAt) }).count
-    }
-
-    private var currentRun: Int {
-        StreakCalculator().currentRun(habit.logs ?? [])
-    }
-
-    private func deleteHabit() {
-        context.delete(habit)
+    private func delete() {
         do {
-            try context.save()
+            try service.delete(habit)
             dismiss()
         } catch {
             print("❌ Delete failed: \(error)")

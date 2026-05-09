@@ -15,10 +15,3 @@ struct CairnApp: App {
         ])
     }
 }
-
-struct RootView: View {
-    var body: some View {
-        HomeView()
-            .tint(Color.accentSage)
-    }
-}

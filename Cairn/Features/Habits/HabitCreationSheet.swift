@@ -5,17 +5,15 @@ struct HabitCreationSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
     @Query private var habits: [Habit]
+    @State private var vm = HabitCreationViewModel()
 
-    @State private var selectedTemplate: HabitTemplate?
-    @State private var customName: String = ""
-    @State private var enableReminder: Bool = true
-    @State private var reminderTime: Date = Date()
+    private var service: HabitService { HabitService(context: context) }
 
     var body: some View {
         NavigationStack {
             Group {
-                if let template = selectedTemplate {
-                    customizeView(template: template)
+                if vm.selectedTemplate != nil {
+                    customizeView
                 } else {
                     templateGrid
                 }
@@ -45,7 +43,7 @@ struct HabitCreationSheet: View {
                 ) {
                     ForEach(HabitTemplates.all) { template in
                         Button {
-                            selectTemplate(template)
+                            vm.selectTemplate(template)
                         } label: {
                             templateCard(template)
                         }
@@ -88,97 +86,74 @@ struct HabitCreationSheet: View {
         )
     }
 
-    private func customizeView(template: HabitTemplate) -> some View {
-        Form {
-            Section {
-                HStack(spacing: Spacing.md) {
-                    Image(systemName: template.iconName)
-                        .font(.system(size: 24))
-                        .foregroundStyle(Color.accentSage)
-                        .frame(width: 44, height: 44)
-                        .background(Circle().fill(Color.accentSage.opacity(0.15)))
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(template.category.displayName)
-                            .font(.system(size: 12, weight: .semibold))
-                            .foregroundStyle(Color.textTertiary)
-                            .textCase(.uppercase)
-                        Text(template.blurb)
-                            .font(.system(size: 14))
-                            .foregroundStyle(Color.textSecondary)
+    @ViewBuilder
+    private var customizeView: some View {
+        if let template = vm.selectedTemplate {
+            Form {
+                Section {
+                    HStack(spacing: Spacing.md) {
+                        Image(systemName: template.iconName)
+                            .font(.system(size: 24))
+                            .foregroundStyle(Color.accentSage)
+                            .frame(width: 44, height: 44)
+                            .background(Circle().fill(Color.accentSage.opacity(0.15)))
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(template.category.displayName)
+                                .font(.system(size: 12, weight: .semibold))
+                                .foregroundStyle(Color.textTertiary)
+                                .textCase(.uppercase)
+                            Text(template.blurb)
+                                .font(.system(size: 14))
+                                .foregroundStyle(Color.textSecondary)
+                        }
                     }
+                    .padding(.vertical, Spacing.xs)
                 }
-                .padding(.vertical, Spacing.xs)
-            }
 
-            Section("Name") {
-                TextField("Habit name", text: $customName)
-                    .font(.system(size: 17))
-            }
-
-            Section {
-                Toggle("Daily reminder", isOn: $enableReminder)
-                if enableReminder {
-                    DatePicker("Time", selection: $reminderTime, displayedComponents: .hourAndMinute)
+                Section("Name") {
+                    TextField("Habit name", text: $vm.customName)
+                        .font(.system(size: 17))
                 }
-            } footer: {
-                Text(enableReminder
-                     ? "We'll remind you once a day at this time. You can always change it."
-                     : "No reminders. Use the widget or watch to log.")
-                    .font(.system(size: 12))
-            }
-        }
-        .navigationTitle("Customize")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button("Back") { selectedTemplate = nil }
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    addHabit(from: template)
-                } label: {
-                    Text("Add")
-                        .fontWeight(.semibold)
-                }
-                .disabled(customName.trimmingCharacters(in: .whitespaces).isEmpty)
-            }
-        }
-    }
 
-    private func selectTemplate(_ t: HabitTemplate) {
-        selectedTemplate = t
-        customName = t.name
-        if let h = t.suggestedHour, let m = t.suggestedMinute {
-            var comps = Calendar.current.dateComponents([.year, .month, .day], from: .now)
-            comps.hour = h
-            comps.minute = m
-            reminderTime = Calendar.current.date(from: comps) ?? Date()
-            enableReminder = true
-        } else {
-            enableReminder = false
+                Section {
+                    Toggle("Daily reminder", isOn: $vm.enableReminder)
+                    if vm.enableReminder {
+                        DatePicker("Time", selection: $vm.reminderTime, displayedComponents: .hourAndMinute)
+                    }
+                } footer: {
+                    Text(vm.enableReminder
+                         ? "We'll remind you once a day at this time. You can change it any time."
+                         : "No reminders. Use the widget or watch to log.")
+                        .font(.system(size: 12))
+                }
+            }
+            .navigationTitle("Customize")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Back") { vm.clearTemplate() }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        submit()
+                    } label: {
+                        Text("Add")
+                            .fontWeight(.semibold)
+                    }
+                    .disabled(!vm.canSubmit)
+                }
+            }
         }
     }
 
-    private func addHabit(from template: HabitTemplate) {
-        let trimmed = customName.trimmingCharacters(in: .whitespaces)
-        guard !trimmed.isEmpty else { return }
-
-        let times: [Date] = enableReminder ? [reminderTime] : []
-        let habit = Habit(
-            name: trimmed,
-            iconName: template.iconName,
-            colorTokenName: template.colorTokenName,
-            category: template.category,
-            schedule: .daily,
-            notificationTimes: times,
-            sortOrder: habits.count
-        )
-        context.insert(habit)
+    private func submit() {
+        guard let habit = vm.buildHabit(sortOrder: habits.count) else { return }
         do {
-            try context.save()
+            try service.add(habit)
             print("✅ Added habit: \(habit.name)")
             dismiss()
         } catch {
+            vm.errorMessage = "\(error)"
             print("❌ Add habit failed: \(error)")
         }
     }

@@ -6,12 +6,19 @@ struct HomeView: View {
     @Query(sort: \Habit.sortOrder) private var habits: [Habit]
     @State private var showCreation = false
 
+    private var service: HabitService { HabitService(context: context) }
+    private var activeHabits: [Habit] { habits.filter { !$0.isArchived } }
+
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: Spacing.lg) {
-                    greeting
+                    Text(Greeting.forCurrentHour())
+                        .font(.system(size: 22, weight: .semibold, design: .rounded))
+                        .foregroundStyle(Color.textPrimary)
+
                     cairnSection
+
                     habitsSection
                 }
                 .padding(.horizontal, Spacing.md)
@@ -39,26 +46,13 @@ struct HomeView: View {
         .tint(Color.accentSage)
     }
 
-    private var greeting: some View {
-        Text(greetingText)
-            .font(.system(size: 22, weight: .semibold, design: .rounded))
-            .foregroundStyle(Color.textPrimary)
-    }
-
-    private var greetingText: String {
-        let hour = Calendar.current.component(.hour, from: .now)
-        switch hour {
-        case 5..<12: return "Morning."
-        case 12..<17: return "Afternoon."
-        case 17..<22: return "Evening."
-        default: return "Late night."
-        }
-    }
-
     private var cairnSection: some View {
         CairnCard {
-            CairnView(stoneCount: totalLogs, daysActive: daysActive)
-                .padding(.vertical, Spacing.md)
+            CairnView(
+                stoneCount: activeHabits.totalStones,
+                daysActive: activeHabits.uniqueLogDayCount
+            )
+            .padding(.vertical, Spacing.md)
         }
     }
 
@@ -68,10 +62,10 @@ struct HomeView: View {
                 .font(.system(size: 18, weight: .semibold, design: .rounded))
                 .foregroundStyle(Color.textPrimary)
 
-            if habits.isEmpty {
+            if activeHabits.isEmpty {
                 emptyState
             } else {
-                ForEach(habits) { habit in
+                ForEach(activeHabits) { habit in
                     HabitRow(habit: habit, onLog: { log(habit) })
                 }
             }
@@ -104,20 +98,9 @@ struct HomeView: View {
         }
     }
 
-    private var totalLogs: Int {
-        habits.reduce(0) { $0 + ($1.logs?.count ?? 0) }
-    }
-
-    private var daysActive: Int {
-        let allDates = Set(habits.flatMap { ($0.logs ?? []).map { Calendar.current.startOfDay(for: $0.loggedAt) } })
-        return allDates.count
-    }
-
     private func log(_ habit: Habit) {
         do {
-            let entry = HabitLog(habit: habit)
-            context.insert(entry)
-            try context.save()
+            try service.log(habit)
             print("✅ Logged: \(habit.name)")
         } catch {
             print("❌ Log failed: \(error)")
@@ -144,7 +127,7 @@ struct HabitRow: View {
                             Text(habit.name)
                                 .font(.system(size: 17, weight: .semibold))
                                 .foregroundStyle(Color.textPrimary)
-                            Text("\(habit.logs?.count ?? 0) lifetime")
+                            Text("\(habit.lifetimeStones) lifetime")
                                 .font(.system(size: 13))
                                 .foregroundStyle(Color.textTertiary)
                         }
@@ -155,19 +138,14 @@ struct HabitRow: View {
                 .buttonStyle(.plain)
 
                 Button(action: onLog) {
-                    Image(systemName: loggedToday ? "checkmark.circle.fill" : "circle")
+                    Image(systemName: habit.loggedToday ? "checkmark.circle.fill" : "circle")
                         .font(.system(size: 28))
-                        .foregroundStyle(loggedToday ? Color.accentSage : Color.textTertiary)
+                        .foregroundStyle(habit.loggedToday ? Color.accentSage : Color.textTertiary)
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel(loggedToday ? "Logged today" : "Log \(habit.name)")
-                .sensoryFeedback(.success, trigger: loggedToday)
+                .accessibilityLabel(habit.loggedToday ? "Logged today" : "Log \(habit.name)")
+                .sensoryFeedback(.success, trigger: habit.loggedToday)
             }
         }
-    }
-
-    private var loggedToday: Bool {
-        let today = Calendar.current.startOfDay(for: .now)
-        return (habit.logs ?? []).contains { Calendar.current.startOfDay(for: $0.loggedAt) == today }
     }
 }
