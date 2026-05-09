@@ -39,14 +39,14 @@ Live status of the Cairn build toward v1.0 App Store submission. Updated each se
 
 ## Week 2 — preview
 
-- [ ] HabitService (insert, update, archive, reorder)
-- [ ] 12 ADHD habit templates with sensible defaults
-- [ ] Real CairnView animated stone visualization (lifetime stones, not just count)
-- [ ] Drag-to-reorder habits on home
-- [ ] Habit detail view with calendar heatmap
-- [ ] Local notifications via UserNotifications + per-habit times
-- [ ] Time-Sensitive entitlement applied to medication habits
-- [ ] Healing-streak UI: copy that never shows "0", warm "welcome back" after misses
+- [] HabitService (insert, update, archive, reorder)
+- [] 12 ADHD habit templates with sensible defaults
+- [] Real CairnView animated stone visualization (lifetime stones, not just count)
+- [] Drag-to-reorder habits on home
+- [] Habit detail view with calendar heatmap
+- [] Local notifications via UserNotifications + per-habit times
+- [] Time-Sensitive entitlement applied to medication habits
+- [] Healing-streak UI: copy that never shows "0", warm "welcome back" after misses
 
 ## Versions on the runway
 
