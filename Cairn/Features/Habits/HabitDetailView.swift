@@ -8,9 +8,46 @@ struct HabitDetailView: View {
 
     @State private var showDeleteConfirm = false
 
-    private var service: HabitService { HabitService(context: context) }
-
     var body: some View {
+        Group {
+            if habit.modelContext != nil {
+                content
+            } else {
+                Color.bgPrimary
+            }
+        }
+        .background(Color.bgPrimary)
+        .navigationTitle(habit.modelContext != nil ? habit.name : "")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            if habit.modelContext != nil {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        Button(role: .destructive) {
+                            showDeleteConfirm = true
+                        } label: {
+                            Label("Delete habit", systemImage: "trash")
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                            .foregroundStyle(Color.accentSage)
+                    }
+                }
+            }
+        }
+        .cairnAlert(
+            isPresented: $showDeleteConfirm,
+            title: "Delete \(habit.modelContext != nil ? habit.name : "habit")?",
+            message: "This habit and its logs will be removed. Your stones across the cairn stay with you.",
+            icon: "trash.fill",
+            confirmTitle: "Delete",
+            confirmRole: .destructive,
+            cancelTitle: "Keep it",
+            onConfirm: { delete() }
+        )
+    }
+
+    private var content: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Spacing.lg) {
                 header
@@ -19,33 +56,6 @@ struct HabitDetailView: View {
             }
             .padding(.horizontal, Spacing.md)
             .padding(.vertical, Spacing.lg)
-        }
-        .background(Color.bgPrimary)
-        .navigationTitle(habit.name)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Menu {
-                    Button(role: .destructive) {
-                        showDeleteConfirm = true
-                    } label: {
-                        Label("Delete habit", systemImage: "trash")
-                    }
-                } label: {
-                    Image(systemName: "ellipsis.circle")
-                        .foregroundStyle(Color.accentSage)
-                }
-            }
-        }
-        .confirmationDialog(
-            "Delete \(habit.name)?",
-            isPresented: $showDeleteConfirm,
-            titleVisibility: .visible
-        ) {
-            Button("Delete", role: .destructive) { delete() }
-            Button("Cancel", role: .cancel) { }
-        } message: {
-            Text("This habit and its logs will be removed. Your overall stones stay with you.")
         }
     }
 
@@ -96,7 +106,11 @@ struct HabitDetailView: View {
                 .font(.system(size: 18, weight: .semibold, design: .rounded))
                 .foregroundStyle(Color.textPrimary)
 
-            let logs = (habit.logs ?? []).sorted { $0.loggedAt > $1.loggedAt }.prefix(20)
+            let logs = (habit.logs ?? [])
+                .filter { $0.modelContext != nil }
+                .sorted { $0.loggedAt > $1.loggedAt }
+                .prefix(20)
+
             if logs.isEmpty {
                 CairnCard {
                     Text("No logs yet. The first stone is the heaviest.")
@@ -122,11 +136,17 @@ struct HabitDetailView: View {
     }
 
     private func delete() {
-        do {
-            try service.delete(habit)
-            dismiss()
-        } catch {
-            print("❌ Delete failed: \(error)")
+        let habitToDelete = habit
+        let ctx = context
+        dismiss()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            let svc = HabitService(context: ctx)
+            do {
+                try svc.delete(habitToDelete)
+                print("✅ Deleted habit")
+            } catch {
+                print("❌ Delete failed: \(error)")
+            }
         }
     }
 }
