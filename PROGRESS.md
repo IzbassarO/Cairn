@@ -61,10 +61,10 @@ Rules:
 - [x] Cleanup: removed `CairnUITests/Cairn` accidental copy
 - [x] Habit-delete crash fixed (dismiss-then-delete pattern, modelContext-nil guards)
 - [x] `CairnAlert` reusable centered modal component (replaces action-sheet `confirmationDialog`)
-- [ ] Local notifications via `UserNotifications` per habit's `notificationTimes` *(next turn)*
-- [ ] Time-Sensitive entitlement applied to medication category *(next turn)*
-- [ ] Drag-to-reorder rows on home *(next turn)*
-- [ ] Calendar heatmap on habit detail *(next turn)*
+- [x] Local notifications via `UserNotifications` per habit's `notificationTimes` *(next turn)*
+- [x] Time-Sensitive entitlement applied to medication category *(next turn)*
+- [x] Drag-to-reorder rows on home *(next turn)*
+- [x] Calendar heatmap on habit detail *(next turn)*
 
 ## Week 2 — done ✅
 - 12 ADHD habit templates with neuroaffirming blurbs
