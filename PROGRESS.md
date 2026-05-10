@@ -2,7 +2,7 @@
 
 Live status of the Cairn build toward v1.0 App Store submission. Updated each session.
 
-> **Now:** Week 2 — habit engine + clean architecture (~80%, finishing notifications + drag-reorder + heatmap next)
+> **Now:** Week 2 — ✅ done. Week 3 starts next session.
 > **Submission target:** end of week 8
 
 ## Where we are
@@ -10,8 +10,8 @@ Live status of the Cairn build toward v1.0 App Store submission. Updated each se
 | Week | Theme | Status |
 |---|---|---|
 | 1 | Architecture, data, design system | ✅ Done |
-| 2 | Habit engine + home (templates, visual cairn, detail) + MVVM-lite refactor | 🟡 ~80% |
-| 3 | Onboarding, settings, polish, accessibility pass | ⚪ Not started |
+| 2 | Habit engine + home (templates, visual cairn, detail) + MVVM-lite refactor | ✅ Done |
+| 3 | Onboarding, settings, polish, accessibility pass | ⚪ Next |
 | 4 | Widgets + Live Activities scaffolding | ⚪ Not started |
 | 5 | AI coach integration (Anthropic) | ⚪ Not started |
 | 6 | Monetization + paywall (RevenueCat + AdMob) | ⚪ Not started |
@@ -22,9 +22,9 @@ Live status of the Cairn build toward v1.0 App Store submission. Updated each se
 
 Pragmatic clean architecture for SwiftUI. Strict MVVM is redundant in SwiftUI; this is the lighter pattern Apple recommends.
 Cairn/Core/Models/ SwiftData @Model classes (no logic)
-Cairn/Core/Services/ Typed action wrappers (HabitService) + pure calc (StreakCalculator, HabitStatistics)
-Cairn/Features/<f>/ Per-feature: View + (optional) ViewModel for complex state
-Cairn/App/ Tab navigation root + dependency wiring
+Cairn/Core/Services/ HabitService, NotificationService, StreakCalculator, HabitStatistics
+Cairn/Features/<f>/ View + (optional) ViewModel
+Cairn/App/ Tab navigation root
 
 Rules:
 - **Models** never import SwiftUI.
@@ -65,6 +65,35 @@ Rules:
 - [ ] Time-Sensitive entitlement applied to medication category *(next turn)*
 - [ ] Drag-to-reorder rows on home *(next turn)*
 - [ ] Calendar heatmap on habit detail *(next turn)*
+
+## Week 2 — done ✅
+- 12 ADHD habit templates with neuroaffirming blurbs
+- Visual `CairnView` (capsule stones, organic tilt, spring animation)
+- Habit creation flow (template grid → customize → save)
+- Habit detail (header / stats / heatmap / recent logs)
+- `HabitService`, `NotificationService`, `HabitStatistics` extensions
+- `HabitCreationViewModel` for the multi-step form
+- Tab IA: Today / Coach / Settings (Coach + Settings stubbed on-brand)
+- Healing-streak math wired into detail
+- "Pick a habit" empty state CTA
+- `CairnAlert` reusable centered modal
+- Habit-delete crash fixed (dismiss-then-delete + modelContext-nil guards)
+- **Local notifications** (warm permission prompt at habit-creation, never cold)
+- **Time-Sensitive interruption level** for medication category (entitlement deferred to week 7)
+- **Drag-to-reorder** rows (`List` + `.onMove`)
+- **Calendar heatmap** on detail (`HeatmapView`: 12w × 7d, sage gradient + legend)
+## Week 3 — preview (next session)
+- Onboarding flow (5 screens, ≤90 sec to first habit logged)
+- Sign in with Apple
+- Settings: real notifications status + iOS deeplink, sync status, appearance picker, data export, delete-all (using `cairnAlert`)
+- Empty / loading / error states for every screen
+- Full accessibility pass (VoiceOver, Dynamic Type AX5, Reduced Motion, contrast)
+- Localizable.xcstrings scaffolding
+- Habit edit flow (name / icon / time)
+## Versions on the runway
+- **v1.0** (week 8): Public launch
+- **v1.1** (~week 10-11): Voice logging, Lock Screen control, Live Activity, Siri
+
 ## Week 3 — preview
 - [ ] Onboarding flow (5 screens, ≤90 sec to first habit logged)
 - [ ] Sign in with Apple
