@@ -37,11 +37,31 @@ enum HabitCategory: Int, Codable, CaseIterable {
     }
 }
 
-enum HabitSchedule: Int, Codable {
+enum HabitSchedule: Int, Codable, CaseIterable {
     case daily = 0
     case weekdays = 1
     case weekends = 2
     case custom = 99
+
+    var displayName: String {
+        switch self {
+        case .daily: return "Every day"
+        case .weekdays: return "Weekdays"
+        case .weekends: return "Weekends"
+        case .custom: return "Custom days"
+        }
+    }
+
+    /// Weekday ints (1=Sun ... 7=Sat) when this schedule applies.
+    /// For `.custom`, caller supplies the user's selected days.
+    func weekdays(custom: Set<Int> = []) -> Set<Int> {
+        switch self {
+        case .daily: return Set(1...7)
+        case .weekdays: return [2, 3, 4, 5, 6]
+        case .weekends: return [1, 7]
+        case .custom: return custom
+        }
+    }
 }
 
 enum LogSource: Int, Codable {

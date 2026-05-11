@@ -29,6 +29,8 @@ struct HabitService {
     }
 
     func delete(_ habit: Habit) throws {
+        let id = habit.id
+        NotificationService.shared.cancel(habitId: id)
         context.delete(habit)
         try context.save()
     }
@@ -42,6 +44,7 @@ struct HabitService {
 
     func archive(_ habit: Habit) throws {
         habit.isArchived = true
+        NotificationService.shared.cancel(habitId: habit.id)
         try context.save()
     }
 }

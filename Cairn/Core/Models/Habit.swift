@@ -13,6 +13,7 @@ final class Habit {
     var isArchived: Bool = false
     var sortOrder: Int = 0
     var createdAt: Date = Date.distantPast
+    var customDaysRaw: String = ""
 
     @Relationship(deleteRule: .cascade, inverse: \HabitLog.habit)
     var logs: [HabitLog]? = []
@@ -47,5 +48,10 @@ final class Habit {
     var schedule: HabitSchedule {
         get { HabitSchedule(rawValue: scheduleRaw) ?? .daily }
         set { scheduleRaw = newValue.rawValue }
+    }
+    
+    var customDays: Set<Int> {
+        get { Set(customDaysRaw.split(separator: ",").compactMap { Int($0) }) }
+        set { customDaysRaw = newValue.sorted().map(String.init).joined(separator: ",") }
     }
 }

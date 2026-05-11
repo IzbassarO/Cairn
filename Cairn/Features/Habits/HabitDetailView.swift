@@ -7,6 +7,7 @@ struct HabitDetailView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var showDeleteConfirm = false
+    @State private var showEditSheet = false
 
     var body: some View {
         Group {
@@ -23,6 +24,11 @@ struct HabitDetailView: View {
             if habit.modelContext != nil {
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
+                        Button {
+                            showEditSheet = true
+                        } label: {
+                            Label("Edit habit", systemImage: "pencil")
+                        }
                         Button(role: .destructive) {
                             showDeleteConfirm = true
                         } label: {
@@ -45,6 +51,11 @@ struct HabitDetailView: View {
             cancelTitle: "Keep it",
             onConfirm: { delete() }
         )
+        .sheet(isPresented: $showEditSheet) {
+            if habit.modelContext != nil {
+                HabitEditSheet(habit: habit)
+            }
+        }
     }
 
     private var content: some View {
@@ -52,6 +63,7 @@ struct HabitDetailView: View {
             VStack(alignment: .leading, spacing: Spacing.lg) {
                 header
                 stats
+                heatmapSection
                 recentLogs
             }
             .padding(.horizontal, Spacing.md)
@@ -100,6 +112,13 @@ struct HabitDetailView: View {
         }
     }
 
+    private var heatmapSection: some View {
+        CairnCard {
+            HeatmapView(logs: habit.logs ?? [])
+                .padding(.vertical, Spacing.xs)
+        }
+    }
+
     private var recentLogs: some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
             Text("Recent")
@@ -109,7 +128,7 @@ struct HabitDetailView: View {
             let logs = (habit.logs ?? [])
                 .filter { $0.modelContext != nil }
                 .sorted { $0.loggedAt > $1.loggedAt }
-                .prefix(20)
+                .prefix(10)
 
             if logs.isEmpty {
                 CairnCard {

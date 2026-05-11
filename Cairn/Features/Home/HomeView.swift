@@ -11,19 +11,52 @@ struct HomeView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: Spacing.lg) {
+            List {
+                Section {
                     Text(Greeting.forCurrentHour())
                         .font(.system(size: 22, weight: .semibold, design: .rounded))
                         .foregroundStyle(Color.textPrimary)
-
-                    cairnSection
-
-                    habitsSection
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets(top: 0, leading: Spacing.md, bottom: 0, trailing: Spacing.md))
                 }
-                .padding(.horizontal, Spacing.md)
-                .padding(.vertical, Spacing.lg)
+
+                Section {
+                    cairnSection
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets(top: Spacing.md, leading: Spacing.md, bottom: 0, trailing: Spacing.md))
+                }
+
+                Section {
+                    if activeHabits.isEmpty {
+                        emptyState
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                            .listRowInsets(EdgeInsets(top: Spacing.sm, leading: Spacing.md, bottom: Spacing.lg, trailing: Spacing.md))
+                    } else {
+                        ForEach(activeHabits) { habit in
+                            HabitRow(habit: habit, onLog: { log(habit) })
+                                .listRowBackground(Color.clear)
+                                .listRowSeparator(.hidden)
+                                .listRowInsets(EdgeInsets(top: Spacing.xs, leading: Spacing.md, bottom: Spacing.xs, trailing: Spacing.md))
+                        }
+                        .onMove(perform: move)
+                    }
+                } header: {
+                    if !activeHabits.isEmpty {
+                        Text("Today")
+                            .font(.system(size: 18, weight: .semibold, design: .rounded))
+                            .foregroundStyle(Color.textPrimary)
+                            .padding(.horizontal, Spacing.md)
+                            .padding(.top, Spacing.md)
+                            .listRowInsets(EdgeInsets())
+                            .textCase(nil)
+                    }
+                }
             }
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
             .background(Color.bgPrimary)
             .navigationTitle("Today")
             .navigationBarTitleDisplayMode(.large)
@@ -42,6 +75,9 @@ struct HomeView: View {
             .sheet(isPresented: $showCreation) {
                 HabitCreationSheet()
             }
+            .task {
+                await rescheduleNotificationsIfAuthorized()
+            }
         }
         .tint(Color.accentSage)
     }
@@ -53,22 +89,6 @@ struct HomeView: View {
                 daysActive: activeHabits.uniqueLogDayCount
             )
             .padding(.vertical, Spacing.md)
-        }
-    }
-
-    private var habitsSection: some View {
-        VStack(alignment: .leading, spacing: Spacing.md) {
-            Text("Today")
-                .font(.system(size: 18, weight: .semibold, design: .rounded))
-                .foregroundStyle(Color.textPrimary)
-
-            if activeHabits.isEmpty {
-                emptyState
-            } else {
-                ForEach(activeHabits) { habit in
-                    HabitRow(habit: habit, onLog: { log(habit) })
-                }
-            }
         }
     }
 
@@ -104,6 +124,24 @@ struct HomeView: View {
             print("✅ Logged: \(habit.name)")
         } catch {
             print("❌ Log failed: \(error)")
+        }
+    }
+
+    private func move(from source: IndexSet, to destination: Int) {
+        var reordered = activeHabits
+        reordered.move(fromOffsets: source, toOffset: destination)
+        do {
+            try service.reorder(reordered)
+        } catch {
+            print("❌ Reorder failed: \(error)")
+        }
+    }
+
+    private func rescheduleNotificationsIfAuthorized() async {
+        let state = await NotificationService.shared.authorizationState()
+        guard state == .authorized else { return }
+        for habit in activeHabits {
+            await NotificationService.shared.schedule(habit)
         }
     }
 }

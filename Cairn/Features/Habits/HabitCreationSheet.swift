@@ -116,15 +116,11 @@ struct HabitCreationSheet: View {
                 }
 
                 Section {
-                    Toggle("Daily reminder", isOn: $vm.enableReminder)
-                    if vm.enableReminder {
-                        DatePicker("Time", selection: $vm.reminderTime, displayedComponents: .hourAndMinute)
-                    }
-                } footer: {
-                    Text(vm.enableReminder
-                         ? "We'll remind you once a day at this time. You can change it any time."
-                         : "No reminders. Use the widget or watch to log.")
-                        .font(.system(size: 12))
+                    ReminderSettingsView(
+                        times: $vm.times,
+                        schedule: $vm.schedule,
+                        customDays: $vm.customDays
+                    )
                 }
             }
             .navigationTitle("Customize")
@@ -151,6 +147,12 @@ struct HabitCreationSheet: View {
         do {
             try service.add(habit)
             print("✅ Added habit: \(habit.name)")
+
+            if !vm.times.isEmpty {
+                Task { @MainActor in
+                    await NotificationService.shared.ensureAuthorizedThenSchedule(habit)
+                }
+            }
             dismiss()
         } catch {
             vm.errorMessage = "\(error)"
