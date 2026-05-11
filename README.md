@@ -4,7 +4,7 @@
 
 A neuroaffirming habit and focus companion designed specifically for adults with ADHD. Shame-free streaks, AI body-doubling, time-blindness aids, one-tap capture.
 
-**Status:** Week 1 — architecture & data layer in progress.
+**Status:** Week 3 — onboarding, settings, accessibility, and polish in progress.
 
 ## Why this app, why now
 
