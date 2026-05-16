@@ -3,9 +3,12 @@ import SwiftUI
 struct OnboardingPageView: View {
     let page: OnboardingPage
     let reduceMotion: Bool
+    /// Bound only when page.hero == .nameField. Parent owns the storage.
+    @Binding var name: String
 
     @State private var heroScale: CGFloat = 0.85
     @State private var heroOpacity: Double = 0.0
+    @FocusState private var nameFocused: Bool
 
     var body: some View {
         VStack(spacing: Spacing.xl) {
@@ -16,7 +19,16 @@ struct OnboardingPageView: View {
                 .opacity(heroOpacity)
                 .onAppear { animateIn() }
 
-            VStack(spacing: Spacing.md) {
+            VStack(spacing: Spacing.sm) {
+                if let eyebrow = page.eyebrow {
+                    Text(eyebrow)
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundStyle(Color.accentSage)
+                        .textCase(.uppercase)
+                        .tracking(1.4)
+                        .padding(.bottom, 2)
+                }
+
                 Text(page.headline)
                     .font(.system(size: 28, weight: .bold, design: .rounded))
                     .foregroundStyle(Color.textPrimary)
@@ -29,6 +41,12 @@ struct OnboardingPageView: View {
                     .lineSpacing(3)
             }
             .padding(.horizontal, Spacing.lg)
+
+            if case .nameField = page.hero {
+                nameInputField
+                    .padding(.horizontal, Spacing.xl)
+                    .padding(.top, Spacing.sm)
+            }
 
             Spacer(minLength: 0)
             Spacer(minLength: 0)
@@ -52,7 +70,46 @@ struct OnboardingPageView: View {
             StackedStonesHero()
                 .frame(width: 200, height: 200)
                 .accessibilityHidden(true)
+        case .singleStone:
+            RestingStoneView(width: 180)
+                .frame(width: 200, height: 200)
+                .accessibilityHidden(true)
+        case .nameField:
+            // Smaller hero to leave room for the input.
+            RestingStoneView(width: 140)
+                .frame(width: 180, height: 140)
+                .accessibilityHidden(true)
         }
+    }
+
+    private var nameInputField: some View {
+        TextField("First name", text: $name)
+            .font(.system(size: 18, weight: .medium, design: .rounded))
+            .foregroundStyle(Color.textPrimary)
+            .multilineTextAlignment(.center)
+            .textInputAutocapitalization(.words)
+            .autocorrectionDisabled()
+            .submitLabel(.done)
+            .focused($nameFocused)
+            .padding(.vertical, 14)
+            .padding(.horizontal, Spacing.lg)
+            .background(
+                RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
+                    .fill(Color.bgSecondary)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
+                    .strokeBorder(
+                        nameFocused ? Color.accentSage : Color.clear,
+                        lineWidth: 1.5
+                    )
+            )
+            .onAppear {
+                // Slight delay so the page transition settles before keyboard pops up.
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                    nameFocused = true
+                }
+            }
     }
 
     private func animateIn() {

@@ -5,13 +5,30 @@ struct OnboardingPage: Identifiable {
     enum Hero {
         case symbol(name: String, color: Color)
         case stackedStones
+        case singleStone
+        case nameField
     }
 
     let id = UUID()
     let hero: Hero
+    let eyebrow: String?
     let headline: String
     let subhead: String
     let ctaTitle: String
+
+    init(
+        hero: Hero,
+        eyebrow: String? = nil,
+        headline: String,
+        subhead: String,
+        ctaTitle: String
+    ) {
+        self.hero = hero
+        self.eyebrow = eyebrow
+        self.headline = headline
+        self.subhead = subhead
+        self.ctaTitle = ctaTitle
+    }
 
     static let all: [OnboardingPage] = [
         .init(
@@ -33,7 +50,14 @@ struct OnboardingPage: Identifiable {
             ctaTitle: "Continue"
         ),
         .init(
-            hero: .symbol(name: "hand.tap.fill", color: .accentSage),
+            hero: .nameField,
+            eyebrow: "A NAME FOR THE GARDEN",
+            headline: "What should we call you?",
+            subhead: "It's just for the welcome line. You can change it any time in Settings.",
+            ctaTitle: "Continue"
+        ),
+        .init(
+            hero: .singleStone,
             headline: "Place your first stone.",
             subhead: "Pick something tiny. One habit. Start small — you can always add more.",
             ctaTitle: "Pick a habit"

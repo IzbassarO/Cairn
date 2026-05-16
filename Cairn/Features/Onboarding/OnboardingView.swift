@@ -5,9 +5,25 @@ struct OnboardingView: View {
 
     @State private var currentPage = 0
     @State private var showHabitCreation = false
+    @AppStorage("userDisplayName") private var displayName: String = ""
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private let pages = OnboardingPage.all
+
+    private var currentPageData: OnboardingPage { pages[currentPage] }
+
+    private var isNameStep: Bool {
+        if case .nameField = currentPageData.hero { return true }
+        return false
+    }
+
+    private var nameIsValid: Bool {
+        !displayName.trimmingCharacters(in: .whitespaces).isEmpty
+    }
+
+    private var ctaEnabled: Bool {
+        isNameStep ? nameIsValid : true
+    }
 
     var body: some View {
         ZStack {
@@ -28,7 +44,8 @@ struct OnboardingView: View {
     private var topBar: some View {
         HStack {
             Spacer()
-            if currentPage < pages.count - 1 {
+            // Skip is hidden on the name step — we want the name.
+            if currentPage < pages.count - 1 && !isNameStep {
                 Button {
                     advance(to: pages.count - 1)
                 } label: {
@@ -46,8 +63,12 @@ struct OnboardingView: View {
     private var pager: some View {
         TabView(selection: $currentPage) {
             ForEach(Array(pages.enumerated()), id: \.offset) { index, page in
-                OnboardingPageView(page: page, reduceMotion: reduceMotion)
-                    .tag(index)
+                OnboardingPageView(
+                    page: page,
+                    reduceMotion: reduceMotion,
+                    name: $displayName
+                )
+                .tag(index)
             }
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
@@ -69,22 +90,36 @@ struct OnboardingView: View {
 
     private var cta: some View {
         Button {
-            if currentPage < pages.count - 1 {
-                advance(to: currentPage + 1)
-            } else {
-                showHabitCreation = true
-            }
+            handleCTA()
         } label: {
-            Text(pages[currentPage].ctaTitle)
+            Text(currentPageData.ctaTitle)
                 .font(.system(size: 17, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 16)
-                .background(Capsule().fill(Color.accentSage))
-                .shadow(color: Color.accentSage.opacity(0.25), radius: 10, y: 4)
+                .background(
+                    Capsule().fill(Color.accentSage.opacity(ctaEnabled ? 1.0 : 0.45))
+                )
+                .shadow(
+                    color: Color.accentSage.opacity(ctaEnabled ? 0.25 : 0),
+                    radius: 10, y: 4
+                )
         }
+        .disabled(!ctaEnabled)
         .padding(.horizontal, Spacing.lg)
         .padding(.bottom, Spacing.xl)
+    }
+
+    private func handleCTA() {
+        if currentPage < pages.count - 1 {
+            // Trim the name on the way out of the name step.
+            if isNameStep {
+                displayName = displayName.trimmingCharacters(in: .whitespaces)
+            }
+            advance(to: currentPage + 1)
+        } else {
+            showHabitCreation = true
+        }
     }
 
     private func advance(to page: Int) {
