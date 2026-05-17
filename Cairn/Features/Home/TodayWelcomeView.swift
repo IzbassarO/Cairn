@@ -15,6 +15,14 @@ struct TodayWelcomeView: View {
     /// When non-nil, the F1 sheet for this template is presented.
     @State private var pendingTemplate: HabitTemplate?
 
+    /// Today schedule cover (Day View timeline). Opened from the calendar icon
+    /// in TodayHeader. On welcome screen it'll just show the empty state —
+    /// but we still let the user open it, so the icon doesn't feel dead.
+    @State private var showTodaySchedule = false
+
+    /// Reminders inbox cover. Same story — empty state on welcome screen.
+    @State private var showRemindersInbox = false
+
     private var service: HabitService { HabitService(context: context) }
     private var starters: [HabitTemplate] { HabitTemplates.gentleStarters }
 
@@ -32,8 +40,16 @@ struct TodayWelcomeView: View {
             .padding(.bottom, Spacing.xxl)
         }
         .background(Color.bgPrimary.ignoresSafeArea())
-        .sheet(isPresented: $showCreation) {
-            HabitCreationSheet()
+        .fullScreenCover(isPresented: $showCreation) {
+            CustomHabitView { habit in
+                handlePlanted(habit)
+            }
+        }
+        .fullScreenCover(isPresented: $showTodaySchedule) {
+            TodayScheduleView()
+        }
+        .fullScreenCover(isPresented: $showRemindersInbox) {
+            RemindersInboxView()
         }
         .sheet(item: $pendingTemplate) { template in
             FirstHabitSheet(template: template) { habit in
@@ -44,10 +60,15 @@ struct TodayWelcomeView: View {
 
     // MARK: Header
     // Uses the shared TodayHeader so welcome and returning states are visually
-    // consistent. The greeting picks up time-of-day automatically.
+    // consistent. The greeting picks up time-of-day automatically. Both header
+    // buttons are wired even on the welcome screen — they open the same
+    // Schedule / Reminders screens, which gracefully show empty states.
 
     private var header: some View {
-        TodayHeader()
+        TodayHeader(
+            onCalendarTap: { showTodaySchedule = true },
+            onBellTap: { showRemindersInbox = true }
+        )
     }
 
     // MARK: Stone hero
@@ -190,11 +211,13 @@ struct TodayWelcomeView: View {
     // MARK: Actions
 
     private func handlePlanted(_ habit: Habit) {
-        // Close F1 right away. We do NOT present F5 from here — by the time the
-        // 0.45s "let the sheet dismiss" delay elapses, SwiftData has updated
-        // @Query and HomeView has already swapped us out for the returning-user
-        // list, tearing us down. The parent (HomeView) holds the cover instead.
+        // Close whichever entry surface is open (template path or custom path).
+        // We do NOT present F5 from here — by the time the 0.45s "let the
+        // sheet dismiss" delay elapses, SwiftData has updated @Query and
+        // HomeView has already swapped us out for the returning-user list,
+        // tearing us down. The parent (HomeView) holds the cover instead.
         pendingTemplate = nil
+        showCreation = false
 
         // First-time celebration only.
         guard !hasCompletedFirstHabit else { return }

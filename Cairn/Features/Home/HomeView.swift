@@ -25,6 +25,14 @@ struct HomeView: View {
     /// Garden cover (View → calendar). Currently a stub; Part C builds it out.
     @State private var showGarden = false
 
+    /// Today schedule cover (Day View timeline). Opened from the calendar
+    /// icon in TodayHeader.
+    @State private var showTodaySchedule = false
+
+    /// Reminders inbox cover (last 30 days of reminders). Opened from the
+    /// bell icon in TodayHeader.
+    @State private var showRemindersInbox = false
+
     /// Filter for the habit list.
     @State private var selectedFilter: HabitFilter = .all
 
@@ -84,6 +92,12 @@ struct HomeView: View {
         .fullScreenCover(isPresented: $showGarden) {
             GardenView()
         }
+        .fullScreenCover(isPresented: $showTodaySchedule) {
+            TodayScheduleView()
+        }
+        .fullScreenCover(isPresented: $showRemindersInbox) {
+            RemindersInboxView()
+        }
         .cairnAlert(
             isPresented: pendingDeleteBinding,
             title: "Delete this habit?",
@@ -100,8 +114,11 @@ struct HomeView: View {
     private var returningUserToday: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Spacing.md) {
-                TodayHeader()
-                    .padding(.top, Spacing.sm)
+                TodayHeader(
+                    onCalendarTap: { showTodaySchedule = true },
+                    onBellTap: { showRemindersInbox = true }
+                )
+                .padding(.top, Spacing.sm)
 
                 StonesWidget(
                     placedHabits: placedHabitsToday,
