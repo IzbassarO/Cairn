@@ -29,9 +29,22 @@
 		A20F22C42FAFC064002F2CF7 /* CairnUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CairnUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A2362C9F2FBA573600FE3A04 /* Exceptions for "Cairn" folder in "Cairn" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A20F22A82FAFC062002F2CF7 /* Cairn */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A20F22AB2FAFC062002F2CF7 /* Cairn */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A2362C9F2FBA573600FE3A04 /* Exceptions for "Cairn" folder in "Cairn" target */,
+			);
 			path = Cairn;
 			sourceTree = "<group>";
 		};
