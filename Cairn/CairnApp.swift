@@ -11,7 +11,8 @@ struct CairnApp: App {
             Habit.self,
             HabitLog.self,
             CoachMessage.self,
-            UserProfile.self
+            UserProfile.self,
+            MoodLog.self
         ])
     }
 }

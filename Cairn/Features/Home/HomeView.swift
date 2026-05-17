@@ -4,32 +4,29 @@ import SwiftData
 struct HomeView: View {
     @Environment(\.modelContext) private var context
     @Query(sort: \Habit.sortOrder) private var habits: [Habit]
+    @Query private var moodLogs: [MoodLog]
 
-    /// Drives the post-plant orchestration. Set when F1 reports a saved habit;
-    /// cleared after F5 closes. Owned here (not in TodayWelcomeView) because
-    /// SwiftData makes `activeHabits` non-empty the moment the habit is saved
-    /// and tears down the welcome view — taking any local state with it.
+    /// First-habit celebration (F5). Owned here, set after F1 plants the first habit.
     @State private var celebration: PlantedHabitContext?
-
-    /// True while the pre-permission overlay is on screen. Sits between the
-    /// F1 dismissal and the iOS system alert.
     @State private var showingPrePermission = false
 
-    /// Add-another flow trigger. Opens CustomHabitView (F7) fullScreen.
-    /// In a later task, the N1 library will be added as a layer above this.
+    /// Add-another flow (opens N1 library).
     @State private var showAddAnother = false
 
-    /// When non-nil, the user tapped a habit row outside its circle and we
-    /// open `HabitInfoView` for that habit. Cleared on dismiss.
+    /// Tapped row → opens HabitInfoView.
     @State private var inspectedHabit: InspectedHabit?
 
-    /// Habit currently being edited via swipe-action Edit button. Opens
-    /// HabitEditView directly (without going through HabitInfoView first).
+    /// Edit-from-swipe.
     @State private var editingHabit: InspectedHabit?
 
-    /// Habit pending delete confirmation from a swipe action. Drives the
-    /// CairnAlert. Cleared on either Cancel or actual delete.
+    /// Pending delete confirm (swipe Delete or full-swipe).
     @State private var pendingDeleteHabit: InspectedHabit?
+
+    /// Garden cover (View → calendar). Currently a stub; Part C builds it out.
+    @State private var showGarden = false
+
+    /// Filter for the habit list.
+    @State private var selectedFilter: HabitFilter = .all
 
     private var service: HabitService { HabitService(context: context) }
     private var activeHabits: [Habit] { habits.filter { !$0.isArchived } }
@@ -46,24 +43,15 @@ struct HomeView: View {
                 returningUserToday
             }
 
-            // Pre-permission overlay (F4). Lives above all content so it dims
-            // everything underneath, including the just-dismissed F1.
             if showingPrePermission {
                 PrePermissionView()
                     .transition(.opacity)
                     .zIndex(1)
             }
         }
-        .task {
-            await rescheduleNotificationsIfAuthorized()
-        }
+        .task { await rescheduleNotificationsIfAuthorized() }
         .fullScreenCover(isPresented: $showAddAnother) {
             AddAnotherHabitView { habit in
-                // N1 (or its descendants N2/F7) saved a habit.
-                // Dismiss the cover and schedule notifications. We don't run
-                // the F4 pre-permission overlay here — that's reserved for
-                // the very first habit. By this point the user has already
-                // seen and resolved the iOS notification prompt.
                 showAddAnother = false
                 Task {
                     if !habit.notificationTimes.isEmpty {
@@ -81,7 +69,6 @@ struct HomeView: View {
                 onSeeToday: { celebration = nil },
                 onPlantAnother: {
                     celebration = nil
-                    // Open the add-another flow right after closing F5.
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                         showAddAnother = true
                     }
@@ -94,9 +81,9 @@ struct HomeView: View {
         .fullScreenCover(item: $editingHabit) { editing in
             HabitEditView(habit: editing.habit)
         }
-        // Swipe-to-delete confirmation. Uses CairnAlert (now styled to match
-        // mockup A). Triggered from either the Delete button in the revealed
-        // swipe actions or a full-swipe gesture.
+        .fullScreenCover(isPresented: $showGarden) {
+            GardenView()
+        }
         .cairnAlert(
             isPresented: pendingDeleteBinding,
             title: "Delete this habit?",
@@ -108,10 +95,343 @@ struct HomeView: View {
         )
     }
 
+    // MARK: Returning user — Today scroll
+
+    private var returningUserToday: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: Spacing.md) {
+                TodayHeader()
+                    .padding(.top, Spacing.sm)
+
+                StonesWidget(
+                    placedHabits: placedHabitsToday,
+                    totalScheduledToday: activeHabits.count
+                )
+
+                TodayCairnCard(
+                    placedToday: placedHabitsToday.count,
+                    totalToday: activeHabits.count,
+                    nextUpAt: nextReminderAt,
+                    last7DaysCounts: last7DaysCounts,
+                    last7DaysTotal: last7DaysCounts.reduce(0, +),
+                    usualDailyAverage: usualDailyAverage,
+                    onViewGarden: { showGarden = true }
+                )
+
+                if let upNext = upNextHabit, let time = nextReminderAt {
+                    UpNextCard(habit: upNext, reminderTime: time)
+                }
+
+                if todaysMood == nil {
+                    MoodSelector(selected: nil) { mood in
+                        recordMood(mood)
+                    }
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+                }
+
+                habitsSectionHeader
+
+                HabitFilterChips(
+                    selected: $selectedFilter,
+                    allCount: activeHabits.count,
+                    pendingCount: pendingHabitsToday.count,
+                    doneCount: placedHabitsToday.count
+                )
+                .padding(.top, 2)
+
+                habitsList
+
+                // Only encourage a second habit when the user has exactly one.
+                if activeHabits.count == 1 {
+                    PlantSecondHabitCard {
+                        showAddAnother = true
+                    }
+                    .padding(.top, Spacing.sm)
+                }
+            }
+            .padding(.horizontal, Spacing.md)
+            .padding(.bottom, Spacing.xxl)
+        }
+    }
+
+    // MARK: Section header
+
+    private var habitsSectionHeader: some View {
+        HStack(alignment: .center) {
+            Text(activeHabits.count == 1 ? "Your habit" : "Your habits")
+                .font(.system(size: 22, weight: .bold, design: .serif))
+                .foregroundStyle(Color.textPrimary)
+            Spacer()
+            AddAnotherButton(style: .pill) {
+                showAddAnother = true
+            }
+        }
+        .padding(.top, Spacing.md)
+    }
+
+    // MARK: Habits list (grouped by category)
+
+    @ViewBuilder
+    private var habitsList: some View {
+        let groups = groupedHabits()
+        if groups.isEmpty {
+            emptyFilteredState
+        } else {
+            ForEach(groups, id: \.category) { group in
+                if shouldShowCategoryHeader {
+                    HabitsCategoryHeader(
+                        category: group.category,
+                        placedCount: group.habits.filter { $0.isFullyPlacedToday }.count,
+                        totalCount: group.habits.count
+                    )
+                }
+                VStack(spacing: 8) {
+                    ForEach(group.habits) { habit in
+                        SwipeableRow(
+                            actions: [
+                                SwipeAction(
+                                    title: "Edit",
+                                    icon: "pencil",
+                                    tint: Color.accentSage,
+                                    action: { editingHabit = InspectedHabit(habit: habit) }
+                                ),
+                                SwipeAction(
+                                    title: "Delete",
+                                    icon: "trash",
+                                    tint: Color.accentCoral,
+                                    action: { pendingDeleteHabit = InspectedHabit(habit: habit) }
+                                )
+                            ],
+                            onFullSwipe: { pendingDeleteHabit = InspectedHabit(habit: habit) }
+                        ) {
+                            TodayHabitRow(
+                                habit: habit,
+                                onLog: { log(habit) },
+                                onRowTap: { inspectedHabit = InspectedHabit(habit: habit) }
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /// Only show category headers when there are at least two distinct
+    /// categories represented. A single-category list reads better flat.
+    private var shouldShowCategoryHeader: Bool {
+        Set(filteredHabits.map(\.category)).count > 1
+    }
+
+    private var emptyFilteredState: some View {
+        VStack(spacing: 6) {
+            Text(emptyFilterMessage)
+                .font(.system(size: 15, design: .serif))
+                .italic()
+                .foregroundStyle(Color.textSecondary)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, Spacing.xl)
+    }
+
+    private var emptyFilterMessage: String {
+        switch selectedFilter {
+        case .all: return "No habits yet."
+        case .pending: return "Everything for today is done. ✓"
+        case .done: return "Nothing placed yet today."
+        }
+    }
+
+    // MARK: Derived — filtering & grouping
+
+    private var placedHabitsToday: [Habit] {
+        activeHabits.filter { $0.isFullyPlacedToday }
+    }
+
+    private var pendingHabitsToday: [Habit] {
+        activeHabits.filter { !$0.isFullyPlacedToday }
+    }
+
+    private var filteredHabits: [Habit] {
+        switch selectedFilter {
+        case .all: return activeHabits
+        case .pending: return pendingHabitsToday
+        case .done: return placedHabitsToday
+        }
+    }
+
+    private struct HabitGroup {
+        let category: HabitCategory
+        let habits: [Habit]
+    }
+
+    private func groupedHabits() -> [HabitGroup] {
+        let buckets = Dictionary(grouping: filteredHabits) { $0.category }
+        // Stable category order from HabitCategory.allCases.
+        return HabitCategory.allCases.compactMap { cat in
+            guard let list = buckets[cat], !list.isEmpty else { return nil }
+            return HabitGroup(category: cat, habits: list.sorted { $0.sortOrder < $1.sortOrder })
+        }
+    }
+
+    // MARK: Derived — next reminder
+
+    /// Next unplaced habit whose reminder time is later today, soonest first.
+    /// Drives both the Today's Cairn "next up at HH:MM" subline and the
+    /// UpNextCard.
+    private var upNextHabit: Habit? {
+        let now = Date.now
+        let cal = Calendar.current
+        let todayStart = cal.startOfDay(for: now)
+        let todayEnd = cal.date(byAdding: .day, value: 1, to: todayStart) ?? now
+
+        // For each unplaced habit, project its reminder time onto today.
+        let candidates: [(habit: Habit, when: Date)] = pendingHabitsToday.compactMap { habit in
+            guard let raw = habit.notificationTimes.first else { return nil }
+            let comps = cal.dateComponents([.hour, .minute], from: raw)
+            guard let projected = cal.date(bySettingHour: comps.hour ?? 0,
+                                           minute: comps.minute ?? 0,
+                                           second: 0, of: now) else { return nil }
+            guard projected >= now && projected < todayEnd else { return nil }
+            return (habit, projected)
+        }
+        return candidates.min { $0.when < $1.when }?.habit
+    }
+
+    private var nextReminderAt: Date? {
+        guard let habit = upNextHabit, let raw = habit.notificationTimes.first else { return nil }
+        let cal = Calendar.current
+        let comps = cal.dateComponents([.hour, .minute], from: raw)
+        return cal.date(bySettingHour: comps.hour ?? 0,
+                        minute: comps.minute ?? 0,
+                        second: 0, of: .now)
+    }
+
+    // MARK: Derived — last 7 days
+
+    /// Counts of unique habits placed per day for the last 7 days, oldest first.
+    /// "Unique habits" because multi-target habits log multiple times per day.
+    private var last7DaysCounts: [Int] {
+        let cal = Calendar.current
+        let today = cal.startOfDay(for: .now)
+        var counts: [Int] = []
+        for i in (0..<7).reversed() {
+            guard let day = cal.date(byAdding: .day, value: -i, to: today) else {
+                counts.append(0); continue
+            }
+            let placedThatDay: Int = activeHabits.reduce(0) { acc, habit in
+                let any = (habit.logs ?? []).contains {
+                    cal.isDate($0.loggedAt, inSameDayAs: day)
+                }
+                return acc + (any ? 1 : 0)
+            }
+            counts.append(placedThatDay)
+        }
+        return counts
+    }
+
+    /// Long-term average daily stones across the user's history. Excludes
+    /// the last 7 days (so the comparison isn't comparing to itself).
+    private var usualDailyAverage: Double? {
+        let cal = Calendar.current
+        let today = cal.startOfDay(for: .now)
+        let last7Start = cal.date(byAdding: .day, value: -6, to: today) ?? today
+        // Look at the prior 30 days before that window.
+        let baselineEnd = cal.date(byAdding: .day, value: -1, to: last7Start) ?? today
+        let baselineStart = cal.date(byAdding: .day, value: -30, to: baselineEnd) ?? today
+
+        var totalPlaced = 0
+        var days = 0
+        var cursor = baselineStart
+        while cursor <= baselineEnd {
+            let placed = activeHabits.reduce(0) { acc, habit in
+                let any = (habit.logs ?? []).contains {
+                    cal.isDate($0.loggedAt, inSameDayAs: cursor)
+                }
+                return acc + (any ? 1 : 0)
+            }
+            totalPlaced += placed
+            days += 1
+            cursor = cal.date(byAdding: .day, value: 1, to: cursor) ?? cursor.addingTimeInterval(86400)
+        }
+        guard days >= 7 else { return nil } // not enough history for a baseline
+        return Double(totalPlaced) / Double(days)
+    }
+
+    // MARK: Mood
+
+    /// Today's mood log, if one exists.
+    private var todaysMood: MoodLog? {
+        let cal = Calendar.current
+        return moodLogs.first { cal.isDate($0.day, inSameDayAs: .now) }
+    }
+
+    /// Persist mood. We dedupe — one MoodLog per day, replacing any existing
+    /// entry (covers the edge case of changing mood within the same day).
+    /// Animation of the MoodSelector disappearing is driven by `todaysMood`
+    /// becoming non-nil after we save.
+    private func recordMood(_ mood: MoodValue) {
+        let cal = Calendar.current
+        let dayStart = cal.startOfDay(for: .now)
+
+        if let existing = todaysMood {
+            existing.mood = mood
+            existing.loggedAt = .now
+        } else {
+            let log = MoodLog(day: dayStart, mood: mood, loggedAt: .now)
+            context.insert(log)
+        }
+        do {
+            try context.save()
+        } catch {
+            print("❌ MoodLog save failed: \(error)")
+        }
+        withAnimation(.easeOut(duration: 0.35)) {
+            // todaysMood becomes non-nil → MoodSelector branch goes away.
+        }
+    }
+
+    // MARK: Logging
+
+    private func log(_ habit: Habit) {
+        do {
+            try service.log(habit)
+        } catch {
+            print("❌ Log failed: \(error)")
+        }
+    }
+
+    // MARK: Post-plant orchestration
+
+    private func orchestratePostPlant(_ ctx: PlantedHabitContext) async {
+        try? await Task.sleep(nanoseconds: 450_000_000)
+        if ctx.notificationsOn {
+            let authState = await NotificationService.shared.authorizationState()
+            if authState == .notDetermined {
+                withAnimation(.spring(response: 0.45, dampingFraction: 0.82)) {
+                    showingPrePermission = true
+                }
+                try? await Task.sleep(nanoseconds: 1_300_000_000)
+                _ = await NotificationService.shared.requestAuthorization()
+                withAnimation(.easeOut(duration: 0.25)) {
+                    showingPrePermission = false
+                }
+                try? await Task.sleep(nanoseconds: 250_000_000)
+            }
+            await NotificationService.shared.ensureAuthorizedThenSchedule(ctx.habit)
+        }
+        celebration = ctx
+    }
+
+    private func rescheduleNotificationsIfAuthorized() async {
+        let state = await NotificationService.shared.authorizationState()
+        guard state == .authorized else { return }
+        for habit in activeHabits {
+            await NotificationService.shared.schedule(habit)
+        }
+    }
+
     // MARK: Swipe-delete helpers
 
-    /// Binding that drives the CairnAlert visibility from `pendingDeleteHabit`.
-    /// `cairnAlert` takes a `Binding<Bool>`, so we adapt the optional state.
     private var pendingDeleteBinding: Binding<Bool> {
         Binding(
             get: { pendingDeleteHabit != nil },
@@ -121,7 +441,6 @@ struct HomeView: View {
         )
     }
 
-    /// "`Drink water` and its 24 stones will be removed. This can't be undone."
     private var pendingDeleteMessage: String {
         guard let inspected = pendingDeleteHabit,
               inspected.habit.modelContext != nil
@@ -148,150 +467,6 @@ struct HomeView: View {
             print("❌ Swipe delete failed: \(error)")
         }
     }
-
-    // MARK: Returning user — Today scroll
-
-    private var returningUserToday: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: Spacing.lg) {
-                TodayHeader()
-                    .padding(.top, Spacing.sm)
-
-                TodayCairnCard(
-                    placedToday: placedTodayCount,
-                    totalToday: activeHabits.count
-                )
-
-                habitsSectionHeader
-
-                ForEach(activeHabits) { habit in
-                    SwipeableRow(
-                        actions: [
-                            SwipeAction(
-                                title: "Edit",
-                                icon: "pencil",
-                                tint: Color.accentSage,
-                                action: { editingHabit = InspectedHabit(habit: habit) }
-                            ),
-                            SwipeAction(
-                                title: "Delete",
-                                icon: "trash",
-                                tint: Color.accentCoral,
-                                action: { pendingDeleteHabit = InspectedHabit(habit: habit) }
-                            )
-                        ],
-                        // Full swipe (drag past threshold) shows the same
-                        // confirm alert as the Delete button — no accidental
-                        // permanent deletes.
-                        onFullSwipe: { pendingDeleteHabit = InspectedHabit(habit: habit) }
-                    ) {
-                        TodayHabitRow(
-                            habit: habit,
-                            onLog: { log(habit) },
-                            onRowTap: { inspectedHabit = InspectedHabit(habit: habit) }
-                        )
-                    }
-                }
-
-                CoachCard(
-                    message: CoachMessages.dailyMessage(
-                        activeHabitCount: activeHabits.count
-                    )
-                )
-
-                // Only encourage a second habit when the user has exactly one.
-                // Beyond that, the section-header pill is the obvious entry.
-                if activeHabits.count == 1 {
-                    PlantSecondHabitCard {
-                        showAddAnother = true
-                    }
-                }
-            }
-            .padding(.horizontal, Spacing.md)
-            .padding(.bottom, Spacing.xxl)
-        }
-    }
-
-    // MARK: Section header (title + Add another)
-
-    private var habitsSectionHeader: some View {
-        HStack(alignment: .center) {
-            Text(activeHabits.count == 1 ? "Your habit" : "Your habits")
-                .font(.system(size: 22, weight: .bold, design: .serif))
-                .foregroundStyle(Color.textPrimary)
-            Spacer()
-            AddAnotherButton(
-                style: activeHabits.count == 1 ? .ghost : .pill
-            ) {
-                showAddAnother = true
-            }
-        }
-        .padding(.top, Spacing.xs)
-    }
-
-    // MARK: Today progress
-
-    /// Number of active habits that have at least one log today.
-    private var placedTodayCount: Int {
-        activeHabits.filter { $0.loggedToday }.count
-    }
-
-    // MARK: Logging
-
-    private func log(_ habit: Habit) {
-        // Idempotent for the same day — HabitService handles dedupe.
-        do {
-            try service.log(habit)
-        } catch {
-            print("❌ Log failed: \(error)")
-        }
-    }
-
-    // MARK: Post-plant orchestration
-
-    /// Runs after F1 dismisses. Decides whether to show the pre-permission
-    /// overlay, when to trigger the iOS system alert, when to schedule
-    /// notifications, and when to present F5.
-    private func orchestratePostPlant(_ ctx: PlantedHabitContext) async {
-        // Let F1 finish its dismissal animation before anything else moves.
-        try? await Task.sleep(nanoseconds: 450_000_000)
-
-        // If the user opted in to notifications and iOS hasn't yet asked
-        // them, run the soft pre-prompt before the system alert.
-        if ctx.notificationsOn {
-            let authState = await NotificationService.shared.authorizationState()
-
-            if authState == .notDetermined {
-                withAnimation(.spring(response: 0.45, dampingFraction: 0.82)) {
-                    showingPrePermission = true
-                }
-                // Give the user time to read the card before the OS alert
-                // pops over it. ~1.3s feels deliberate without being slow.
-                try? await Task.sleep(nanoseconds: 1_300_000_000)
-
-                _ = await NotificationService.shared.requestAuthorization()
-
-                withAnimation(.easeOut(duration: 0.25)) {
-                    showingPrePermission = false
-                }
-                try? await Task.sleep(nanoseconds: 250_000_000)
-            }
-
-            await NotificationService.shared.ensureAuthorizedThenSchedule(ctx.habit)
-        }
-
-        celebration = ctx
-    }
-
-    // MARK: Notification rescheduling on launch
-
-    private func rescheduleNotificationsIfAuthorized() async {
-        let state = await NotificationService.shared.authorizationState()
-        guard state == .authorized else { return }
-        for habit in activeHabits {
-            await NotificationService.shared.schedule(habit)
-        }
-    }
 }
 
 /// Identifiable wrapper around `Habit` so `fullScreenCover(item:)` can be used
@@ -300,10 +475,6 @@ struct InspectedHabit: Identifiable, Hashable {
     let id = UUID()
     let habit: Habit
 
-    static func == (lhs: InspectedHabit, rhs: InspectedHabit) -> Bool {
-        lhs.id == rhs.id
-    }
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
+    static func == (lhs: InspectedHabit, rhs: InspectedHabit) -> Bool { lhs.id == rhs.id }
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
 }

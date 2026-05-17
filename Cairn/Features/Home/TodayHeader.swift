@@ -1,29 +1,30 @@
 import SwiftUI
 
-/// Shared top block for the Today tab. Used both on the first-time welcome
-/// screen and on the returning-user screen — same look, same spacing.
+/// Top block of the Today screen. Visual model from mockup T:
+///  - Eyebrow: `☀ Morning · Thu, Nov 14`
+///  - Greeting: `Good morning,` (line 1) / `Izbassar.` (line 2 italic sage)
+///  - Right side: two round white buttons (calendar + bell with optional badge)
 ///
-/// Greeting changes by time of day (Good morning / Good afternoon / Good
-/// evening / Hello late). Name is italicised and tinted sage. The two trailing
-/// circle buttons are decorative in v1.0 (calendar, bell).
+/// The time-of-day icon and word in the eyebrow rotate with the current hour:
+/// Morning / Afternoon / Evening / Night. The greeting word mirrors that.
 struct TodayHeader: View {
     @AppStorage("userDisplayName") private var displayName: String = ""
 
+    /// Notification badge count. Reserved for v1.1 — for now always 0.
+    /// Pass a non-zero number to display the coral dot with that count.
+    var notificationBadgeCount: Int = 0
+
     var body: some View {
         HStack(alignment: .top, spacing: Spacing.sm) {
-            VStack(alignment: .leading, spacing: 2) {
-                Text(dateLine)
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundStyle(Color.textSecondary)
-
-                Text(greeting + ",")
-                    .font(.system(size: 36, weight: .bold, design: .serif))
+            VStack(alignment: .leading, spacing: 4) {
+                eyebrow
+                Text(greetingPrefix + ",")
+                    .font(.system(size: 34, weight: .bold, design: .serif))
                     .foregroundStyle(Color.textPrimary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
-
                 Text(displayedName)
-                    .font(.system(size: 36, weight: .bold, design: .serif))
+                    .font(.system(size: 34, weight: .bold, design: .serif))
                     .italic()
                     .foregroundStyle(Color.accentSage)
                     .lineLimit(1)
@@ -34,23 +35,63 @@ struct TodayHeader: View {
 
             HStack(spacing: Spacing.sm) {
                 topBarButton(icon: "calendar")
-                topBarButton(icon: "bell")
+                ZStack(alignment: .topTrailing) {
+                    topBarButton(icon: "bell")
+                    if notificationBadgeCount > 0 {
+                        Text("\(notificationBadgeCount)")
+                            .font(.system(size: 10, weight: .bold))
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 5)
+                            .padding(.vertical, 2)
+                            .background(Capsule().fill(Color.accentCoral))
+                            .offset(x: 4, y: -4)
+                    }
+                }
             }
             .padding(.top, 4)
         }
     }
 
-    // MARK: Date line
+    // MARK: Eyebrow
 
-    private var dateLine: String {
-        let f = DateFormatter()
-        f.dateFormat = "EEEE, MMM d"
-        return f.string(from: .now)
+    private var eyebrow: some View {
+        HStack(spacing: 6) {
+            Image(systemName: timeOfDayIcon)
+                .font(.system(size: 12))
+                .foregroundStyle(Color.accentSage)
+            Text(timeOfDayLabel)
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundStyle(Color.accentSage)
+            Text("·")
+                .font(.system(size: 13))
+                .foregroundStyle(Color.textTertiary)
+            Text(dateLine)
+                .font(.system(size: 13))
+                .foregroundStyle(Color.textTertiary)
+        }
     }
 
-    // MARK: Greeting
+    private var timeOfDayLabel: String {
+        let hour = Calendar.current.component(.hour, from: .now)
+        switch hour {
+        case 5..<12: return "Morning"
+        case 12..<17: return "Afternoon"
+        case 17..<22: return "Evening"
+        default: return "Night"
+        }
+    }
 
-    private var greeting: String {
+    private var timeOfDayIcon: String {
+        let hour = Calendar.current.component(.hour, from: .now)
+        switch hour {
+        case 5..<12: return "sun.max"
+        case 12..<17: return "sun.haze"
+        case 17..<22: return "sunset"
+        default: return "moon.stars"
+        }
+    }
+
+    private var greetingPrefix: String {
         let hour = Calendar.current.component(.hour, from: .now)
         switch hour {
         case 5..<12: return "Good morning"
@@ -60,6 +101,12 @@ struct TodayHeader: View {
         }
     }
 
+    private var dateLine: String {
+        let f = DateFormatter()
+        f.dateFormat = "EEE, MMM d"
+        return f.string(from: .now)
+    }
+
     // MARK: Name
 
     private var displayedName: String {
@@ -67,14 +114,14 @@ struct TodayHeader: View {
         return trimmed.isEmpty ? "friend." : "\(trimmed)."
     }
 
-    // MARK: Top-bar buttons (decorative in v1.0)
+    // MARK: Top-bar button
 
     private func topBarButton(icon: String) -> some View {
         Image(systemName: icon)
-            .font(.system(size: 16, weight: .medium))
+            .font(.system(size: 15, weight: .medium))
             .foregroundStyle(Color.accentSage)
             .frame(width: 40, height: 40)
-            .background(Circle().fill(Color.bgSecondary))
+            .background(Circle().fill(Color.white))
             .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
             .accessibilityHidden(true)
     }
