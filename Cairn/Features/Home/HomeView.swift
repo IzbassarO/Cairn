@@ -19,6 +19,10 @@ struct HomeView: View {
     /// In a later task, the N1 library will be added as a layer above this.
     @State private var showAddAnother = false
 
+    /// When non-nil, the user tapped a habit row outside its circle and we
+    /// open `HabitInfoView` for that habit. Cleared on dismiss.
+    @State private var inspectedHabit: InspectedHabit?
+
     private var service: HabitService { HabitService(context: context) }
     private var activeHabits: [Habit] { habits.filter { !$0.isArchived } }
 
@@ -76,6 +80,9 @@ struct HomeView: View {
                 }
             )
         }
+        .fullScreenCover(item: $inspectedHabit) { inspected in
+            HabitInfoView(habit: inspected.habit)
+        }
     }
 
     // MARK: Returning user — Today scroll
@@ -94,7 +101,11 @@ struct HomeView: View {
                 habitsSectionHeader
 
                 ForEach(activeHabits) { habit in
-                    TodayHabitRow(habit: habit, onLog: { log(habit) })
+                    TodayHabitRow(
+                        habit: habit,
+                        onLog: { log(habit) },
+                        onRowTap: { inspectedHabit = InspectedHabit(habit: habit) }
+                    )
                 }
 
                 CoachCard(
@@ -195,5 +206,19 @@ struct HomeView: View {
         for habit in activeHabits {
             await NotificationService.shared.schedule(habit)
         }
+    }
+}
+
+/// Identifiable wrapper around `Habit` so `fullScreenCover(item:)` can be used
+/// without adding an Identifiable conformance to the SwiftData @Model.
+struct InspectedHabit: Identifiable, Hashable {
+    let id = UUID()
+    let habit: Habit
+
+    static func == (lhs: InspectedHabit, rhs: InspectedHabit) -> Bool {
+        lhs.id == rhs.id
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
 }

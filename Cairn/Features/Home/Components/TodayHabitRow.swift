@@ -13,12 +13,15 @@ import SwiftUI
 struct TodayHabitRow: View {
     let habit: Habit
     let onLog: () -> Void
+    /// Called when the user taps the row's body (anywhere outside the circle).
+    /// Optional — old call sites without info navigation continue to work.
+    var onRowTap: (() -> Void)? = nil
 
     /// "Just added" window: 5 minutes from habit creation. After that it's a
     /// regular unplaced row.
     private static let justAddedWindow: TimeInterval = 5 * 60
 
-    private var isPlaced: Bool { habit.loggedToday }
+    private var isPlaced: Bool { habit.isFullyPlacedToday }
     private var isJustAdded: Bool {
         !isPlaced && Date.now.timeIntervalSince(habit.createdAt) < Self.justAddedWindow
     }
@@ -33,25 +36,29 @@ struct TodayHabitRow: View {
                 unplacedRow
             }
         }
+        // Row-level tap opens info. The inner Button (circle) wins for taps
+        // that hit it — SwiftUI Button beats simultaneous gestures.
+        .contentShape(Rectangle())
+        .onTapGesture {
+            onRowTap?()
+        }
     }
 
     // MARK: Placed
 
     private var placedRow: some View {
         HStack(alignment: .center, spacing: Spacing.md) {
-            // Sage check disc replaces the tap target. Tap re-logs (idempotent
-            // — HabitService dedupes by day).
-            Button(action: onLog) {
-                ZStack {
-                    Circle().fill(Color.accentSage)
-                    Image(systemName: "checkmark")
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundStyle(.white)
-                }
-                .frame(width: 48, height: 48)
+            // Sage check disc. When fully placed it's not a button anymore —
+            // just a visual confirmation. This is the "1 tap is the whole day"
+            // behavior: tapping it again does nothing.
+            ZStack {
+                Circle().fill(Color.accentSage)
+                Image(systemName: "checkmark")
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundStyle(.white)
             }
-            .buttonStyle(.plain)
-            .accessibilityLabel("Logged today")
+            .frame(width: 48, height: 48)
+            .accessibilityLabel(placedAccessibilityLabel)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(habit.name)
@@ -64,15 +71,35 @@ struct TodayHabitRow: View {
 
             Spacer(minLength: Spacing.sm)
 
-            Text("\(habit.lifetimeStones)")
-                .font(.system(size: 22, weight: .semibold, design: .rounded))
-                .foregroundStyle(Color.textTertiary)
+            trailingNumber
         }
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
                 .fill(Color.bgSecondary)
         )
+    }
+
+    private var placedAccessibilityLabel: String {
+        habit.targetPerDay > 1
+            ? "\(habit.name), completed \(habit.placedTodayCount) of \(habit.targetPerDay) today"
+            : "\(habit.name), logged today"
+    }
+
+    /// What to show on the right edge of a placed row.
+    ///  - target == 1: lifetime count (carry-over from N3 mock)
+    ///  - target  > 1: today's progress "N/M"
+    @ViewBuilder
+    private var trailingNumber: some View {
+        if habit.targetPerDay > 1 {
+            Text("\(habit.placedTodayCount)/\(habit.targetPerDay)")
+                .font(.system(size: 18, weight: .semibold, design: .rounded))
+                .foregroundStyle(Color.textTertiary)
+        } else {
+            Text("\(habit.lifetimeStones)")
+                .font(.system(size: 22, weight: .semibold, design: .rounded))
+                .foregroundStyle(Color.textTertiary)
+        }
     }
 
     private var placedSubtitle: some View {
@@ -145,6 +172,10 @@ struct TodayHabitRow: View {
                     reminderSubtitle
                 }
                 Spacer(minLength: 0)
+
+                if habit.targetPerDay > 1 {
+                    progressBadge
+                }
             }
 
             // Hint pill — visible whenever the habit is unplaced today. Per spec
@@ -156,6 +187,17 @@ struct TodayHabitRow: View {
             RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
                 .fill(Color.accentSage.opacity(0.18))
         )
+    }
+
+    /// Small "N/M" pill shown on unplaced rows when targetPerDay > 1, so the
+    /// user sees how many taps remain before the habit is fully placed today.
+    private var progressBadge: some View {
+        Text("\(habit.placedTodayCount)/\(habit.targetPerDay)")
+            .font(.system(size: 13, weight: .semibold, design: .rounded))
+            .foregroundStyle(Color.accentSage)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 4)
+            .background(Capsule().fill(Color.bgPrimary))
     }
 
     private var hintPill: some View {
