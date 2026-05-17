@@ -1,8 +1,18 @@
 import SwiftUI
 
+/// Native-iOS-feeling alert. White card centered on a dim overlay, with
+/// Cancel + Confirm side-by-side at the bottom, separated by hairline dividers.
+///
+/// Visual model from mockup A ("Delete habit alert"):
+///  - Serif bold title
+///  - 2-line description body in textSecondary
+///  - Horizontal action row, Cancel left / destructive right
+///  - No icon — kept the parameter for API compatibility, but it's ignored
 struct CairnAlertConfig {
     var title: String
     var message: String
+    /// Retained for backwards compatibility with existing call sites.
+    /// The redesigned alert doesn't render an icon — pass nil or just ignore.
     var icon: String? = nil
     var iconColor: Color = .accentCoral
     var confirmTitle: String = "Confirm"
@@ -19,78 +29,95 @@ struct CairnAlert: ViewModifier {
         content.overlay {
             if isPresented {
                 ZStack {
-                    Color.black.opacity(0.45)
+                    Color.black.opacity(0.35)
                         .ignoresSafeArea()
                         .transition(.opacity)
                         .onTapGesture {
                             withAnimation { isPresented = false }
                         }
 
-                    VStack(spacing: Spacing.md) {
-                        if let icon = config.icon {
-                            Image(systemName: icon)
-                                .font(.system(size: 32, weight: .regular))
-                                .foregroundStyle(config.iconColor)
-                                .frame(width: 64, height: 64)
-                                .background(
-                                    Circle().fill(config.iconColor.opacity(0.15))
-                                )
-                                .padding(.bottom, Spacing.xs)
-                        }
-
-                        Text(config.title)
-                            .font(.system(size: 20, weight: .bold, design: .rounded))
-                            .foregroundStyle(Color.textPrimary)
-                            .multilineTextAlignment(.center)
-
-                        Text(config.message)
-                            .font(.system(size: 14))
-                            .foregroundStyle(Color.textSecondary)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, Spacing.sm)
-
-                        VStack(spacing: Spacing.sm) {
-                            Button {
-                                withAnimation { isPresented = false }
-                                config.onConfirm()
-                            } label: {
-                                Text(config.confirmTitle)
-                                    .font(.system(size: 16, weight: .semibold, design: .rounded))
-                                    .foregroundStyle(.white)
-                                    .frame(maxWidth: .infinity, minHeight: 48)
-                                    .background(
-                                        Capsule().fill(
-                                            config.confirmRole == .destructive
-                                                ? Color.accentCoral
-                                                : Color.accentSage
-                                        )
-                                    )
-                            }
-
-                            Button {
-                                withAnimation { isPresented = false }
-                            } label: {
-                                Text(config.cancelTitle)
-                                    .font(.system(size: 16, weight: .semibold, design: .rounded))
-                                    .foregroundStyle(Color.textSecondary)
-                                    .frame(maxWidth: .infinity, minHeight: 44)
-                            }
-                        }
-                        .padding(.top, Spacing.sm)
-                    }
-                    .padding(Spacing.lg)
-                    .frame(maxWidth: 340)
-                    .background(
-                        RoundedRectangle(cornerRadius: 24, style: .continuous)
-                            .fill(Color.bgPrimary)
-                    )
-                    .shadow(color: .black.opacity(0.18), radius: 24, x: 0, y: 10)
-                    .padding(.horizontal, Spacing.xl)
-                    .transition(.scale(scale: 0.92).combined(with: .opacity))
+                    card
+                        .padding(.horizontal, 48)
+                        .transition(.scale(scale: 0.92).combined(with: .opacity))
                 }
-                .animation(.spring(response: 0.35, dampingFraction: 0.85), value: isPresented)
+                .animation(.spring(response: 0.32, dampingFraction: 0.85), value: isPresented)
             }
         }
+    }
+
+    // MARK: Card
+
+    private var card: some View {
+        VStack(spacing: 0) {
+            VStack(spacing: 10) {
+                Text(config.title)
+                    .font(.system(size: 19, weight: .bold, design: .serif))
+                    .foregroundStyle(Color.textPrimary)
+                    .multilineTextAlignment(.center)
+
+                Text(config.message)
+                    .font(.system(size: 14))
+                    .foregroundStyle(Color.textSecondary)
+                    .multilineTextAlignment(.center)
+                    .lineSpacing(2)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(.horizontal, 22)
+            .padding(.top, 22)
+            .padding(.bottom, 18)
+
+            Divider()
+                .overlay(Color.textPrimary.opacity(0.12))
+
+            // Action row — equal split with a vertical divider in the middle.
+            HStack(spacing: 0) {
+                actionButton(
+                    title: config.cancelTitle,
+                    color: Color.textPrimary,
+                    weight: .regular
+                ) {
+                    withAnimation { isPresented = false }
+                }
+
+                Rectangle()
+                    .fill(Color.textPrimary.opacity(0.12))
+                    .frame(width: 0.5)
+
+                actionButton(
+                    title: config.confirmTitle,
+                    color: config.confirmRole == .destructive
+                        ? Color.accentCoral
+                        : Color.accentSage,
+                    weight: .semibold
+                ) {
+                    withAnimation { isPresented = false }
+                    config.onConfirm()
+                }
+            }
+            .frame(height: 48)
+        }
+        .frame(maxWidth: 320)
+        .background(
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .fill(Color.bgPrimary)
+        )
+        .shadow(color: .black.opacity(0.18), radius: 24, x: 0, y: 10)
+    }
+
+    private func actionButton(
+        title: String,
+        color: Color,
+        weight: Font.Weight,
+        action: @escaping () -> Void
+    ) -> some View {
+        Button(action: action) {
+            Text(title)
+                .font(.system(size: 16, weight: weight))
+                .foregroundStyle(color)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 }
 

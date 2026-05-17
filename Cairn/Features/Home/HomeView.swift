@@ -23,6 +23,14 @@ struct HomeView: View {
     /// open `HabitInfoView` for that habit. Cleared on dismiss.
     @State private var inspectedHabit: InspectedHabit?
 
+    /// Habit currently being edited via swipe-action Edit button. Opens
+    /// HabitEditView directly (without going through HabitInfoView first).
+    @State private var editingHabit: InspectedHabit?
+
+    /// Habit pending delete confirmation from a swipe action. Drives the
+    /// CairnAlert. Cleared on either Cancel or actual delete.
+    @State private var pendingDeleteHabit: InspectedHabit?
+
     private var service: HabitService { HabitService(context: context) }
     private var activeHabits: [Habit] { habits.filter { !$0.isArchived } }
 
@@ -83,6 +91,62 @@ struct HomeView: View {
         .fullScreenCover(item: $inspectedHabit) { inspected in
             HabitInfoView(habit: inspected.habit)
         }
+        .fullScreenCover(item: $editingHabit) { editing in
+            HabitEditView(habit: editing.habit)
+        }
+        // Swipe-to-delete confirmation. Uses CairnAlert (now styled to match
+        // mockup A). Triggered from either the Delete button in the revealed
+        // swipe actions or a full-swipe gesture.
+        .cairnAlert(
+            isPresented: pendingDeleteBinding,
+            title: "Delete this habit?",
+            message: pendingDeleteMessage,
+            confirmTitle: "Delete",
+            confirmRole: .destructive,
+            cancelTitle: "Cancel",
+            onConfirm: { performSwipeDelete() }
+        )
+    }
+
+    // MARK: Swipe-delete helpers
+
+    /// Binding that drives the CairnAlert visibility from `pendingDeleteHabit`.
+    /// `cairnAlert` takes a `Binding<Bool>`, so we adapt the optional state.
+    private var pendingDeleteBinding: Binding<Bool> {
+        Binding(
+            get: { pendingDeleteHabit != nil },
+            set: { newValue in
+                if !newValue { pendingDeleteHabit = nil }
+            }
+        )
+    }
+
+    /// "`Drink water` and its 24 stones will be removed. This can't be undone."
+    private var pendingDeleteMessage: String {
+        guard let inspected = pendingDeleteHabit,
+              inspected.habit.modelContext != nil
+        else {
+            return "This habit will be removed. This can't be undone."
+        }
+        let habit = inspected.habit
+        let stones = (habit.logs ?? []).filter { $0.modelContext != nil }.count
+        switch stones {
+        case 0: return "\u{201C}\(habit.name)\u{201D} will be removed. This can't be undone."
+        case 1: return "\u{201C}\(habit.name)\u{201D} and its 1 stone will be removed. This can't be undone."
+        default: return "\u{201C}\(habit.name)\u{201D} and its \(stones) stones will be removed. This can't be undone."
+        }
+    }
+
+    private func performSwipeDelete() {
+        guard let inspected = pendingDeleteHabit else { return }
+        let habitRef = inspected.habit
+        pendingDeleteHabit = nil
+        let svc = HabitService(context: context)
+        do {
+            try svc.delete(habitRef)
+        } catch {
+            print("❌ Swipe delete failed: \(error)")
+        }
     }
 
     // MARK: Returning user — Today scroll
@@ -101,11 +165,32 @@ struct HomeView: View {
                 habitsSectionHeader
 
                 ForEach(activeHabits) { habit in
-                    TodayHabitRow(
-                        habit: habit,
-                        onLog: { log(habit) },
-                        onRowTap: { inspectedHabit = InspectedHabit(habit: habit) }
-                    )
+                    SwipeableRow(
+                        actions: [
+                            SwipeAction(
+                                title: "Edit",
+                                icon: "pencil",
+                                tint: Color.accentSage,
+                                action: { editingHabit = InspectedHabit(habit: habit) }
+                            ),
+                            SwipeAction(
+                                title: "Delete",
+                                icon: "trash",
+                                tint: Color.accentCoral,
+                                action: { pendingDeleteHabit = InspectedHabit(habit: habit) }
+                            )
+                        ],
+                        // Full swipe (drag past threshold) shows the same
+                        // confirm alert as the Delete button — no accidental
+                        // permanent deletes.
+                        onFullSwipe: { pendingDeleteHabit = InspectedHabit(habit: habit) }
+                    ) {
+                        TodayHabitRow(
+                            habit: habit,
+                            onLog: { log(habit) },
+                            onRowTap: { inspectedHabit = InspectedHabit(habit: habit) }
+                        )
+                    }
                 }
 
                 CoachCard(

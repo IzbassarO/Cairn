@@ -16,6 +16,7 @@ struct HabitInfoView: View {
 
     @State private var showEdit = false
     @State private var showDeleteConfirm = false
+    @State private var showHistory = false
 
     private var service: HabitService { HabitService(context: context) }
 
@@ -36,16 +37,36 @@ struct HabitInfoView: View {
                 HabitEditView(habit: habit)
             }
         }
+        .fullScreenCover(isPresented: $showHistory) {
+            if habit.modelContext != nil {
+                HabitHistoryView(habit: habit)
+            }
+        }
         .cairnAlert(
             isPresented: $showDeleteConfirm,
-            title: habit.modelContext != nil ? "Delete \(habit.name)?" : "Delete habit?",
-            message: "This habit and its logs will be removed. Your stones across the cairn stay with you.",
-            icon: "trash.fill",
+            title: "Delete this habit?",
+            message: deleteAlertMessage,
             confirmTitle: "Delete",
             confirmRole: .destructive,
-            cancelTitle: "Keep it",
+            cancelTitle: "Cancel",
             onConfirm: { performDelete() }
         )
+    }
+
+    /// Quoted habit name + stone count, matching mockup A.
+    /// e.g. `"Drink water" and its 24 stones will be removed. This can't be undone.`
+    private var deleteAlertMessage: String {
+        guard habit.modelContext != nil else {
+            return "This habit will be removed. This can't be undone."
+        }
+        let stones = (habit.logs ?? []).filter { $0.modelContext != nil }.count
+        let stonePhrase: String
+        switch stones {
+        case 0: return "\u{201C}\(habit.name)\u{201D} will be removed. This can't be undone."
+        case 1: stonePhrase = "1 stone"
+        default: stonePhrase = "\(stones) stones"
+        }
+        return "\u{201C}\(habit.name)\u{201D} and its \(stonePhrase) will be removed. This can't be undone."
     }
 
     // MARK: Content
@@ -60,6 +81,7 @@ struct HabitInfoView: View {
                     stonesPlacedCard
                     HabitHeatmapGrid(habit: habit)
                     scheduleSection
+                    historySection
                 }
                 .padding(.horizontal, Spacing.md)
                 .padding(.top, Spacing.md)
@@ -84,7 +106,7 @@ struct HabitInfoView: View {
                 .foregroundStyle(Color.accentSage)
                 .padding(.horizontal, 14)
                 .padding(.vertical, 8)
-                .background(Capsule().fill(Color.bgSecondary))
+                .background(Capsule().fill(Color.white))
                 .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
             }
             .accessibilityLabel("Back to Today")
@@ -107,7 +129,7 @@ struct HabitInfoView: View {
                     .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(Color.textPrimary)
                     .frame(width: 36, height: 36)
-                    .background(Circle().fill(Color.bgSecondary))
+                    .background(Circle().fill(Color.white))
                     .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
             }
             .accessibilityLabel("More options")
@@ -181,12 +203,16 @@ struct HabitInfoView: View {
                 }
 
                 HStack(spacing: 4) {
-                    Text("this month ·")
+                    Text(daysCountText(stats.placed))
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(Color.textSecondary)
+                    Text("this month,")
                         .font(.system(size: 13))
                         .foregroundStyle(Color.textSecondary)
-                    Text("\(Int(stats.fraction * 100))%")
-                        .font(.system(size: 13, weight: .bold))
-                        .foregroundStyle(Color.textPrimary)
+                    Text("growing.")
+                        .font(.system(size: 13))
+                        .italic()
+                        .foregroundStyle(Color.accentSage)
                 }
 
                 progressBar(fraction: stats.fraction)
@@ -293,6 +319,141 @@ struct HabitInfoView: View {
         .frame(width: 40, height: 40)
     }
 
+    // MARK: History section
+
+    /// Last 5 logs, newest first, in a card. If there are more than 5 a
+    /// "View all" button at the bottom opens HabitHistoryView.
+    private var historySection: some View {
+        let recent = recentLogs(limit: 5)
+        let totalCount = (habit.logs ?? []).filter { $0.modelContext != nil }.count
+        return VStack(alignment: .leading, spacing: Spacing.sm) {
+            HStack(alignment: .firstTextBaseline) {
+                Text("HISTORY")
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(Color.accentSage)
+                    .tracking(1.4)
+                Spacer()
+                Text("\(totalCount) total")
+                    .font(.system(size: 12))
+                    .foregroundStyle(Color.textTertiary)
+            }
+            .padding(.horizontal, Spacing.xs)
+
+            if recent.isEmpty {
+                emptyHistoryCard
+            } else {
+                VStack(spacing: 0) {
+                    ForEach(Array(recent.enumerated()), id: \.element.id) { index, log in
+                        historyRow(log)
+                        if index < recent.count - 1 {
+                            Divider().overlay(Color.bgTertiary).padding(.leading, 56)
+                        }
+                    }
+                    if totalCount > recent.count {
+                        Divider().overlay(Color.bgTertiary).padding(.leading, 56)
+                        viewAllRow(totalCount: totalCount)
+                    }
+                }
+                .background(
+                    RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
+                        .fill(Color.bgSecondary)
+                )
+            }
+        }
+    }
+
+    private func historyRow(_ log: HabitLog) -> some View {
+        HStack(spacing: Spacing.md) {
+            ZStack {
+                Circle().fill(Color.accentSage.opacity(0.18))
+                Image(systemName: "checkmark")
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundStyle(Color.accentSage)
+            }
+            .frame(width: 32, height: 32)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(relativeDayLabel(log.loggedAt))
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(Color.textPrimary)
+                Text(fullDateTimeLabel(log.loggedAt))
+                    .font(.system(size: 12))
+                    .foregroundStyle(Color.textTertiary)
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(.horizontal, Spacing.md)
+        .padding(.vertical, 12)
+    }
+
+    private func viewAllRow(totalCount: Int) -> some View {
+        Button {
+            showHistory = true
+        } label: {
+            HStack {
+                Text("View all")
+                    .font(.system(size: 15, weight: .semibold))
+                    .foregroundStyle(Color.accentSage)
+                Text("(\(totalCount))")
+                    .font(.system(size: 13))
+                    .foregroundStyle(Color.textTertiary)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(Color.accentSage)
+            }
+            .padding(.horizontal, Spacing.md)
+            .padding(.vertical, 14)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+    }
+
+    private var emptyHistoryCard: some View {
+        HStack(spacing: Spacing.sm) {
+            Image(systemName: "leaf")
+                .font(.system(size: 14))
+                .foregroundStyle(Color.accentSage)
+            Text("No stones placed yet. The first one is the heaviest.")
+                .font(.system(size: 14))
+                .italic()
+                .foregroundStyle(Color.textSecondary)
+        }
+        .padding(Spacing.md)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
+                .fill(Color.bgSecondary)
+        )
+    }
+
+    private func recentLogs(limit: Int) -> [HabitLog] {
+        (habit.logs ?? [])
+            .filter { $0.modelContext != nil }
+            .sorted { $0.loggedAt > $1.loggedAt }
+            .prefix(limit)
+            .map { $0 }
+    }
+
+    private func relativeDayLabel(_ date: Date) -> String {
+        let cal = Calendar.current
+        let today = cal.startOfDay(for: .now)
+        let day = cal.startOfDay(for: date)
+        let yesterday = cal.date(byAdding: .day, value: -1, to: today) ?? today
+        if cal.isDate(day, inSameDayAs: today) { return "Today" }
+        if cal.isDate(day, inSameDayAs: yesterday) { return "Yesterday" }
+        let days = cal.dateComponents([.day], from: day, to: today).day ?? 0
+        if days < 7 { return "\(days) days ago" }
+        let weeks = days / 7
+        return weeks == 1 ? "Last week" : "\(weeks) weeks ago"
+    }
+
+    private func fullDateTimeLabel(_ date: Date) -> String {
+        let f = DateFormatter()
+        f.dateFormat = "EEE, MMM d · HH:mm"
+        return f.string(from: date)
+    }
+
     // MARK: Derived
 
     private var friendlyCategoryName: String {
@@ -306,6 +467,11 @@ struct HabitInfoView: View {
         case .hyperfocusCheckIn: return "Check-in"
         case .custom: return "Habit"
         }
+    }
+
+    /// Grammar helper: "0 days", "1 day", "5 days".
+    private func daysCountText(_ count: Int) -> String {
+        count == 1 ? "1 day" : "\(count) days"
     }
 
     private var reminderTimeText: String {
@@ -345,11 +511,18 @@ struct HabitInfoView: View {
         let comps = cal.dateComponents([.year, .month], from: today)
         let monthStart = cal.date(from: comps) ?? today
 
-        // Scheduled days = days from monthStart up to today (inclusive) where
-        // this habit's schedule includes that weekday.
+        // Effective window start: don't count days before the habit existed.
+        // For a habit created mid-month, scheduled days are only those from
+        // creation onward — otherwise a new habit shows a discouraging
+        // "1 of 17" denominator on day one.
+        let creationDay = cal.startOfDay(for: habit.createdAt)
+        let effectiveStart = max(monthStart, creationDay)
+
+        // Scheduled days = days from effectiveStart up to today (inclusive)
+        // where this habit's schedule includes that weekday.
         let scheduledWeekdays = HabitEditDraft.weekdays(for: habit)
         var scheduled = 0
-        var cursor = monthStart
+        var cursor = effectiveStart
         while cursor <= today {
             let weekday = cal.component(.weekday, from: cursor)
             if scheduledWeekdays.contains(weekday) {
@@ -359,22 +532,18 @@ struct HabitInfoView: View {
             cursor = next
         }
 
-        // Placed = unique days in this month with at least one log
-        // (cap per day at targetPerDay so multi-target habits don't overcount).
-        let target = max(1, habit.targetPerDay)
-        let cal2 = Calendar.current
+        // Placed = unique days in this month (from effectiveStart) with at
+        // least one log.
         let placed = (habit.logs ?? [])
             .filter { log in
                 guard log.modelContext != nil else { return false }
-                let day = cal2.startOfDay(for: log.loggedAt)
-                return day >= monthStart && day <= today
+                let day = cal.startOfDay(for: log.loggedAt)
+                return day >= effectiveStart && day <= today
             }
-            .reduce(into: [Date: Int]()) { acc, log in
-                let day = cal2.startOfDay(for: log.loggedAt)
-                acc[day, default: 0] += 1
+            .reduce(into: Set<Date>()) { acc, log in
+                acc.insert(cal.startOfDay(for: log.loggedAt))
             }
-            .map { _, count in min(count, target) > 0 ? 1 : 0 }
-            .reduce(0, +)
+            .count
 
         return MonthStats(placed: placed, scheduled: scheduled)
     }

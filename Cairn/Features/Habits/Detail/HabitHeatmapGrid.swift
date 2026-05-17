@@ -1,19 +1,20 @@
 import SwiftUI
 import SwiftData
 
-/// 16-week heatmap for the Habit Info screen. Visual model from mockup 05:
-///  - Mon-top corner label
-///  - 7 rows × 16 cols, no weekday labels (kept dense)
-///  - Date range "Jul 28 ... Nov 14" at the bottom corners
+/// 12-week heatmap for the Habit Info screen. Visual model:
+///  - "LAST 3 MONTHS" eyebrow
+///  - 7 rows × 12 cols (Mon..Sun rows, oldest..newest weeks as columns)
+///  - Top-left cell = Monday of the earliest week in the window. Cells before
+///    `habit.createdAt` are rendered at lowest opacity, so the user sees
+///    "this habit didn't exist yet" rather than "missed".
+///  - Date range "Mar 1 ... May 17" at the bottom corners
 ///  - Two intensity levels per cell:
 ///     - `partial` (sage low): logged at least once that day
 ///     - `full` (sage strong): reached `targetPerDay` that day
-///  - Empty cells before `habit.createdAt` are rendered at lowest opacity, so
-///    the user sees "this habit didn't exist yet" rather than "missed".
 struct HabitHeatmapGrid: View {
     let habit: Habit
 
-    private let weekCount: Int = 16
+    private let weekCount: Int = 12
     private let cellSpacing: CGFloat = 3
     private let cornerRadius: CGFloat = 4
 
@@ -74,18 +75,15 @@ struct HabitHeatmapGrid: View {
 
     private var header: some View {
         HStack(alignment: .firstTextBaseline) {
-            Text("LAST 16 WEEKS")
+            Text("LAST 3 MONTHS")
                 .font(.system(size: 11, weight: .semibold))
                 .foregroundStyle(Color.accentSage)
                 .tracking(1.4)
             Spacer()
-            Text("Mon-top")
-                .font(.system(size: 11, weight: .medium))
-                .foregroundStyle(Color.textTertiary)
         }
     }
 
-    // MARK: Grid (7 rows × 16 cols)
+    // MARK: Grid (7 rows × 12 cols)
 
     private func grid(
         gridStart: Date,
