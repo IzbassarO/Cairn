@@ -30,7 +30,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		A27A2D072FB90D4D0088C42F /* Exceptions for "Cairn" folder in "Cairn" target */ = {
+		A27A2D9B2FB9BABA0088C42F /* Exceptions for "Cairn" folder in "Cairn" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -43,7 +43,7 @@
 		A20F22AB2FAFC062002F2CF7 /* Cairn */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				A27A2D072FB90D4D0088C42F /* Exceptions for "Cairn" folder in "Cairn" target */,
+				A27A2D9B2FB9BABA0088C42F /* Exceptions for "Cairn" folder in "Cairn" target */,
 			);
 			path = Cairn;
 			sourceTree = "<group>";
