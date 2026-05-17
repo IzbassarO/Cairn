@@ -11,8 +11,32 @@ extension Habit {
     }
 
     var loggedToday: Bool {
-        let today = Calendar.current.startOfDay(for: .now)
-        return (logs ?? []).contains { Calendar.current.startOfDay(for: $0.loggedAt) == today }
+        placedTodayCount > 0
+    }
+
+    /// Number of logs placed today. Used both for the daily-cap check and
+    /// for showing "2/3" style counters on rows with `targetPerDay > 1`.
+    var placedTodayCount: Int {
+        let cal = Calendar.current
+        let today = cal.startOfDay(for: .now)
+        return (logs ?? []).filter { cal.startOfDay(for: $0.loggedAt) == today }.count
+    }
+
+    /// True when the habit has been logged its full `targetPerDay` for today.
+    /// Drives the "checkmark, disabled" state on Today rows.
+    var isFullyPlacedToday: Bool {
+        placedTodayCount >= max(1, targetPerDay)
+    }
+
+    /// The most recent log placed today, or nil if the habit hasn't been
+    /// logged yet today. Used to show "Placed at HH:MM" on the Today row.
+    var todayLog: HabitLog? {
+        let cal = Calendar.current
+        let today = cal.startOfDay(for: .now)
+        return (logs ?? [])
+            .filter { cal.startOfDay(for: $0.loggedAt) == today }
+            .sorted { $0.loggedAt > $1.loggedAt }
+            .first
     }
 
     var currentRun: Int {

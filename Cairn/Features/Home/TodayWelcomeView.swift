@@ -8,7 +8,6 @@ struct TodayWelcomeView: View {
     let onFirstHabitPlanted: (PlantedHabitContext) -> Void
 
     @Environment(\.modelContext) private var context
-    @AppStorage("userDisplayName") private var displayName: String = ""
     @AppStorage("hasCompletedFirstHabit") private var hasCompletedFirstHabit: Bool = false
     @Query private var habits: [Habit]
     @State private var showCreation = false
@@ -44,58 +43,11 @@ struct TodayWelcomeView: View {
     }
 
     // MARK: Header
+    // Uses the shared TodayHeader so welcome and returning states are visually
+    // consistent. The greeting picks up time-of-day automatically.
 
     private var header: some View {
-        HStack(alignment: .top) {
-            VStack(alignment: .leading, spacing: 2) {
-                Text(dateLine)
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundStyle(Color.textSecondary)
-
-                Text("Welcome,")
-                    .font(.system(size: 36, weight: .bold, design: .serif))
-                    .foregroundStyle(Color.textPrimary)
-
-                Text(welcomeName)
-                    .font(.system(size: 36, weight: .bold, design: .serif))
-                    .italic()
-                    .foregroundStyle(Color.accentSage)
-            }
-
-            Spacer(minLength: Spacing.sm)
-
-            VStack(alignment: .trailing) {
-                HStack(spacing: Spacing.sm) {
-                    topBarButton(icon: "calendar")
-                    topBarButton(icon: "bell")
-                }
-                Spacer()
-            }
-        }
-    }
-
-    private var dateLine: String {
-        let f = DateFormatter()
-        f.dateFormat = "EEEE, MMM d"
-        return f.string(from: .now)
-    }
-
-    private var welcomeName: String {
-        let trimmed = displayName.trimmingCharacters(in: .whitespaces)
-        // Fallback if for any reason onboarding name is missing.
-        guard !trimmed.isEmpty else { return "friend." }
-        return "\(trimmed)."
-    }
-
-    private func topBarButton(icon: String) -> some View {
-        // Decorative in v1.0 — no action yet. Marked as such for VoiceOver.
-        Image(systemName: icon)
-            .font(.system(size: 16, weight: .medium))
-            .foregroundStyle(Color.accentSage)
-            .frame(width: 40, height: 40)
-            .background(Circle().fill(Color.bgSecondary))
-            .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
-            .accessibilityHidden(true)
+        TodayHeader()
     }
 
     // MARK: Stone hero
