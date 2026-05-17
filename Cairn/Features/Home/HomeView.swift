@@ -15,9 +15,8 @@ struct HomeView: View {
     /// F1 dismissal and the iOS system alert.
     @State private var showingPrePermission = false
 
-    /// Add-another flow trigger. Set by tapping any "+ Add another" button.
-    /// In v1.0 this opens the existing HabitCreationSheet; N1 (full library)
-    /// will replace it in a later task.
+    /// Add-another flow trigger. Opens CustomHabitView (F7) fullScreen.
+    /// In a later task, the N1 library will be added as a layer above this.
     @State private var showAddAnother = false
 
     private var service: HabitService { HabitService(context: context) }
@@ -46,10 +45,20 @@ struct HomeView: View {
         .task {
             await rescheduleNotificationsIfAuthorized()
         }
-        .sheet(isPresented: $showAddAnother) {
-            // Placeholder for N1. The existing HabitCreationSheet works for
-            // adding more habits even though the styling is older.
-            HabitCreationSheet()
+        .fullScreenCover(isPresented: $showAddAnother) {
+            AddAnotherHabitView { habit in
+                // N1 (or its descendants N2/F7) saved a habit.
+                // Dismiss the cover and schedule notifications. We don't run
+                // the F4 pre-permission overlay here — that's reserved for
+                // the very first habit. By this point the user has already
+                // seen and resolved the iOS notification prompt.
+                showAddAnother = false
+                Task {
+                    if !habit.notificationTimes.isEmpty {
+                        await NotificationService.shared.ensureAuthorizedThenSchedule(habit)
+                    }
+                }
+            }
         }
         .fullScreenCover(item: $celebration) { ctx in
             FirstHabitPlantedView(

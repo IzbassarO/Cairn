@@ -4,7 +4,6 @@ struct OnboardingView: View {
     let onComplete: () -> Void
 
     @State private var currentPage = 0
-    @State private var showHabitCreation = false
     @AppStorage("userDisplayName") private var displayName: String = ""
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -35,9 +34,6 @@ struct OnboardingView: View {
                 indicator
                 cta
             }
-        }
-        .sheet(isPresented: $showHabitCreation, onDismiss: onComplete) {
-            HabitCreationSheet()
         }
     }
 
@@ -118,7 +114,9 @@ struct OnboardingView: View {
             }
             advance(to: currentPage + 1)
         } else {
-            showHabitCreation = true
+            // Final step: leave onboarding. TodayWelcomeView takes over and
+            // offers gentle starters + "Write a custom habit".
+            onComplete()
         }
     }
 
