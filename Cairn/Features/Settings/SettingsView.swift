@@ -1,32 +1,35 @@
 import SwiftUI
 import SwiftData
 
-/// Settings root. v1 is local-only, free-only — no monetization, no Sign in
-/// with Apple, no iCloud sync. Four sections of preferences:
+/// Settings root. v1 is local-only and free — no monetization, no Sign in
+/// with Apple, no iCloud sync. The screen is structured to walk a user
+/// from identity → functional preferences → polish → utility → legal:
 ///
-///  - **HABITS & REMINDERS**: notifications, reminder voice, quiet hours,
-///    week-start day, haptic feedback
-///  - **APPEARANCE**: app icon, theme, text size
-///  - **DATA**: export, delete-all (destructive)
-///  - **ABOUT**: About Cairn, Privacy, Terms
+///  1. **Profile card** (top): name + total stones, taps → ProfileView
+///  2. **Personal**: Your Why, Your name — identity hooks that compound
+///     retention. A user who's written their "why" and named themselves is
+///     much harder to lose to the App Store's next dopamine hit.
+///  3. **Habits & Reminders**: Notifications, Reminder style, Quiet hours,
+///     Haptic feedback
+///  4. **Appearance**: App icon, Theme, Text size
+///  5. **Data**: Export, Delete all
+///  6. **About**: About Cairn, Privacy, Terms
 ///
-/// All preferences are persisted via @AppStorage. Side effects (e.g.
-/// notification rescheduling when style changes) hook in via NotificationService
-/// in a later request — the values themselves persist correctly today.
+/// All preferences persist via @AppStorage immediately. Real screens for
+/// some rows ship in subsequent requests — for now we route to placeholder
+/// covers so no button is dead.
 struct SettingsView: View {
     @AppStorage("userDisplayName") private var displayName: String = ""
+    @AppStorage("userWhy") private var userWhy: String = ""
     @Query private var habits: [Habit]
 
     // MARK: - Persisted preferences
-    // All preferences read here so the row trailing values stay in sync.
 
     @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = true
     @AppStorage("reminderStyle") private var reminderStyleRaw: String = ReminderStyle.gentle.rawValue
     @AppStorage("quietHoursEnabled") private var quietHoursEnabled: Bool = true
     @AppStorage("quietHoursStartHour") private var quietHoursStartHour: Int = 22
     @AppStorage("quietHoursEndHour") private var quietHoursEndHour: Int = 7
-
-    @AppStorage("weekStartsOn") private var weekStartsOnRaw: String = WeekStart.system.rawValue
     @AppStorage("hapticFeedbackEnabled") private var hapticFeedbackEnabled: Bool = true
 
     @AppStorage("themePreference") private var themeRaw: String = ThemePreference.system.rawValue
@@ -36,10 +39,11 @@ struct SettingsView: View {
     // MARK: - Navigation state
 
     @State private var showProfile = false
+    @State private var showYourWhy = false
+    @State private var showYourName = false
     @State private var showNotifications = false
     @State private var showReminderStyle = false
     @State private var showQuietHours = false
-    @State private var showWeekStart = false
     @State private var showAppIcon = false
     @State private var showTheme = false
     @State private var showTextSize = false
@@ -48,7 +52,6 @@ struct SettingsView: View {
     @State private var showPrivacy = false
     @State private var showTerms = false
 
-    /// CairnAlert confirm for delete-all. Driven separately from the cover.
     @State private var showDeleteAllConfirm = false
 
     var body: some View {
@@ -64,6 +67,7 @@ struct SettingsView: View {
                 .padding(.horizontal, Spacing.xs)
                 .padding(.top, Spacing.sm)
 
+                personalSection
                 habitsSection
                 appearanceSection
                 dataSection
@@ -76,20 +80,21 @@ struct SettingsView: View {
             .padding(.bottom, Spacing.xxl)
         }
         .background(Color.bgPrimary.ignoresSafeArea())
-        // Real screens (from request 1):
+        // Real screens (wired in request 1):
         .fullScreenCover(isPresented: $showNotifications) { NotificationsSettingsView() }
         .fullScreenCover(isPresented: $showReminderStyle) { ReminderStyleView() }
-        .fullScreenCover(isPresented: $showQuietHours) { QuietHoursView() }
-        // Placeholders (filled in next requests):
-        .fullScreenCover(isPresented: $showProfile)  { placeholder(title: "Profile", icon: "person.fill") { showProfile = false } }
-        .fullScreenCover(isPresented: $showWeekStart) { placeholder(title: "Week starts on", icon: "calendar") { showWeekStart = false } }
-        .fullScreenCover(isPresented: $showAppIcon)  { placeholder(title: "App icon", icon: "app.badge") { showAppIcon = false } }
-        .fullScreenCover(isPresented: $showTheme)    { placeholder(title: "Theme", icon: "moon.circle") { showTheme = false } }
-        .fullScreenCover(isPresented: $showTextSize) { placeholder(title: "Text size", icon: "textformat.size") { showTextSize = false } }
-        .fullScreenCover(isPresented: $showExport)   { placeholder(title: "Export data", icon: "square.and.arrow.up") { showExport = false } }
-        .fullScreenCover(isPresented: $showAbout)    { placeholder(title: "About Cairn", icon: "info.circle") { showAbout = false } }
-        .fullScreenCover(isPresented: $showPrivacy)  { placeholder(title: "Privacy", icon: "lock.shield") { showPrivacy = false } }
-        .fullScreenCover(isPresented: $showTerms)    { placeholder(title: "Terms", icon: "doc.text") { showTerms = false } }
+        .fullScreenCover(isPresented: $showQuietHours)    { QuietHoursView() }
+        // Placeholders (real screens in next requests):
+        .fullScreenCover(isPresented: $showProfile)   { placeholder(title: "Profile", icon: "person.fill") { showProfile = false } }
+        .fullScreenCover(isPresented: $showYourWhy)   { placeholder(title: "Your why", icon: "quote.opening") { showYourWhy = false } }
+        .fullScreenCover(isPresented: $showYourName)  { placeholder(title: "Your name", icon: "person") { showYourName = false } }
+        .fullScreenCover(isPresented: $showAppIcon)   { placeholder(title: "App icon", icon: "app.badge") { showAppIcon = false } }
+        .fullScreenCover(isPresented: $showTheme)     { placeholder(title: "Theme", icon: "moon.circle") { showTheme = false } }
+        .fullScreenCover(isPresented: $showTextSize)  { placeholder(title: "Text size", icon: "textformat.size") { showTextSize = false } }
+        .fullScreenCover(isPresented: $showExport)    { placeholder(title: "Export data", icon: "square.and.arrow.up") { showExport = false } }
+        .fullScreenCover(isPresented: $showAbout)     { placeholder(title: "About Cairn", icon: "info.circle") { showAbout = false } }
+        .fullScreenCover(isPresented: $showPrivacy)   { placeholder(title: "Privacy", icon: "lock.shield") { showPrivacy = false } }
+        .fullScreenCover(isPresented: $showTerms)     { placeholder(title: "Terms", icon: "doc.text") { showTerms = false } }
         // Destructive confirm
         .cairnAlert(
             isPresented: $showDeleteAllConfirm,
@@ -124,7 +129,47 @@ struct SettingsView: View {
         }
     }
 
-    // MARK: Sections
+    // MARK: Personal section
+    // Comes right after the profile card — these two items (Why + Name) are
+    // the cheapest, highest-impact retention hooks. A user with a written
+    // "why" is anchored to the app. A user without one is renting.
+
+    private var personalSection: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            SettingsSectionHeader(title: "Personal")
+            groupedCard {
+                SettingsRow(
+                    icon: "quote.opening",
+                    label: "Your why",
+                    trailing: .navigation(value: userWhyPreview),
+                    action: { showYourWhy = true }
+                )
+                Divider().overlay(Color.bgTertiary).padding(.leading, 64)
+                SettingsRow(
+                    icon: "person",
+                    label: "Your name",
+                    trailing: .navigation(value: displayNameValue),
+                    action: { showYourName = true }
+                )
+            }
+        }
+    }
+
+    /// Short preview of the user's "why". Truncated to ~24 chars with ellipsis,
+    /// or "Add yours" placeholder when empty.
+    private var userWhyPreview: String {
+        let trimmed = userWhy.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty { return "Add yours" }
+        if trimmed.count <= 24 { return trimmed }
+        return String(trimmed.prefix(24)) + "…"
+    }
+
+    private var displayNameValue: String {
+        let trimmed = displayName.trimmingCharacters(in: .whitespaces)
+        return trimmed.isEmpty ? "Add yours" : trimmed
+    }
+
+    // MARK: Habits & Reminders
 
     private var habitsSection: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -152,13 +197,6 @@ struct SettingsView: View {
                 )
                 Divider().overlay(Color.bgTertiary).padding(.leading, 64)
                 SettingsRow(
-                    icon: "calendar",
-                    label: "Week starts on",
-                    trailing: .navigation(value: currentWeekStartLabel),
-                    action: { showWeekStart = true }
-                )
-                Divider().overlay(Color.bgTertiary).padding(.leading, 64)
-                SettingsRow(
                     icon: "hand.tap",
                     label: "Haptic feedback",
                     trailing: .toggle(isOn: $hapticFeedbackEnabled)
@@ -166,6 +204,8 @@ struct SettingsView: View {
             }
         }
     }
+
+    // MARK: Appearance
 
     private var appearanceSection: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -195,6 +235,8 @@ struct SettingsView: View {
         }
     }
 
+    // MARK: Data
+
     private var dataSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             SettingsSectionHeader(title: "Data")
@@ -216,6 +258,8 @@ struct SettingsView: View {
             }
         }
     }
+
+    // MARK: About
 
     private var aboutSection: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -245,7 +289,7 @@ struct SettingsView: View {
         }
     }
 
-    // MARK: Container for a section's rows
+    // MARK: Section container
 
     @ViewBuilder
     private func groupedCard<Content: View>(@ViewBuilder content: () -> Content) -> some View {
@@ -280,7 +324,7 @@ struct SettingsView: View {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
     }
 
-    // MARK: Derived labels
+    // MARK: Derived
 
     private var totalStonesPlaced: Int {
         habits
@@ -297,10 +341,6 @@ struct SettingsView: View {
     private var quietHoursValueString: String {
         guard quietHoursEnabled else { return "Off" }
         return String(format: "%02d:00 — %02d:00", quietHoursStartHour, quietHoursEndHour)
-    }
-
-    private var currentWeekStartLabel: String {
-        (WeekStart(rawValue: weekStartsOnRaw) ?? .system).label
     }
 
     private var currentThemeLabel: String {
@@ -329,7 +369,7 @@ struct SettingsView: View {
         return "All \(parts) will be removed. This can't be undone."
     }
 
-    // MARK: Placeholder cover
+    // MARK: Placeholder
 
     private func placeholder(title: String, icon: String, onDismiss: @escaping () -> Void) -> some View {
         SettingsPlaceholderScreen(
@@ -341,23 +381,7 @@ struct SettingsView: View {
     }
 }
 
-// MARK: - Preferences enums
-// Concrete options for the rows that aren't yet wired to dedicated screens.
-// Defining them here means the SettingsView can display the right value text
-// even before the picker screens exist.
-
-enum WeekStart: String, CaseIterable, Identifiable {
-    case system, monday, sunday, saturday
-    var id: String { rawValue }
-    var label: String {
-        switch self {
-        case .system: return "System"
-        case .monday: return "Monday"
-        case .sunday: return "Sunday"
-        case .saturday: return "Saturday"
-        }
-    }
-}
+// MARK: - Preference enums
 
 enum ThemePreference: String, CaseIterable, Identifiable {
     case system, light, dark
