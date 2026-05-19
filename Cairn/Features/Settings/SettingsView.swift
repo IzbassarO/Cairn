@@ -67,7 +67,6 @@ struct SettingsView: View {
                 .padding(.horizontal, Spacing.xs)
                 .padding(.top, Spacing.sm)
 
-                personalSection
                 habitsSection
                 appearanceSection
                 dataSection
@@ -86,8 +85,6 @@ struct SettingsView: View {
         .fullScreenCover(isPresented: $showQuietHours)    { QuietHoursView() }
         // Placeholders (real screens in next requests):
         .fullScreenCover(isPresented: $showProfile)   { placeholder(title: "Profile", icon: "person.fill") { showProfile = false } }
-        .fullScreenCover(isPresented: $showYourWhy)   { placeholder(title: "Your why", icon: "quote.opening") { showYourWhy = false } }
-        .fullScreenCover(isPresented: $showYourName)  { placeholder(title: "Your name", icon: "person") { showYourName = false } }
         .fullScreenCover(isPresented: $showAppIcon)   { placeholder(title: "App icon", icon: "app.badge") { showAppIcon = false } }
         .fullScreenCover(isPresented: $showTheme)     { placeholder(title: "Theme", icon: "moon.circle") { showTheme = false } }
         .fullScreenCover(isPresented: $showTextSize)  { placeholder(title: "Text size", icon: "textformat.size") { showTextSize = false } }
@@ -133,27 +130,6 @@ struct SettingsView: View {
     // Comes right after the profile card — these two items (Why + Name) are
     // the cheapest, highest-impact retention hooks. A user with a written
     // "why" is anchored to the app. A user without one is renting.
-
-    private var personalSection: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            SettingsSectionHeader(title: "Personal")
-            groupedCard {
-                SettingsRow(
-                    icon: "quote.opening",
-                    label: "Your why",
-                    trailing: .navigation(value: userWhyPreview),
-                    action: { showYourWhy = true }
-                )
-                Divider().overlay(Color.bgTertiary).padding(.leading, 64)
-                SettingsRow(
-                    icon: "person",
-                    label: "Your name",
-                    trailing: .navigation(value: displayNameValue),
-                    action: { showYourName = true }
-                )
-            }
-        }
-    }
 
     /// Short preview of the user's "why". Truncated to ~24 chars with ellipsis,
     /// or "Add yours" placeholder when empty.
