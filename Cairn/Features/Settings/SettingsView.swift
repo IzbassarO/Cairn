@@ -1,23 +1,6 @@
 import SwiftUI
 import SwiftData
 
-/// Settings root. v1 is local-only and free — no monetization, no Sign in
-/// with Apple, no iCloud sync. The screen is structured to walk a user
-/// from identity → functional preferences → polish → utility → legal:
-///
-///  1. **Profile card** (top): name + total stones, taps → ProfileView
-///  2. **Personal**: Your Why, Your name — identity hooks that compound
-///     retention. A user who's written their "why" and named themselves is
-///     much harder to lose to the App Store's next dopamine hit.
-///  3. **Habits & Reminders**: Notifications, Reminder style, Quiet hours,
-///     Haptic feedback
-///  4. **Appearance**: App icon, Theme, Text size
-///  5. **Data**: Export, Delete all
-///  6. **About**: About Cairn, Privacy, Terms
-///
-/// All preferences persist via @AppStorage immediately. Real screens for
-/// some rows ship in subsequent requests — for now we route to placeholder
-/// covers so no button is dead.
 struct SettingsView: View {
     @AppStorage("userDisplayName") private var displayName: String = ""
     @AppStorage("userWhy") private var userWhy: String = ""
@@ -85,6 +68,8 @@ struct SettingsView: View {
         .fullScreenCover(isPresented: $showQuietHours)    { QuietHoursView() }
         // Placeholders (real screens in next requests):
         .fullScreenCover(isPresented: $showProfile)   { placeholder(title: "Profile", icon: "person.fill") { showProfile = false } }
+        .fullScreenCover(isPresented: $showYourWhy)   { placeholder(title: "Your why", icon: "quote.opening") { showYourWhy = false } }
+        .fullScreenCover(isPresented: $showYourName)  { placeholder(title: "Your name", icon: "person") { showYourName = false } }
         .fullScreenCover(isPresented: $showAppIcon)   { placeholder(title: "App icon", icon: "app.badge") { showAppIcon = false } }
         .fullScreenCover(isPresented: $showTheme)     { placeholder(title: "Theme", icon: "moon.circle") { showTheme = false } }
         .fullScreenCover(isPresented: $showTextSize)  { placeholder(title: "Text size", icon: "textformat.size") { showTextSize = false } }
@@ -124,25 +109,6 @@ struct SettingsView: View {
                     .foregroundStyle(Color.textSecondary)
             }
         }
-    }
-
-    // MARK: Personal section
-    // Comes right after the profile card — these two items (Why + Name) are
-    // the cheapest, highest-impact retention hooks. A user with a written
-    // "why" is anchored to the app. A user without one is renting.
-
-    /// Short preview of the user's "why". Truncated to ~24 chars with ellipsis,
-    /// or "Add yours" placeholder when empty.
-    private var userWhyPreview: String {
-        let trimmed = userWhy.trimmingCharacters(in: .whitespacesAndNewlines)
-        if trimmed.isEmpty { return "Add yours" }
-        if trimmed.count <= 24 { return trimmed }
-        return String(trimmed.prefix(24)) + "…"
-    }
-
-    private var displayNameValue: String {
-        let trimmed = displayName.trimmingCharacters(in: .whitespaces)
-        return trimmed.isEmpty ? "Add yours" : trimmed
     }
 
     // MARK: Habits & Reminders
@@ -354,92 +320,5 @@ struct SettingsView: View {
             message: "Coming in the next update.",
             onDismiss: onDismiss
         )
-    }
-}
-
-// MARK: - Preference enums
-
-enum ThemePreference: String, CaseIterable, Identifiable {
-    case system, light, dark
-    var id: String { rawValue }
-    var label: String {
-        switch self {
-        case .system: return "System"
-        case .light: return "Light"
-        case .dark: return "Dark"
-        }
-    }
-}
-
-enum TextSize: String, CaseIterable, Identifiable {
-    case small, standard, large
-    var id: String { rawValue }
-    var label: String {
-        switch self {
-        case .small: return "Small"
-        case .standard: return "Standard"
-        case .large: return "Large"
-        }
-    }
-}
-
-// MARK: - Placeholder screen
-
-struct SettingsPlaceholderScreen: View {
-    let title: String
-    let icon: String
-    let message: String
-    let onDismiss: () -> Void
-
-    var body: some View {
-        VStack(spacing: 0) {
-            header
-            Spacer()
-            content
-            Spacer()
-            Spacer()
-        }
-        .background(Color.bgPrimary.ignoresSafeArea())
-    }
-
-    private var header: some View {
-        HStack {
-            Button(action: onDismiss) {
-                HStack(spacing: 4) {
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 14, weight: .semibold))
-                    Text("Settings")
-                        .font(.system(size: 15, weight: .medium))
-                }
-                .foregroundStyle(Color.accentSage)
-                .padding(.horizontal, 14)
-                .padding(.vertical, 8)
-                .background(Capsule().fill(Color.white))
-                .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
-            }
-            Spacer()
-            Text(title)
-                .font(.system(size: 17, design: .serif))
-                .italic()
-                .foregroundStyle(Color.textPrimary)
-            Spacer()
-            Color.clear.frame(width: 64, height: 36)
-        }
-        .padding(.horizontal, Spacing.md)
-        .padding(.top, Spacing.sm)
-    }
-
-    private var content: some View {
-        VStack(spacing: Spacing.md) {
-            Image(systemName: icon)
-                .font(.system(size: 38, weight: .light))
-                .foregroundStyle(Color.accentSage)
-            Text(message)
-                .font(.system(size: 15, design: .serif))
-                .italic()
-                .foregroundStyle(Color.textSecondary)
-                .multilineTextAlignment(.center)
-        }
-        .padding(.horizontal, Spacing.xl)
     }
 }
