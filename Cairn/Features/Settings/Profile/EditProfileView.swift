@@ -45,7 +45,7 @@ struct EditProfileView: View {
                     .foregroundStyle(Color.textSecondary)
                     .padding(.horizontal, 14)
                     .padding(.vertical, 8)
-                    .background(Capsule().fill(Color.white))
+                    .background(Capsule().fill(Color.bgSecondary))
                     .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
             }
             Spacer()

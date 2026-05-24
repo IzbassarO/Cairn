@@ -45,13 +45,13 @@ struct HabitFilterChips: View {
                     .font(.system(size: 14, weight: .semibold))
                 Text("\(count)")
                     .font(.system(size: 13, weight: .semibold, design: .rounded))
-                    .foregroundStyle(isOn ? Color.white.opacity(0.6) : Color.textTertiary)
+                    .foregroundStyle(isOn ? Color.white : Color.textTertiary)
             }
             .foregroundStyle(isOn ? Color.white : Color.textPrimary)
             .padding(.horizontal, 14)
             .padding(.vertical, 8)
             .background(
-                Capsule().fill(isOn ? Color.textPrimary : Color.bgSecondary)
+                Capsule().fill(isOn ? Color.accentSage : Color.bgSecondary)
             )
         }
         .buttonStyle(.plain)

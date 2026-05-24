@@ -4,6 +4,12 @@ struct RootView: View {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @EnvironmentObject private var settings: AppSettings
 
+    /// Explicit tab selection so changing theme/text size (which rebuilds the
+    /// view tree) doesn't reset the user back to the first tab.
+    @State private var selectedTab: Tab = .today
+
+    private enum Tab: Hashable { case today, coach, settings }
+
     var body: some View {
         Group {
             if hasCompletedOnboarding {
@@ -32,21 +38,24 @@ struct RootView: View {
     }
 
     private var mainTabs: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             HomeView()
                 .tabItem {
                     Label("Today", systemImage: "list.bullet")
                 }
+                .tag(Tab.today)
 
             CoachView()
                 .tabItem {
                     Label("Coach", systemImage: "leaf.fill")
                 }
+                .tag(Tab.coach)
 
             SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gearshape.fill")
                 }
+                .tag(Tab.settings)
         }
         .tint(Color.accentSage)
     }

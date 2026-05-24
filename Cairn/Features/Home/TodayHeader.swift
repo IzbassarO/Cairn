@@ -141,7 +141,7 @@ struct TodayHeader: View {
             .font(.system(size: 15, weight: .medium))
             .foregroundStyle(Color.accentSage)
             .frame(width: 40, height: 40)
-            .background(Circle().fill(Color.white))
+            .background(Circle().fill(Color.bgSecondary))
             .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
     }
 }

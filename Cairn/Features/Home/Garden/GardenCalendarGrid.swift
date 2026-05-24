@@ -176,7 +176,7 @@ struct GardenCalendarGrid: View {
                     if stones > 0 && !style.isToday {
                         dotIndicator(stones: stones, color: style.dotsColor)
                     } else if style.isToday {
-                        dotIndicator(stones: max(stones, 1), color: .white)
+                        dotIndicator(stones: max(stones, 1), color: style.dotsColor)
                     }
                 }
             }
@@ -224,11 +224,13 @@ struct GardenCalendarGrid: View {
         }
 
         if cal.isDate(dayStart, inSameDayAs: today) {
-            // Today: solid charcoal
+            // Today: solid ink cell. Number/dots use bgPrimary so they stay
+            // readable against textPrimary in BOTH light and dark themes
+            // (textPrimary inverts between modes; white would vanish in dark).
             return CellStyle(
                 fill: Color.textPrimary,
-                numberColor: .white,
-                dotsColor: .white,
+                numberColor: Color.bgPrimary,
+                dotsColor: Color.bgPrimary,
                 isFuture: false,
                 isToday: true
             )

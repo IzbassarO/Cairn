@@ -265,8 +265,8 @@ struct TodayCairnCard: View {
             fraction = Swift.max(CGFloat(count) / CGFloat(maxCount), 0.15)
         }
         let fill: Color = isToday
-            ? Color.textPrimary
-            : (count == 0 ? Color.accentSage.opacity(0.25) : Color.accentSage)
+            ? Color.accentSage
+            : (count == 0 ? Color.accentSage.opacity(0.25) : Color.accentSage.opacity(0.6))
         return GeometryReader { geo in
             VStack {
                 Spacer(minLength: 0)

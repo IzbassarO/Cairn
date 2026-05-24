@@ -16,7 +16,6 @@ struct SettingsView: View {
 
     @AppStorage("themePreference") private var themeRaw: String = ThemePreference.system.rawValue
     @AppStorage("textSize") private var textSizeRaw: String = TextSize.standard.rawValue
-    @AppStorage("appIconName") private var appIconName: String = "Default"
 
     // MARK: - Navigation state
     @State private var showProfile = false
@@ -25,9 +24,7 @@ struct SettingsView: View {
     @State private var showNotifications = false
     @State private var showReminderStyle = false
     @State private var showQuietHours = false
-    @State private var showAppIcon = false
-    @State private var showTheme = false
-    @State private var showTextSize = false
+    @State private var showAppearance = false
     @State private var showExport = false
     @State private var showAbout = false
     @State private var showPrivacy = false
@@ -63,18 +60,16 @@ struct SettingsView: View {
         // Real screens (wired in request 1):
         .slideCover(isPresented: $showNotifications) { NotificationsSettingsView(onClose: { showNotifications = false }) }
         .slideCover(isPresented: $showReminderStyle) { ReminderStyleView(onClose: { showReminderStyle = false }) }
-        .slideCover(isPresented: $showQuietHours)    { QuietHoursView(onClose: { showQuietHours = false }) }
+        .sheet(isPresented: $showQuietHours)         { QuietHoursSheet() }
         // Placeholders (real screens in next requests):
         .slideCover(isPresented: $showProfile)   { ProfileView(onDismiss: { showProfile = false }) }
         .slideCover(isPresented: $showYourWhy)   { placeholder(title: "Your why", icon: "quote.opening") { showYourWhy = false } }
         .slideCover(isPresented: $showYourName)  { placeholder(title: "Your name", icon: "person") { showYourName = false } }
-        .slideCover(isPresented: $showAppIcon)   { placeholder(title: "App icon", icon: "app.badge") { showAppIcon = false } }
-        .slideCover(isPresented: $showTheme)     { placeholder(title: "Theme", icon: "moon.circle") { showTheme = false } }
-        .slideCover(isPresented: $showTextSize)  { placeholder(title: "Text size", icon: "textformat.size") { showTextSize = false } }
+        .slideCover(isPresented: $showAppearance) { AppearanceView(onClose: { showAppearance = false }) }
         .slideCover(isPresented: $showExport)    { placeholder(title: "Export data", icon: "square.and.arrow.up") { showExport = false } }
-        .slideCover(isPresented: $showAbout)     { placeholder(title: "About Cairn", icon: "info.circle") { showAbout = false } }
-        .slideCover(isPresented: $showPrivacy)   { placeholder(title: "Privacy", icon: "lock.shield") { showPrivacy = false } }
-        .slideCover(isPresented: $showTerms)     { placeholder(title: "Terms", icon: "doc.text") { showTerms = false } }
+        .slideCover(isPresented: $showAbout)     { AboutView(onClose: { showAbout = false }) }
+        .slideCover(isPresented: $showPrivacy)   { PrivacyView(onClose: { showPrivacy = false }) }
+        .slideCover(isPresented: $showTerms)     { TermsView(onClose: { showTerms = false }) }
         
         .cairnAlert(
             isPresented: $showDeleteAllConfirm,
@@ -152,27 +147,17 @@ struct SettingsView: View {
             SettingsSectionHeader(title: "Appearance")
             groupedCard {
                 SettingsRow(
-                    icon: "app.badge",
-                    label: "App icon",
-                    trailing: .navigation(value: appIconName),
-                    action: { showAppIcon = true }
-                )
-                Divider().overlay(Color.bgTertiary).padding(.leading, 64)
-                SettingsRow(
-                    icon: "moon.circle",
-                    label: "Theme",
-                    trailing: .navigation(value: currentThemeLabel),
-                    action: { showTheme = true }
-                )
-                Divider().overlay(Color.bgTertiary).padding(.leading, 64)
-                SettingsRow(
-                    icon: "textformat.size",
-                    label: "Text size",
-                    trailing: .navigation(value: currentTextSizeLabel),
-                    action: { showTextSize = true }
+                    icon: "paintbrush",
+                    label: "Appearance",
+                    trailing: .navigation(value: appearanceSummary),
+                    action: { showAppearance = true }
                 )
             }
         }
+    }
+
+    private var appearanceSummary: String {
+        "\(currentThemeLabel) · \(currentTextSizeLabel)"
     }
 
     // MARK: Data

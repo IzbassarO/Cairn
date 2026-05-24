@@ -2,6 +2,25 @@ import SwiftUI
 import Combine
 
 // MARK: - AppSettings
+//
+// Single source of truth for everything under Settings. Views should ask
+// AppSettings *behavioral questions* ("can a notification fire now?",
+// "is this time inside quiet hours?") rather than reading raw @AppStorage
+// keys scattered across the app.
+//
+// Why this exists:
+//  - Cascading rules: one setting (quiet hours, pause, reminder style) needs
+//    to affect many screens. Centralizing the logic keeps it consistent.
+//  - One place to evolve: when new settings land, behavior lives here instead
+//    of being duplicated across screens.
+//
+// Inject once at the app root:
+//   @StateObject private var settings = AppSettings()
+//   RootView().environmentObject(settings)
+//
+// Read anywhere:
+//   @EnvironmentObject private var settings: AppSettings
+
 @MainActor
 final class AppSettings: ObservableObject {
 
@@ -207,5 +226,45 @@ enum NotificationPause: String, CaseIterable, Identifiable {
         case .week:  return calendar.date(byAdding: .day, value: 7, to: start) ?? start.addingTimeInterval(604800)
         case .month: return calendar.date(byAdding: .month, value: 1, to: start) ?? start.addingTimeInterval(2592000)
         }
+    }
+}
+
+// MARK: - Quiet hours presets
+
+/// Time-of-day windows for the quiet-hours dial. Each preset just sets the
+/// start/end hours; the dial reflects the same values. Kept consistent with the
+/// dial's axis (time of day) rather than mixing in day-of-week rules.
+enum QuietHoursPreset: String, CaseIterable, Identifiable {
+    case night, morning, evening, workday
+
+    var id: String { rawValue }
+
+    var label: String {
+        switch self {
+        case .night:   return "Night"
+        case .morning: return "Morning"
+        case .evening: return "Evening"
+        case .workday: return "Workday"
+        }
+    }
+
+    /// (startHour, endHour) in 24h. End may be ≤ start to mean an overnight wrap.
+    var range: (start: Int, end: Int) {
+        switch self {
+        case .night:   return (22, 7)   // 22:00 → 07:00
+        case .morning: return (6, 9)    // early focus block
+        case .evening: return (18, 22)  // wind-down
+        case .workday: return (9, 17)   // deep-work hours
+        }
+    }
+
+    /// Short "22 — 07" style summary for the chip.
+    var summary: String {
+        String(format: "%02d — %02d", range.start, range.end)
+    }
+
+    /// True when the given hours match this preset exactly.
+    func matches(start: Int, end: Int) -> Bool {
+        range.start == start && range.end == end
     }
 }
