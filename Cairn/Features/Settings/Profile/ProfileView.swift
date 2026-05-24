@@ -25,6 +25,7 @@ struct ProfileView: View {
                     hero
                     whyCard
                     gardenCard
+                    closingNote
                 }
                 .padding(.horizontal, Spacing.md)
                 .padding(.top, Spacing.lg)
@@ -251,6 +252,33 @@ struct ProfileView: View {
                 .frame(width: 52, height: 19)
         }
         .padding(.top, 2)
+    }
+
+    // MARK: Closing note
+
+    /// A soft, data-aware line so the screen feels finished rather than cut off.
+    private var closingNote: some View {
+        VStack(spacing: 8) {
+            Image(systemName: "leaf")
+                .font(.system(size: 14))
+                .foregroundStyle(Color.accentSage.opacity(0.8))
+            Text(closingLine)
+                .font(.system(size: 14, design: .serif))
+                .italic()
+                .foregroundStyle(Color.textSecondary)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top, Spacing.sm)
+    }
+
+    private var closingLine: String {
+        switch totalStones {
+        case 0:      return "Every cairn starts with one stone. Yours is waiting."
+        case 1..<10: return "A few stones in. This is how paths begin."
+        default:     return "One stone at a time, gently. Keep going."
+        }
     }
 
     // MARK: Derived

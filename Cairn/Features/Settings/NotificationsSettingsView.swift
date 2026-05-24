@@ -1,14 +1,27 @@
 import SwiftUI
+import SwiftData
 import UserNotifications
+import Combine
 
 struct NotificationsSettingsView: View {
     var onClose: (() -> Void)? = nil
     @Environment(\.dismiss) private var dismiss
-    @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = true
+    @EnvironmentObject private var settings: AppSettings
+    @Query private var habits: [Habit]
 
     @State private var iosAuthState: UNAuthorizationStatus = .notDetermined
+    /// Drives the live countdown while a pause is active.
+    @State private var now: Date = Date()
+
+    /// Ticks every second so the red countdown stays real-time.
+    private let ticker = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     private func close() { if let onClose { onClose() } else { dismiss() } }
+
+    /// Re-applies notification scheduling to match the current app state.
+    private func applyScheduling() {
+        Task { await NotificationService.shared.rescheduleAll(habits, settings: settings) }
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -18,6 +31,14 @@ struct NotificationsSettingsView: View {
                     titleBlock
 
                     masterCard
+
+                    if settings.notificationsEnabled {
+                        if settings.isNotificationsPaused {
+                            activePauseCard
+                        } else {
+                            pausePresetsCard
+                        }
+                    }
 
                     if iosAuthState == .denied {
                         deniedHint
@@ -32,6 +53,18 @@ struct NotificationsSettingsView: View {
         }
         .background(Color.bgPrimary.ignoresSafeArea())
         .task { await refreshAuthState() }
+        .onReceive(ticker) { t in
+            // Only bother updating while a pause is counting down.
+            guard settings.isNotificationsPaused else { return }
+            let wasPaused = settings.notificationsPausedUntil
+            now = t
+            // If this tick crossed the resume time, the computed pause flips to
+            // nil on its own (expired pauses read as nil). Reschedule once so
+            // reminders come back without the user reopening this screen.
+            if wasPaused != nil, !settings.isNotificationsPaused {
+                applyScheduling()
+            }
+        }
     }
 
     // MARK: Header
@@ -93,7 +126,16 @@ struct NotificationsSettingsView: View {
             SettingsRow(
                 icon: "bell",
                 label: "Allow notifications",
-                trailing: .toggle(isOn: $notificationsEnabled)
+                trailing: .toggle(isOn: Binding(
+                    get: { settings.notificationsEnabled },
+                    set: { newValue in
+                        settings.notificationsEnabled = newValue
+                        // Turning the master off clears any timed pause —
+                        // "off" already covers it, no need for a dangling timer.
+                        if !newValue { settings.resumeNotifications() }
+                        applyScheduling()
+                    }
+                ))
             )
             Divider().overlay(Color.bgTertiary).padding(.leading, 64)
             HStack {
@@ -113,6 +155,141 @@ struct NotificationsSettingsView: View {
                 .fill(Color.bgSecondary)
         )
     }
+
+    // MARK: Pause presets (shown when ON and not paused)
+
+    private var pausePresetsCard: some View {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
+            HStack(spacing: 6) {
+                Image(systemName: "moon.zzz")
+                    .font(.system(size: 12))
+                    .foregroundStyle(Color.accentSage)
+                Text("PAUSE FOR A WHILE")
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(Color.textTertiary)
+                    .tracking(0.5)
+            }
+            Text("Mute every reminder for a set time, then they come back on their own.")
+                .font(.system(size: 13))
+                .foregroundStyle(Color.textSecondary)
+                .fixedSize(horizontal: false, vertical: true)
+
+            HStack(spacing: Spacing.sm) {
+                ForEach(NotificationPause.allCases) { preset in
+                    Button {
+                        withAnimation(.spring(response: 0.32, dampingFraction: 0.8)) {
+                            settings.pauseNotifications(preset)
+                            now = Date()
+                        }
+                        applyScheduling()
+                    } label: {
+                        Text(preset.label)
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundStyle(Color.accentSage)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 11)
+                            .background(
+                                RoundedRectangle(cornerRadius: Radius.button, style: .continuous)
+                                    .fill(Color.accentSage.opacity(0.14))
+                            )
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(.top, 2)
+        }
+        .padding(Spacing.md)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
+                .fill(Color.bgSecondary)
+        )
+    }
+
+    // MARK: Active pause card (live countdown)
+
+    private var activePauseCard: some View {
+        VStack(alignment: .leading, spacing: Spacing.md) {
+            HStack(spacing: 8) {
+                Image(systemName: "pause.circle.fill")
+                    .font(.system(size: 16))
+                    .foregroundStyle(Color.accentCoral)
+                Text("Notifications paused")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundStyle(Color.textPrimary)
+            }
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Resuming in")
+                    .font(.system(size: 12))
+                    .foregroundStyle(Color.textTertiary)
+                Text(countdownString)
+                    .font(.system(size: 30, weight: .bold, design: .monospaced))
+                    .foregroundStyle(Color.accentCoral)
+                    .contentTransition(.numericText())
+                    .monospacedDigit()
+                Text(resumeAtString)
+                    .font(.system(size: 12))
+                    .foregroundStyle(Color.textSecondary)
+            }
+
+            Button {
+                withAnimation(.spring(response: 0.32, dampingFraction: 0.8)) {
+                    settings.resumeNotifications()
+                }
+                applyScheduling()
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "bell.fill")
+                        .font(.system(size: 13, weight: .semibold))
+                    Text("Resume now")
+                        .font(.system(size: 14, weight: .semibold))
+                }
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 11)
+                .background(Capsule().fill(Color.accentSage))
+            }
+            .buttonStyle(.plain)
+            .padding(.top, 2)
+        }
+        .padding(Spacing.md)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
+                .fill(Color.accentCoral.opacity(0.10))
+        )
+    }
+
+    private var countdownString: String {
+        guard let until = settings.notificationsPausedUntil else { return "—" }
+        let remaining = max(0, until.timeIntervalSince(now))
+        let total = Int(remaining)
+        let days = total / 86400
+        let hours = (total % 86400) / 3600
+        let minutes = (total % 3600) / 60
+        let seconds = total % 60
+        if days > 0 {
+            return String(format: "%dd %02d:%02d:%02d", days, hours, minutes, seconds)
+        }
+        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+    }
+
+    private var resumeAtString: String {
+        guard let until = settings.notificationsPausedUntil else { return "" }
+        let f = DateFormatter()
+        let cal = Calendar.current
+        if cal.isDateInToday(until) {
+            f.dateFormat = "'today at' HH:mm"
+        } else if cal.isDateInTomorrow(until) {
+            f.dateFormat = "'tomorrow at' HH:mm"
+        } else {
+            f.dateFormat = "EEE d MMM 'at' HH:mm"
+        }
+        return f.string(from: until)
+    }
+
+    // MARK: iOS status
 
     private var iosStatusLabel: String {
         switch iosAuthState {
@@ -183,9 +360,9 @@ struct NotificationsSettingsView: View {
 
     private func refreshAuthState() async {
         let center = UNUserNotificationCenter.current()
-        let settings = await center.notificationSettings()
+        let iosSettings = await center.notificationSettings()
         await MainActor.run {
-            iosAuthState = settings.authorizationStatus
+            iosAuthState = iosSettings.authorizationStatus
         }
     }
 

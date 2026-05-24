@@ -34,22 +34,32 @@ final class NotificationService {
         }
     }
 
-    func ensureAuthorizedThenSchedule(_ habit: Habit) async {
+    func ensureAuthorizedThenSchedule(_ habit: Habit, settings: AppSettings? = nil) async {
         let state = await authorizationState()
         if state == .notDetermined {
             _ = await requestAuthorization()
         }
         guard await authorizationState() == .authorized else { return }
-        await schedule(habit)
+        await schedule(habit, settings: settings)
     }
 
-    func schedule(_ habit: Habit) async {
+    func schedule(_ habit: Habit, settings: AppSettings? = nil) async {
             cancel(habitId: habit.id)
+
+            // Respect app-level notification state: master switch off or an
+            // active timed pause means we schedule nothing. When the pause
+            // ends / switch flips back on, a reschedule pass re-adds them.
+            if let settings, !settings.notificationsActive() { return }
+
             guard !habit.notificationTimes.isEmpty else { return }
 
             let weekdays = habit.schedule.weekdays(custom: habit.customDays)
             guard !weekdays.isEmpty else { return }
             let isDaily = weekdays.count == 7
+
+            // Tone-aware copy (falls back to neutral wording without settings).
+            let title = settings?.notificationTitle(for: habit.name) ?? "Time for \(habit.name)"
+            let body  = settings?.notificationBody(for: habit.name) ?? "Tap to log when you're ready."
 
             let center = UNUserNotificationCenter.current()
             for (timeIndex, time) in habit.notificationTimes.enumerated() {
@@ -58,8 +68,8 @@ final class NotificationService {
 
                 for weekday in weekdaysToSchedule {
                     let content = UNMutableNotificationContent()
-                    content.title = "Time for \(habit.name)"
-                    content.body = "Tap to log when you're ready."
+                    content.title = title
+                    content.body = body
                     content.sound = .default
                     content.interruptionLevel = habit.category == .meds ? .timeSensitive : .active
                     content.threadIdentifier = "habit_\(habit.id)"
@@ -83,6 +93,21 @@ final class NotificationService {
 
     private func identifier(habitId: UUID, weekday: Int, timeIndex: Int) -> String {
         "habit_\(habitId)_\(weekday)_\(timeIndex)"
+    }
+
+    /// Re-evaluate every habit against the current app notification state.
+    /// Call this when the pause is set, when it expires/resumes, when the
+    /// master switch flips, or on app foreground. If notifications are off or
+    /// paused, this cancels everything; otherwise it reschedules each habit.
+    func rescheduleAll(_ habits: [Habit], settings: AppSettings) async {
+        guard settings.notificationsActive() else {
+            cancelAll()
+            return
+        }
+        guard await authorizationState() == .authorized else { return }
+        for habit in habits where !habit.isArchived {
+            await schedule(habit, settings: settings)
+        }
     }
     
     nonisolated func cancel(habitId: UUID) {

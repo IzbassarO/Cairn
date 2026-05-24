@@ -3,6 +3,7 @@ import SwiftData
 
 struct HomeView: View {
     @Environment(\.modelContext) private var context
+    @EnvironmentObject private var settings: AppSettings
     @Query(sort: \Habit.sortOrder) private var habits: [Habit]
     @Query private var moodLogs: [MoodLog]
 
@@ -63,7 +64,7 @@ struct HomeView: View {
                 showAddAnother = false
                 Task {
                     if !habit.notificationTimes.isEmpty {
-                        await NotificationService.shared.ensureAuthorizedThenSchedule(habit)
+                        await NotificationService.shared.ensureAuthorizedThenSchedule(habit, settings: settings)
                     }
                 }
             }
@@ -434,17 +435,14 @@ struct HomeView: View {
                 }
                 try? await Task.sleep(nanoseconds: 250_000_000)
             }
-            await NotificationService.shared.ensureAuthorizedThenSchedule(ctx.habit)
+            await NotificationService.shared.ensureAuthorizedThenSchedule(ctx.habit, settings: settings)
         }
         celebration = ctx
     }
 
     private func rescheduleNotificationsIfAuthorized() async {
-        let state = await NotificationService.shared.authorizationState()
-        guard state == .authorized else { return }
-        for habit in activeHabits {
-            await NotificationService.shared.schedule(habit)
-        }
+        // Respects master switch + active pause via rescheduleAll.
+        await NotificationService.shared.rescheduleAll(activeHabits, settings: settings)
     }
 
     // MARK: Swipe-delete helpers
