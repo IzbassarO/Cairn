@@ -2,26 +2,6 @@ import SwiftUI
 import Combine
 
 // MARK: - AppSettings
-//
-// Single source of truth for everything under Settings. Views should ask
-// AppSettings *behavioral questions* ("can a notification fire now?",
-// "is this time inside quiet hours?") rather than reading raw @AppStorage
-// keys scattered across the app.
-//
-// Why this exists:
-//  - Cascading rules: one setting (quiet hours, pause, reminder style) needs
-//    to affect many screens. Centralizing the logic keeps it consistent.
-//  - v2 monetization: Pro gating and ads become fields/methods HERE, so the
-//    rest of the app never needs to learn about Pro — it just asks
-//    `settings.isPro` / `settings.isLocked(.feature)`.
-//
-// Inject once at the app root:
-//   @StateObject private var settings = AppSettings()
-//   RootView().environmentObject(settings)
-//
-// Read anywhere:
-//   @EnvironmentObject private var settings: AppSettings
-
 @MainActor
 final class AppSettings: ObservableObject {
 
@@ -190,28 +170,6 @@ final class AppSettings: ObservableObject {
         get { TextSize(rawValue: defaults.string(forKey: Keys.textSize) ?? "") ?? .standard }
         set { objectWillChange.send(); defaults.set(newValue.rawValue, forKey: Keys.textSize) }
     }
-
-    // MARK: - Monetization (v2 scaffolding)
-    //
-    // These are intentionally simple now. In v2 they get wired to a real
-    // entitlement (StoreKit). Everything else in the app already routes through
-    // AppSettings, so flipping these flips the whole experience.
-
-    /// Whether the user has Cairn Pro. Hardcoded false until v2.
-    var isPro: Bool { false }
-
-    /// Whether ads should show (free tier only). Pro removes ads.
-    var showsAds: Bool { !isPro }
-
-    /// Feature gate. Returns true when a feature should be locked behind Pro.
-    /// Add cases as monetized features land; today nothing is locked.
-    func isLocked(_ feature: ProFeature) -> Bool {
-        guard !isPro else { return false }
-        switch feature {
-        // Example for v2: case .customAppIcon: return true
-        default: return false
-        }
-    }
 }
 
 // MARK: - Notification pause presets
@@ -250,10 +208,4 @@ enum NotificationPause: String, CaseIterable, Identifiable {
         case .month: return calendar.date(byAdding: .month, value: 1, to: start) ?? start.addingTimeInterval(2592000)
         }
     }
-}
-
-// MARK: - Pro feature keys (v2 scaffolding)
-
-enum ProFeature {
-    case placeholder   // replaced by real features in v2
 }
