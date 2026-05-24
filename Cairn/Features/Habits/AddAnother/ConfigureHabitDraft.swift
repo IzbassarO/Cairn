@@ -1,22 +1,11 @@
 import Foundation
 import SwiftUI
 
-/// Mutable draft used by the Configure Habit screen (N2 — add-another flow).
-///
-/// Functionally similar to `FirstHabitDraft`, with two extensions for the
-/// pairing-aware path:
-///  - `pairingAnchor`: if non-nil, N2 was opened via a Coach Pairing card.
-///    Drives the subtitle ("Coach pairing with X") and the "Stack on existing
-///    habit" row in the Notification section.
-///  - `cueNote`: auto-generated from the pairing template when applicable,
-///    user-editable.
 @Observable
 final class ConfigureHabitDraft {
 
-    // Source template (read-only — name/icon/category come from here)
     let template: HabitTemplate
 
-    /// Anchor habit if this is a paired flow, else nil.
     let pairingAnchor: Habit?
 
     // MARK: User-editable
@@ -39,8 +28,6 @@ final class ConfigureHabitDraft {
         self.selectedDays = Set(1...7)
         self.notificationsEnabled = true
 
-        // Auto-generate the cue note when the flow has a pairing anchor.
-        // Otherwise leave it empty — user can tap to add.
         if let anchor = pairingAnchor {
             self.cueNote = Self.generateCueNote(from: template, anchor: anchor)
         } else {
@@ -50,7 +37,6 @@ final class ConfigureHabitDraft {
 
     // MARK: Derived
 
-    /// Header subtitle shown under the habit name. e.g. "Hydration · Coach pairing with Morning meds"
     var subtitle: String {
         let categoryName = friendlyCategoryName
         if let anchor = pairingAnchor {
@@ -59,7 +45,6 @@ final class ConfigureHabitDraft {
         return categoryName
     }
 
-    /// User-facing category name. We don't expose the raw enum string.
     private var friendlyCategoryName: String {
         switch template.category {
         case .meds: return "Medication"
@@ -73,9 +58,6 @@ final class ConfigureHabitDraft {
         }
     }
 
-    /// "30 MIN AFTER MEDS" style hint pill shown next to REMINDER TIME.
-    /// Only meaningful when this is a paired flow with an anchor that has
-    /// notification times. Returns nil otherwise.
     var reminderHintPill: String? {
         guard let anchor = pairingAnchor,
               let anchorTime = anchor.notificationTimes.first
@@ -133,17 +115,12 @@ final class ConfigureHabitDraft {
         }
     }
 
-    /// Builds an "After I X, I will Y" cue note for a paired flow.
-    /// Reads the anchor's cue field if it has one to make the sentence richer,
-    /// otherwise uses the anchor's name verb-style.
     private static func generateCueNote(from template: HabitTemplate, anchor: Habit) -> String {
         let anchorPhrase = anchor.name.lowercased()
         let actionPhrase = templateActionPhrase(template)
         return "\u{201C}After I \(anchorPhrase), I will \(actionPhrase).\u{201D}"
     }
 
-    /// Returns a verb-phrase for the template's action ("pour a glass of water
-    /// from the bottle by the sink"). Falls back to the template name lowercased.
     private static func templateActionPhrase(_ template: HabitTemplate) -> String {
         switch template.id {
         case "hydrate":

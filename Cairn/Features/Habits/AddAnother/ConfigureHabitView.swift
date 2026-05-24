@@ -1,21 +1,10 @@
 import SwiftUI
 import SwiftData
 
-/// N2 — Configure Habit screen. Shown when the user picks any template (or
-/// the Coach Pairing card) from N1. Presented as a full-screen cover.
-///
-/// Two flavours, driven by `draft.pairingAnchor`:
-///  - Plain: opened from a template row. No pairing subtitle, no "Stack on"
-///    row, cue note empty by default.
-///  - Paired: opened from the Coach Pairing card. Subtitle reads "Coach
-///    pairing with X", cue note auto-generated, "Stack on existing habit"
-///    row visible at the bottom showing the anchor.
 struct ConfigureHabitView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
 
-    /// Called after a successful save. Parent (HomeView) dismisses N2 and N1,
-    /// then schedules notifications.
     let onPlanted: (Habit) -> Void
 
     @State private var draft: ConfigureHabitDraft
@@ -228,8 +217,6 @@ struct ConfigureHabitView: View {
         .buttonStyle(.plain)
     }
 
-    /// Read-only day chips inside the Days row, mirroring `selectedDays`.
-    /// Tapping a chip is handled by the parent (opening DaysSheet on the whole row).
     private var inlineDayChips: some View {
         HStack(spacing: 6) {
             let order: [Int] = [2, 3, 4, 5, 6, 7, 1] // M T W T F S S
@@ -370,8 +357,6 @@ struct ConfigureHabitView: View {
         }
         .padding(.horizontal, Spacing.md)
         .padding(.vertical, 14)
-        // Read-only in v1.0 — anchor is fixed at the time the user picked the
-        // pairing. Future versions could let the user reassign.
     }
 
     // MARK: Footer hint
@@ -399,8 +384,6 @@ struct ConfigureHabitView: View {
         )
     }
 
-    /// "If the user saves now, they'll have N habits." We can't @Query habits
-    /// here without bloating the init — instead we look at the model context.
     private var habitCountAfterSave: Int {
         let fetched = (try? context.fetch(FetchDescriptor<Habit>())) ?? []
         return fetched.filter { !$0.isArchived }.count + 1
@@ -447,8 +430,6 @@ struct ConfigureHabitView: View {
 }
 
 // MARK: - Days sheet bound to ConfigureHabitDraft
-// Almost identical to CustomDaysSheet but bound to a different draft type.
-// Could be generalised behind a protocol; keeping concrete for clarity.
 
 struct ConfigureDaysSheet: View {
     @Bindable var draft: ConfigureHabitDraft

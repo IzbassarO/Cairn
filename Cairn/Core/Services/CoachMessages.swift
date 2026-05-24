@@ -1,15 +1,5 @@
 import Foundation
 
-/// Returns coach copy for the Today screen. The selection is deterministic
-/// from the calendar date — same message all day, rotates at midnight.
-///
-/// Two corpora live here:
-///  - `oneHabitMessages` — when the user has exactly one active habit.
-///    Tone: gentle, observational, low-pressure. The coach is "watching quietly".
-///  - `multiHabitMessages` — when the user has 2+ active habits.
-///    Tone: momentum, pairing, identity. The coach is "noticing patterns".
-///
-/// Add to either array freely; nothing else changes.
 enum CoachMessages {
 
     static let oneHabitMessages: [String] = [
@@ -34,18 +24,13 @@ enum CoachMessages {
         "The second habit is where you start to feel like 'someone who does this'. Keep going."
     ]
 
-    /// Pick a message for the current day, based on how many active habits exist.
     static func dailyMessage(activeHabitCount: Int, date: Date = .now) -> String {
         let corpus = activeHabitCount <= 1 ? oneHabitMessages : multiHabitMessages
         return pick(from: corpus, on: date)
     }
 
-    /// Deterministic pick: same date → same index, regardless of how many
-    /// times we call this in a day. Rotates at local midnight.
     private static func pick(from corpus: [String], on date: Date) -> String {
         guard !corpus.isEmpty else { return "" }
-        // Use day-of-era so the index advances by exactly 1 per calendar day.
-        // (Hash-of-startOfDay would also work but isn't stable across launches.)
         let calendar = Calendar.current
         let referenceDate = Date(timeIntervalSince1970: 0)
         let days = calendar.dateComponents([.day], from: referenceDate, to: date).day ?? 0

@@ -15,14 +15,8 @@ final class Habit {
     var createdAt: Date = Date.distantPast
     var customDaysRaw: String = ""
 
-    /// How many times per day this habit can be logged. Defaults to 1.
-    /// Enforced by `HabitService.log` — taps beyond the cap are no-ops.
-    /// When > 1, the Today row shows "N/target" instead of the lifetime count.
     var targetPerDay: Int = 1
 
-    /// Optional implementation-intention text in the "After I ____, I will ____" form.
-    /// Editable in F7 (custom habit) and the future edit screen. Empty by default,
-    /// in which case it's never shown.
     var cueNote: String = ""
 
     @Relationship(deleteRule: .cascade, inverse: \HabitLog.habit)

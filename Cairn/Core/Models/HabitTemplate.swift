@@ -8,9 +8,7 @@ struct HabitTemplate: Identifiable, Hashable {
     let colorTokenName: String
     let suggestedHour: Int?
     let suggestedMinute: Int?
-    /// Long-form supportive copy shown in the full template grid.
     let blurb: String
-    /// Short cue-anchor copy shown in compact contexts (e.g. gentle starters row).
     let cue: String?
 
     init(
@@ -37,16 +35,12 @@ struct HabitTemplate: Identifiable, Hashable {
 }
 
 enum HabitTemplates {
-    /// IDs of the three curated "gentle starters" shown on the first-time Today screen.
-    /// Order is intentional — meds first (highest-impact for ADHD), then anchor habits.
     static let gentleStarterIDs: [String] = [
         "meds_morning",
         "hydrate",
         "breath_one_min"
     ]
 
-    /// Returns the three starter templates in the order defined by `gentleStarterIDs`.
-    /// Missing IDs are skipped silently (defensive — should not happen in v1.0).
     static var gentleStarters: [HabitTemplate] {
         gentleStarterIDs.compactMap { id in all.first { $0.id == id } }
     }

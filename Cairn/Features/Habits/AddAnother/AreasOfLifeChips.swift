@@ -1,12 +1,8 @@
 import SwiftUI
 
-/// Horizontal scroll of category chips for N1. Multi-select: tap to toggle.
-/// Empty selection = "All categories" (the consumer view shows everything).
 struct AreasOfLifeChips: View {
     @Binding var selected: Set<HabitCategory>
 
-    /// Display order — UX choice (most-used categories first).
-    /// Mirrors the categories present in HabitTemplates.all.
     private let displayCategories: [HabitCategory] = [
         .meds, .water, .movement, .focus, .sleep, .transition, .hyperfocusCheckIn, .custom
     ]

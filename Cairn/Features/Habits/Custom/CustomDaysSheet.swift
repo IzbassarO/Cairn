@@ -1,8 +1,5 @@
 import SwiftUI
 
-/// Day picker bound to `CustomHabitDraft`. Functionally identical to F3
-/// (`DaysSheet`), just bound to a different draft type. We could generalize
-/// over a protocol, but two concrete instances are clearer for v1.0.
 struct CustomDaysSheet: View {
     @Bindable var draft: CustomHabitDraft
     @Environment(\.dismiss) private var dismiss
@@ -14,7 +11,6 @@ struct CustomDaysSheet: View {
         _workingDays = State(initialValue: draft.selectedDays)
     }
 
-    // Display order: M T W T F S S — weekday ints 2,3,4,5,6,7,1.
     private let displayOrder: [Int] = [2, 3, 4, 5, 6, 7, 1]
 
     private struct Pattern: Identifiable, Equatable {

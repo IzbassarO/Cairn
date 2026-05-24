@@ -1,33 +1,18 @@
 import SwiftUI
 import SwiftData
 
-/// N1 — Add Another Habit screen. Full-screen library of templates with
-/// search, category filter, optional Coach Pairing suggestion, and a fallback
-/// to the Custom Habit screen (F7).
-///
-/// Flow:
-///  1. User browses templates (filtered by chips + search)
-///  2. Tapping `+` on a row → N2 (ConfigureHabitView) for that template
-///  3. Tapping "Add this pairing" on Coach Pairing card → N2 with pairingAnchor set
-///  4. Tapping "+ Write a custom habit" → F7 (CustomHabitView)
-///
-/// Saving in N2 or F7 dismisses both that view and N1 in sequence.
 struct AddAnotherHabitView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
     @Query(sort: \Habit.sortOrder) private var habits: [Habit]
 
-    /// Called when a habit is successfully saved through any of N1's paths.
-    /// HomeView uses this to dismiss N1 and schedule notifications.
     let onPlanted: (Habit) -> Void
 
     @State private var searchText: String = ""
     @State private var selectedCategories: Set<HabitCategory> = []
 
-    /// Pre-filled template + optional pairing anchor for ConfigureHabitView.
     @State private var pendingTemplate: PendingTemplate?
 
-    /// Trigger for F7 (custom).
     @State private var showCustom = false
 
     private var activeHabits: [Habit] { habits.filter { !$0.isArchived } }
@@ -104,7 +89,6 @@ struct AddAnotherHabitView: View {
 
             Spacer()
 
-            // Invisible placeholder to keep the title centered.
             Color.clear.frame(width: 36, height: 36)
         }
         .padding(.horizontal, Spacing.md)
@@ -133,7 +117,7 @@ struct AddAnotherHabitView: View {
     private var habitCountEyebrow: String {
         let count = activeHabits.count
         switch count {
-        case 0: return "YOUR FIRST HABIT"  // unreachable normally
+        case 0: return "YOUR FIRST HABIT"
         case 1: return "YOU HAVE 1 HABIT"
         default: return "YOU HAVE \(count) HABITS"
         }
@@ -245,21 +229,16 @@ struct AddAnotherHabitView: View {
 
     // MARK: Filtering & grouping
 
-    /// One section per category in `selectedCategories`. If selection is empty,
-    /// returns all categories that have at least one matching template.
     private struct TemplateGroup {
         let category: HabitCategory
         let title: String
         let templates: [HabitTemplate]
-        /// Total templates in this category (ignoring current search).
-        /// Powers the "All N" label on the right of section headers.
         let totalInCategory: Int
     }
 
     private var groupedTemplates: [TemplateGroup] {
         let allTemplates = HabitTemplates.all
 
-        // Apply search filter first (case-insensitive substring on name or cue).
         let searchFiltered: [HabitTemplate]
         let trimmed = searchText.trimmingCharacters(in: .whitespaces).lowercased()
         if trimmed.isEmpty {
@@ -271,11 +250,8 @@ struct AddAnotherHabitView: View {
             }
         }
 
-        // Determine which categories to render.
         let categoriesToShow: [HabitCategory]
         if selectedCategories.isEmpty {
-            // Show every category that has at least one (filtered) template,
-            // in the natural HabitCategory order.
             let presentCategories = Set(searchFiltered.map(\.category))
             categoriesToShow = HabitCategory.allCases.filter { presentCategories.contains($0) }
         } else {
@@ -309,7 +285,6 @@ struct AddAnotherHabitView: View {
     }
 }
 
-/// Small wrapper because `fullScreenCover(item:)` needs Identifiable.
 struct PendingTemplate: Identifiable, Hashable {
     let id = UUID()
     let template: HabitTemplate

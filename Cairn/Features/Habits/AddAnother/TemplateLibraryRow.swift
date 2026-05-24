@@ -1,10 +1,5 @@
 import SwiftUI
 
-/// One row in N1's template list. Layout from the mockup:
-///  - sage-tinted icon disc (left)
-///  - template name + italic cue (center)
-///  - reminder time pill (right, omitted if template has no suggested time)
-///  - sage + button (far right)
 struct TemplateLibraryRow: View {
     let template: HabitTemplate
     let onAdd: () -> Void

@@ -10,8 +10,7 @@ struct HeatmapView: View {
     private let labelWidth: CGFloat = 16
     private let labelGap: CGFloat = 8
 
-    // Force Monday-first regardless of locale (GitHub-style, familiar).
-    private let mondayWeekday: Int = 2  // iOS Calendar: 1=Sun, 2=Mon, ..., 7=Sat
+    private let mondayWeekday: Int = 2
 
     private var cal: Calendar { Calendar.current }
 
@@ -48,8 +47,6 @@ struct HeatmapView: View {
     }
 
     private func grid(gridStart: Date, today: Date, logsByDay: [Date: Int]) -> some View {
-        // Row-major layout: each row = [weekday label, 12 cells].
-        // Cells use aspectRatio(1) inside an HStack so the row fills full width.
         VStack(spacing: cellSpacing) {
             ForEach(0..<7, id: \.self) { row in
                 HStack(spacing: labelGap) {
@@ -143,7 +140,6 @@ struct HeatmapView: View {
     }
 
     private func weekdayLabel(_ row: Int) -> String {
-        // Monday-first: row 0=Mon, 1=Tue, 2=Wed, 3=Thu, 4=Fri, 5=Sat, 6=Sun.
         switch row {
         case 0: return "M"
         case 2: return "W"

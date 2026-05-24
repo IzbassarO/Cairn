@@ -1,17 +1,5 @@
 import SwiftUI
 
-/// Picker for the "quiet hours" window — a daily time range during which
-/// notifications are suppressed. Default 22:00 - 07:00 (mockup I).
-///
-/// Stored as three @AppStorage values:
-///  - `quietHoursEnabled: Bool` (default true for ADHD UX safety — better
-///    not to wake users in the middle of the night)
-///  - `quietHoursStartHour: Int` (0-23, default 22)
-///  - `quietHoursEndHour: Int` (0-23, default 7)
-///
-/// NotificationService consumption (next request): when scheduling a habit
-/// reminder, check if the reminder time falls inside the quiet window. If
-/// yes, push the trigger time to `endHour:00` on the next applicable day.
 struct QuietHoursView: View {
     @Environment(\.dismiss) private var dismiss
 
@@ -47,7 +35,7 @@ struct QuietHoursView: View {
     private var header: some View {
         HStack {
             Button {
-                dismiss()
+                withoutPresentationAnimation { dismiss() }
             } label: {
                 HStack(spacing: 4) {
                     Image(systemName: "chevron.left")
@@ -138,8 +126,6 @@ struct QuietHoursView: View {
 
             Spacer()
 
-            // Custom-styled date picker showing only the hour. We use a Picker
-            // wrapped in a Menu so the trigger looks like our other sage pills.
             Menu {
                 ForEach(0..<24, id: \.self) { h in
                     Button {
@@ -167,7 +153,6 @@ struct QuietHoursView: View {
 
     // MARK: Preview / about
 
-    /// "Reminders pause from 22:00 to 07:00 — that's about 9 hours of rest."
     private var previewLine: some View {
         HStack(spacing: 6) {
             Image(systemName: "info.circle")
@@ -186,7 +171,6 @@ struct QuietHoursView: View {
         return "From \(formatHour(startHour)) to \(formatHour(endHour)) — about \(spanStr) of rest."
     }
 
-    /// Forward span in hours from start → end, wrapping over midnight.
     private func quietSpanHours() -> Int {
         let raw = endHour - startHour
         return raw > 0 ? raw : raw + 24

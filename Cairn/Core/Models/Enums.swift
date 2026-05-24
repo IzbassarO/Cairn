@@ -52,8 +52,6 @@ enum HabitSchedule: Int, Codable, CaseIterable {
         }
     }
 
-    /// Weekday ints (1=Sun ... 7=Sat) when this schedule applies.
-    /// For `.custom`, caller supplies the user's selected days.
     func weekdays(custom: Set<Int> = []) -> Set<Int> {
         switch self {
         case .daily: return Set(1...7)

@@ -5,16 +5,12 @@ struct CustomHabitView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
 
-    /// Called when the user successfully saves. The presenter (HomeView or
-    /// TodayWelcomeView) decides what to do next — orchestrate F4/F5 for the
-    /// first habit, or just dismiss for subsequent ones.
     let onPlanted: (Habit) -> Void
 
     @State private var draft = CustomHabitDraft()
     @State private var showIconPicker = false
     @State private var showTimeSheet = false
     @State private var showDaysSheet = false
-    /// Which slot of `reminderTimes` is being edited. Used only when target > 1.
     @State private var editingTimeIndex: Int = 0
 
     private var service: HabitService { HabitService(context: context) }
@@ -42,9 +38,6 @@ struct CustomHabitView: View {
                 .presentationDetents([.large])
         }
         .sheet(isPresented: $showTimeSheet) {
-            // The time sheet edits a single slot. For target == 1 the slot
-            // is always index 0; for target > 1 the row that was tapped sets
-            // `editingTimeIndex` first.
             SingleTimeEditorSheet(
                 time: bindingForEditingTime(),
                 slotIndex: editingTimeIndex,
@@ -57,7 +50,6 @@ struct CustomHabitView: View {
     }
 
     // MARK: Header
-
     private var header: some View {
         HStack {
             Button {
@@ -104,7 +96,6 @@ struct CustomHabitView: View {
     }
 
     // MARK: Icon picker
-
     private var iconPickerTrigger: some View {
         VStack(spacing: 8) {
             Button {
@@ -138,7 +129,6 @@ struct CustomHabitView: View {
     }
 
     // MARK: Name field
-
     private var nameField: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
             Text("NAME")
@@ -174,7 +164,6 @@ struct CustomHabitView: View {
     }
 
     // MARK: Schedule card
-
     private var scheduleCard: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
             Text("SCHEDULE")
@@ -184,8 +173,6 @@ struct CustomHabitView: View {
                 .padding(.leading, Spacing.xs)
 
             VStack(spacing: 0) {
-                // For target == 1 we show a single Reminder row.
-                // For target > 1 we show N rows, one per slot.
                 if draft.targetPerDay == 1 {
                     reminderRow(slot: 0, label: "REMINDER TIME")
                 } else {
@@ -342,7 +329,6 @@ struct CustomHabitView: View {
     }
 
     // MARK: Cue & Note
-
     private var cueNoteSection: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
             Text("CUE & NOTE (OPTIONAL)")
@@ -389,7 +375,6 @@ struct CustomHabitView: View {
     }
 
     // MARK: Helper hint
-
     private var helperHint: some View {
         HStack(spacing: Spacing.sm) {
             Image(systemName: "leaf")
@@ -409,15 +394,12 @@ struct CustomHabitView: View {
     }
 
     // MARK: Helpers
-
     private func formatTime(_ date: Date) -> String {
         let f = DateFormatter()
         f.dateFormat = "HH:mm"
         return f.string(from: date)
     }
 
-    /// Returns a binding to the currently-editing slot of `reminderTimes`.
-    /// Safe even if the index drifts: returns a no-op binding if out of bounds.
     private func bindingForEditingTime() -> Binding<Date> {
         Binding(
             get: {
@@ -437,7 +419,6 @@ struct CustomHabitView: View {
     }
 
     // MARK: Save
-
     private func save() async {
         let (schedule, customDays) = draft.resolvedScheduleAndCustomDays
         let trimmedName = draft.name.trimmingCharacters(in: .whitespaces)
@@ -467,7 +448,6 @@ struct CustomHabitView: View {
 }
 
 // MARK: - Safe array subscript
-
 private extension Array {
     subscript(safe index: Int) -> Element? {
         indices.contains(index) ? self[index] : nil

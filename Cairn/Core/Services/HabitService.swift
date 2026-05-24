@@ -10,8 +10,6 @@ struct HabitService {
         try context.save()
     }
 
-    /// Result of a log attempt. The UI can ignore this and just call `log()`
-    /// fire-and-forget — at-cap taps are silently dropped.
     enum LogResult {
         case logged
         case alreadyAtCap
@@ -19,8 +17,6 @@ struct HabitService {
 
     @discardableResult
     func log(_ habit: Habit, source: LogSource = .app, note: String? = nil) throws -> LogResult {
-        // Enforce per-day cap. Each habit defines its own `targetPerDay`
-        // (defaults to 1). Beyond the cap, taps are a no-op.
         let cal = Calendar.current
         let today = cal.startOfDay(for: .now)
         let countToday = (habit.logs ?? []).filter {

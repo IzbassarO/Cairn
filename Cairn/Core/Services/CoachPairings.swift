@@ -1,47 +1,19 @@
 import Foundation
 
-/// Static mapping that defines "stacking" suggestions: given an existing
-/// habit, which template should we suggest the user add next?
-///
-/// Used by N1 (Add another) to show the Coach Pairing card. The card only
-/// shows while the user has ≤3 active habits — the pairing pattern is most
-/// helpful early when the user is still anchoring habits to existing routines.
-///
-/// Design rationale:
-///  - Mapping is hand-curated, not algorithmic. The combinations below are
-///    "stacking on an existing routine" patterns from behavior-design lit
-///    (hydrate after meds, breath before email, etc).
-///  - Returns nil if no pairing applies — the card disappears, no card shown.
 enum CoachPairings {
 
-    /// Maximum number of active habits before pairings stop showing.
-    /// At 4+ habits the user is past the "still anchoring" phase.
     static let pairingHabitCeiling = 3
 
-    /// Suggested pairing for a freshly-loaded N1 screen.
-    ///
-    /// - Parameters:
-    ///   - activeHabits: habits the user already has (we won't re-suggest these)
-    /// - Returns: A pairing if one applies, else nil.
     static func suggest(for activeHabits: [Habit]) -> CoachPairing? {
-        // Don't suggest pairings to users past the ceiling — they're not
-        // in the anchoring phase anymore.
         guard activeHabits.count <= pairingHabitCeiling,
               !activeHabits.isEmpty
         else { return nil }
 
-        // Look at the user's first active habit (oldest, sortOrder = 0)
-        // and propose the canonical pairing for it.
         let anchorHabit = activeHabits.sorted { $0.sortOrder < $1.sortOrder }.first!
         let anchorName = anchorHabit.name.lowercased()
 
-        // Find a matching pairing whose anchor name matches the user's habit.
-        // We match by name (case-insensitive) rather than template ID because
-        // custom habits don't have template IDs but might still benefit from
-        // a known pairing if the user named them obviously.
         for pairing in mappings {
             if anchorName.contains(pairing.anchorMatchPhrase) {
-                // Don't suggest a template the user already has.
                 let alreadyHas = activeHabits.contains { existing in
                     existing.name.lowercased() == pairing.suggestedTemplate.name.lowercased()
                 }
@@ -60,14 +32,14 @@ enum CoachPairings {
     // MARK: Internal mapping table
 
     private struct Mapping {
-        let anchorMatchPhrase: String   // substring matched against habit.name.lowercased()
+        let anchorMatchPhrase: String
         let suggestedTemplateID: String
         let headline: String
         let rationale: String
 
         var suggestedTemplate: HabitTemplate {
             HabitTemplates.all.first { $0.id == suggestedTemplateID }
-                ?? HabitTemplates.all[0] // safe fallback, should never hit
+                ?? HabitTemplates.all[0]
         }
     }
 
@@ -117,7 +89,6 @@ enum CoachPairings {
     ]
 }
 
-/// A concrete pairing suggestion ready to render in the Coach Pairing card.
 struct CoachPairing: Identifiable, Hashable {
     let id = UUID()
     let anchorHabit: Habit

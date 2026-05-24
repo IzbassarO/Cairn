@@ -1,18 +1,8 @@
 import SwiftUI
 
-/// Native-iOS-feeling alert. White card centered on a dim overlay, with
-/// Cancel + Confirm side-by-side at the bottom, separated by hairline dividers.
-///
-/// Visual model from mockup A ("Delete habit alert"):
-///  - Serif bold title
-///  - 2-line description body in textSecondary
-///  - Horizontal action row, Cancel left / destructive right
-///  - No icon — kept the parameter for API compatibility, but it's ignored
 struct CairnAlertConfig {
     var title: String
     var message: String
-    /// Retained for backwards compatibility with existing call sites.
-    /// The redesigned alert doesn't render an icon — pass nil or just ignore.
     var icon: String? = nil
     var iconColor: Color = .accentCoral
     var confirmTitle: String = "Confirm"
@@ -69,7 +59,6 @@ struct CairnAlert: ViewModifier {
             Divider()
                 .overlay(Color.textPrimary.opacity(0.12))
 
-            // Action row — equal split with a vertical divider in the middle.
             HStack(spacing: 0) {
                 actionButton(
                     title: config.cancelTitle,

@@ -1,8 +1,5 @@
 import SwiftUI
 
-/// Sage-tinted card shown above the template list in N1 when CoachPairings
-/// has a suggestion to make. Tapping the CTA opens N2 pre-filled with the
-/// suggested template and a generated cue note.
 struct CoachPairingCard: View {
     let pairing: CoachPairing
     let onAddPairing: () -> Void

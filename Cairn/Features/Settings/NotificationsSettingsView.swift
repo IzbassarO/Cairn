@@ -1,17 +1,6 @@
 import SwiftUI
 import UserNotifications
 
-/// Notifications settings page. Reached from the Notifications row in Settings.
-///
-/// What it manages:
-///  - **App-level preference** (`@AppStorage("notificationsEnabled")`):
-///    user's intent. When false, NotificationService skips scheduling.
-///  - **iOS-level permission**: not editable here. We surface the state and
-///    deep-link to system Settings when denied.
-///
-/// The reason we have an app-level toggle separate from the iOS permission:
-/// some users want to pause nudges temporarily (going on vacation, sick week,
-/// etc) without revoking permission entirely. Easier UX, fewer re-grants.
 struct NotificationsSettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = true
@@ -47,7 +36,7 @@ struct NotificationsSettingsView: View {
     private var header: some View {
         HStack {
             Button {
-                dismiss()
+                withoutPresentationAnimation { dismiss() }
             } label: {
                 HStack(spacing: 4) {
                     Image(systemName: "chevron.left")
