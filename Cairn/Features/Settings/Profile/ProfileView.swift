@@ -35,10 +35,8 @@ struct ProfileView: View {
         .onAppear {
             if joinDateRaw == 0 { joinDateRaw = Date().timeIntervalSince1970 }
         }
-        .fullScreenCover(isPresented: $showEdit) {
-            EditProfileView(onDismiss: {
-                withoutPresentationAnimation { showEdit = false }
-            })
+        .slideCover(isPresented: $showEdit) {
+            EditProfileView(onDismiss: { showEdit = false })
         }
     }
 
@@ -77,7 +75,7 @@ struct ProfileView: View {
 
     private var editButton: some View {
         Button {
-            withoutPresentationAnimation { showEdit = true }
+            showEdit = true
         } label: {
             HStack(spacing: 5) {
                 Image(systemName: "pencil")
@@ -96,32 +94,27 @@ struct ProfileView: View {
     // MARK: Hero
 
     private var hero: some View {
-        Button {
-            withoutPresentationAnimation { showEdit = true }
-        } label: {
-            HStack(spacing: Spacing.md) {
-                ProfileAvatar(name: displayName, size: 84)
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(displayedName)
-                        .font(.system(size: 30, weight: .bold, design: .serif))
+        HStack(spacing: Spacing.md) {
+            ProfileAvatar(name: displayName, size: 84)
+            VStack(alignment: .leading, spacing: 6) {
+                Text(displayedName)
+                    .font(.system(size: 30, weight: .bold, design: .serif))
+                    .foregroundStyle(Color.textPrimary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+                HStack(spacing: 5) {
+                    Text("Cairn since")
+                        .font(.system(size: 14))
+                        .foregroundStyle(Color.textSecondary)
+                    Text(joinDateString)
+                        .font(.system(size: 14, weight: .semibold))
                         .foregroundStyle(Color.textPrimary)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.7)
-                    HStack(spacing: 5) {
-                        Text("Cairn since")
-                            .font(.system(size: 14))
-                            .foregroundStyle(Color.textSecondary)
-                        Text(joinDateString)
-                            .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(Color.textPrimary)
-                    }
-                    cairnFreePill
-                        .padding(.top, 2)
                 }
-                Spacer(minLength: 0)
+                cairnFreePill
+                    .padding(.top, 2)
             }
+            Spacer(minLength: 0)
         }
-        .buttonStyle(.plain)
     }
 
     private var cairnFreePill: some View {
@@ -152,43 +145,33 @@ struct ProfileView: View {
             }
 
             if trimmedWhy.isEmpty {
-                Button {
-                    withoutPresentationAnimation { showEdit = true }
-                } label: {
-                    Text("The reason you're here. One honest sentence you'll see when things feel heavy.")
-                        .font(.system(size: 17, design: .serif))
+                Text("The reason you're here. One honest sentence you'll see when things feel heavy.")
+                    .font(.system(size: 17, design: .serif))
+                    .italic()
+                    .foregroundStyle(Color.textTertiary)
+                    .lineSpacing(3)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            } else {
+                VStack(alignment: .leading, spacing: Spacing.sm) {
+                    Text("\"\(trimmedWhy)\"")
+                        .font(.system(size: 22, design: .serif))
                         .italic()
-                        .foregroundStyle(Color.textTertiary)
-                        .lineSpacing(3)
+                        .foregroundStyle(Color.textPrimary)
+                        .lineSpacing(4)
                         .multilineTextAlignment(.leading)
                         .fixedSize(horizontal: false, vertical: true)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                .buttonStyle(.plain)
-            } else {
-                Button {
-                    withoutPresentationAnimation { showEdit = true }
-                } label: {
-                    VStack(alignment: .leading, spacing: Spacing.sm) {
-                        Text("\"\(trimmedWhy)\"")
-                            .font(.system(size: 22, design: .serif))
-                            .italic()
-                            .foregroundStyle(Color.textPrimary)
-                            .lineSpacing(4)
-                            .multilineTextAlignment(.leading)
-                            .fixedSize(horizontal: false, vertical: true)
-                        HStack(spacing: 6) {
-                            Image(systemName: "chart.bar")
-                                .font(.system(size: 11))
-                                .foregroundStyle(Color.textTertiary)
-                            Text(whyMetaString)
-                                .font(.system(size: 13))
-                                .foregroundStyle(Color.textTertiary)
-                        }
+                    HStack(spacing: 6) {
+                        Image(systemName: "chart.bar")
+                            .font(.system(size: 11))
+                            .foregroundStyle(Color.textTertiary)
+                        Text(whyMetaString)
+                            .font(.system(size: 13))
+                            .foregroundStyle(Color.textTertiary)
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .buttonStyle(.plain)
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)

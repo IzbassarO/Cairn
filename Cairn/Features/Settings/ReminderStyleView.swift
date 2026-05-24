@@ -1,12 +1,15 @@
 import SwiftUI
 
 struct ReminderStyleView: View {
+    var onClose: (() -> Void)? = nil
     @Environment(\.dismiss) private var dismiss
     @AppStorage("reminderStyle") private var rawStyle: String = ReminderStyle.gentle.rawValue
 
     private var current: ReminderStyle {
         ReminderStyle(rawValue: rawStyle) ?? .gentle
     }
+
+    private func close() { if let onClose { onClose() } else { dismiss() } }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -33,7 +36,7 @@ struct ReminderStyleView: View {
     private var header: some View {
         HStack {
             Button {
-                withoutPresentationAnimation { dismiss() }
+                close()
             } label: {
                 HStack(spacing: 4) {
                     Image(systemName: "chevron.left")

@@ -2,10 +2,13 @@ import SwiftUI
 import UserNotifications
 
 struct NotificationsSettingsView: View {
+    var onClose: (() -> Void)? = nil
     @Environment(\.dismiss) private var dismiss
     @AppStorage("notificationsEnabled") private var notificationsEnabled: Bool = true
 
     @State private var iosAuthState: UNAuthorizationStatus = .notDetermined
+
+    private func close() { if let onClose { onClose() } else { dismiss() } }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -36,7 +39,7 @@ struct NotificationsSettingsView: View {
     private var header: some View {
         HStack {
             Button {
-                withoutPresentationAnimation { dismiss() }
+                close()
             } label: {
                 HStack(spacing: 4) {
                     Image(systemName: "chevron.left")

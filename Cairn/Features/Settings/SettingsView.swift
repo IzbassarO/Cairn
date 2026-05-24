@@ -43,7 +43,7 @@ struct SettingsView: View {
                 SettingsProfileCard(
                     displayName: displayName,
                     totalStones: totalStonesPlaced,
-                    onTap: { withoutPresentationAnimation { showProfile = true } }
+                    onTap: { showProfile = true }
                 )
                 .padding(.horizontal, Spacing.xs)
                 .padding(.top, Spacing.sm)
@@ -61,20 +61,20 @@ struct SettingsView: View {
         }
         .background(Color.bgPrimary.ignoresSafeArea())
         // Real screens (wired in request 1):
-        .fullScreenCover(isPresented: $showNotifications) { NotificationsSettingsView() }
-        .fullScreenCover(isPresented: $showReminderStyle) { ReminderStyleView() }
-        .fullScreenCover(isPresented: $showQuietHours)    { QuietHoursView() }
+        .slideCover(isPresented: $showNotifications) { NotificationsSettingsView(onClose: { showNotifications = false }) }
+        .slideCover(isPresented: $showReminderStyle) { ReminderStyleView(onClose: { showReminderStyle = false }) }
+        .slideCover(isPresented: $showQuietHours)    { QuietHoursView(onClose: { showQuietHours = false }) }
         // Placeholders (real screens in next requests):
-        .fullScreenCover(isPresented: $showProfile)   { ProfileView(onDismiss: { withoutPresentationAnimation { showProfile = false } }) }
-        .fullScreenCover(isPresented: $showYourWhy)   { placeholder(title: "Your why", icon: "quote.opening") { withoutPresentationAnimation { showYourWhy = false } } }
-        .fullScreenCover(isPresented: $showYourName)  { placeholder(title: "Your name", icon: "person") { withoutPresentationAnimation { showYourName = false } } }
-        .fullScreenCover(isPresented: $showAppIcon)   { placeholder(title: "App icon", icon: "app.badge") { withoutPresentationAnimation { showAppIcon = false } } }
-        .fullScreenCover(isPresented: $showTheme)     { placeholder(title: "Theme", icon: "moon.circle") { withoutPresentationAnimation { showTheme = false } } }
-        .fullScreenCover(isPresented: $showTextSize)  { placeholder(title: "Text size", icon: "textformat.size") { withoutPresentationAnimation { showTextSize = false } } }
-        .fullScreenCover(isPresented: $showExport)    { placeholder(title: "Export data", icon: "square.and.arrow.up") { withoutPresentationAnimation { showExport = false } } }
-        .fullScreenCover(isPresented: $showAbout)     { placeholder(title: "About Cairn", icon: "info.circle") { withoutPresentationAnimation { showAbout = false } } }
-        .fullScreenCover(isPresented: $showPrivacy)   { placeholder(title: "Privacy", icon: "lock.shield") { withoutPresentationAnimation { showPrivacy = false } } }
-        .fullScreenCover(isPresented: $showTerms)     { placeholder(title: "Terms", icon: "doc.text") { withoutPresentationAnimation { showTerms = false } } }
+        .slideCover(isPresented: $showProfile)   { ProfileView(onDismiss: { showProfile = false }) }
+        .slideCover(isPresented: $showYourWhy)   { placeholder(title: "Your why", icon: "quote.opening") { showYourWhy = false } }
+        .slideCover(isPresented: $showYourName)  { placeholder(title: "Your name", icon: "person") { showYourName = false } }
+        .slideCover(isPresented: $showAppIcon)   { placeholder(title: "App icon", icon: "app.badge") { showAppIcon = false } }
+        .slideCover(isPresented: $showTheme)     { placeholder(title: "Theme", icon: "moon.circle") { showTheme = false } }
+        .slideCover(isPresented: $showTextSize)  { placeholder(title: "Text size", icon: "textformat.size") { showTextSize = false } }
+        .slideCover(isPresented: $showExport)    { placeholder(title: "Export data", icon: "square.and.arrow.up") { showExport = false } }
+        .slideCover(isPresented: $showAbout)     { placeholder(title: "About Cairn", icon: "info.circle") { showAbout = false } }
+        .slideCover(isPresented: $showPrivacy)   { placeholder(title: "Privacy", icon: "lock.shield") { showPrivacy = false } }
+        .slideCover(isPresented: $showTerms)     { placeholder(title: "Terms", icon: "doc.text") { showTerms = false } }
         
         .cairnAlert(
             isPresented: $showDeleteAllConfirm,
@@ -119,21 +119,21 @@ struct SettingsView: View {
                     icon: "bell",
                     label: "Notifications",
                     trailing: .navigation(value: notificationsEnabled ? "On" : "Off"),
-                    action: { withoutPresentationAnimation { showNotifications = true } }
+                    action: { showNotifications = true }
                 )
                 Divider().overlay(Color.bgTertiary).padding(.leading, 64)
                 SettingsRow(
                     icon: "leaf",
                     label: "Reminder style",
                     trailing: .navigation(value: currentReminderStyleLabel),
-                    action: { withoutPresentationAnimation { showReminderStyle = true } }
+                    action: { showReminderStyle = true }
                 )
                 Divider().overlay(Color.bgTertiary).padding(.leading, 64)
                 SettingsRow(
                     icon: "moon",
                     label: "Quiet hours",
                     trailing: .navigation(value: quietHoursValueString),
-                    action: { withoutPresentationAnimation { showQuietHours = true } }
+                    action: { showQuietHours = true }
                 )
                 Divider().overlay(Color.bgTertiary).padding(.leading, 64)
                 SettingsRow(
@@ -155,21 +155,21 @@ struct SettingsView: View {
                     icon: "app.badge",
                     label: "App icon",
                     trailing: .navigation(value: appIconName),
-                    action: { withoutPresentationAnimation { showAppIcon = true } }
+                    action: { showAppIcon = true }
                 )
                 Divider().overlay(Color.bgTertiary).padding(.leading, 64)
                 SettingsRow(
                     icon: "moon.circle",
                     label: "Theme",
                     trailing: .navigation(value: currentThemeLabel),
-                    action: { withoutPresentationAnimation { showTheme = true } }
+                    action: { showTheme = true }
                 )
                 Divider().overlay(Color.bgTertiary).padding(.leading, 64)
                 SettingsRow(
                     icon: "textformat.size",
                     label: "Text size",
                     trailing: .navigation(value: currentTextSizeLabel),
-                    action: { withoutPresentationAnimation { showTextSize = true } }
+                    action: { showTextSize = true }
                 )
             }
         }
@@ -185,7 +185,7 @@ struct SettingsView: View {
                     icon: "square.and.arrow.up",
                     label: "Export data",
                     trailing: .navigation(value: nil),
-                    action: { withoutPresentationAnimation { showExport = true } }
+                    action: { showExport = true }
                 )
                 Divider().overlay(Color.bgTertiary).padding(.leading, 64)
                 SettingsRow(
@@ -209,21 +209,21 @@ struct SettingsView: View {
                     icon: "info.circle",
                     label: "About Cairn",
                     trailing: .navigation(value: nil),
-                    action: { withoutPresentationAnimation { showAbout = true } }
+                    action: { showAbout = true }
                 )
                 Divider().overlay(Color.bgTertiary).padding(.leading, 64)
                 SettingsRow(
                     icon: "lock.shield",
                     label: "Privacy",
                     trailing: .navigation(value: nil),
-                    action: { withoutPresentationAnimation { showPrivacy = true } }
+                    action: { showPrivacy = true }
                 )
                 Divider().overlay(Color.bgTertiary).padding(.leading, 64)
                 SettingsRow(
                     icon: "doc.text",
                     label: "Terms",
                     trailing: .navigation(value: nil),
-                    action: { withoutPresentationAnimation { showTerms = true } }
+                    action: { showTerms = true }
                 )
             }
         }

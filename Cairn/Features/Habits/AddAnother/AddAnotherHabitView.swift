@@ -2,11 +2,15 @@ import SwiftUI
 import SwiftData
 
 struct AddAnotherHabitView: View {
+    /// When presented via slideCover (horizontal push), this closes it.
+    var onClose: (() -> Void)? = nil
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
     @Query(sort: \Habit.sortOrder) private var habits: [Habit]
 
     let onPlanted: (Habit) -> Void
+
+    private func close() { if let onClose { onClose() } else { dismiss() } }
 
     @State private var searchText: String = ""
     @State private var selectedCategories: Set<HabitCategory> = []
@@ -69,7 +73,7 @@ struct AddAnotherHabitView: View {
     private var header: some View {
         HStack {
             Button {
-                dismiss()
+                close()
             } label: {
                 Image(systemName: "xmark")
                     .font(.system(size: 14, weight: .bold))

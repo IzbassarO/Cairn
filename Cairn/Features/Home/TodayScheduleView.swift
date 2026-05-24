@@ -8,8 +8,13 @@ import SwiftData
 /// are coloured by state (completed / upcoming / missed). Read-only — to log
 /// or edit, the user goes back to Today.
 struct TodayScheduleView: View {
+    /// When presented via slideCover (horizontal push), this closes it.
+    /// Falls back to the system dismiss when presented as a sheet/cover.
+    var onClose: (() -> Void)? = nil
     @Environment(\.dismiss) private var dismiss
     @Query(sort: \Habit.sortOrder) private var habits: [Habit]
+
+    private func close() { if let onClose { onClose() } else { dismiss() } }
 
     private var cal: Calendar { Calendar.current }
 
@@ -31,7 +36,7 @@ struct TodayScheduleView: View {
     private var header: some View {
         HStack {
             Button {
-                dismiss()
+                close()
             } label: {
                 HStack(spacing: 4) {
                     Image(systemName: "chevron.left")

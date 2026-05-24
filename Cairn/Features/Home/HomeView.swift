@@ -58,8 +58,8 @@ struct HomeView: View {
             }
         }
         .task { await rescheduleNotificationsIfAuthorized() }
-        .fullScreenCover(isPresented: $showAddAnother) {
-            AddAnotherHabitView { habit in
+        .slideCover(isPresented: $showAddAnother) {
+            AddAnotherHabitView(onClose: { showAddAnother = false }) { habit in
                 showAddAnother = false
                 Task {
                     if !habit.notificationTimes.isEmpty {
@@ -92,11 +92,11 @@ struct HomeView: View {
         .fullScreenCover(isPresented: $showGarden) {
             GardenView()
         }
-        .fullScreenCover(isPresented: $showTodaySchedule) {
-            TodayScheduleView()
+        .slideCover(isPresented: $showTodaySchedule) {
+            TodayScheduleView(onClose: { showTodaySchedule = false })
         }
-        .fullScreenCover(isPresented: $showRemindersInbox) {
-            RemindersInboxView()
+        .slideCover(isPresented: $showRemindersInbox) {
+            RemindersInboxView(onClose: { showRemindersInbox = false })
         }
         .cairnAlert(
             isPresented: pendingDeleteBinding,

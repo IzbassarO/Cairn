@@ -19,8 +19,12 @@ import SwiftData
 /// and whether I followed through". When we add real delivery tracking later,
 /// this view can layer real data on top of the synthetic baseline.
 struct RemindersInboxView: View {
+    /// When presented via slideCover (horizontal push), this closes it.
+    var onClose: (() -> Void)? = nil
     @Environment(\.dismiss) private var dismiss
     @Query(sort: \Habit.sortOrder) private var habits: [Habit]
+
+    private func close() { if let onClose { onClose() } else { dismiss() } }
 
     /// Auto-cleanup window. Reminders older than this many days are not shown.
     /// The data isn't deleted from SwiftData — habit logs stay intact — we
@@ -57,7 +61,7 @@ struct RemindersInboxView: View {
     private var header: some View {
         HStack {
             Button {
-                dismiss()
+                close()
             } label: {
                 HStack(spacing: 4) {
                     Image(systemName: "chevron.left")

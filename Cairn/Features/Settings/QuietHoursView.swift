@@ -1,11 +1,15 @@
 import SwiftUI
 
 struct QuietHoursView: View {
+    /// When presented via slideCover (horizontal push), this closes it.
+    var onClose: (() -> Void)? = nil
     @Environment(\.dismiss) private var dismiss
 
     @AppStorage("quietHoursEnabled") private var enabled: Bool = true
     @AppStorage("quietHoursStartHour") private var startHour: Int = 22
     @AppStorage("quietHoursEndHour") private var endHour: Int = 7
+
+    private func close() { if let onClose { onClose() } else { dismiss() } }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -35,7 +39,7 @@ struct QuietHoursView: View {
     private var header: some View {
         HStack {
             Button {
-                withoutPresentationAnimation { dismiss() }
+                close()
             } label: {
                 HStack(spacing: 4) {
                     Image(systemName: "chevron.left")
