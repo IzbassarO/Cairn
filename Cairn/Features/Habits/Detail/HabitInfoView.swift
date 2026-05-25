@@ -106,7 +106,7 @@ struct HabitInfoView: View {
                 .foregroundStyle(Color.accentSage)
                 .padding(.horizontal, 14)
                 .padding(.vertical, 8)
-                .background(Capsule().fill(Color.white))
+                .background(Capsule().fill(Color.bgSecondary))
                 .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
             }
             .accessibilityLabel("Back to Today")
@@ -129,7 +129,7 @@ struct HabitInfoView: View {
                     .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(Color.textPrimary)
                     .frame(width: 36, height: 36)
-                    .background(Circle().fill(Color.white))
+                    .background(Circle().fill(Color.bgSecondary))
                     .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
             }
             .accessibilityLabel("More options")

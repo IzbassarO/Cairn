@@ -1,31 +1,40 @@
 import SwiftUI
 import SwiftData
 
-/// Day-View timeline of today's habits. Opens from the calendar icon in the
-/// Today header.
+/// Today's habits grouped by time of day (Morning / Afternoon / Evening).
 ///
-/// Each habit's reminder times become entries on a vertical hourly grid. Cards
-/// are coloured by state (completed / upcoming / missed). Read-only — to log
-/// or edit, the user goes back to Today.
+/// Replaces the old hourly-grid timeline: with only a handful of habits, a full
+/// 18-hour grid left big empty gaps. Grouping fills by content, reads instantly,
+/// and keeps the calm feel — while still conveying the shape of the day.
+///
+/// Read-only — to log or edit, the user goes back to Today.
 struct TodayScheduleView: View {
     /// When presented via slideCover (horizontal push), this closes it.
-    /// Falls back to the system dismiss when presented as a sheet/cover.
     var onClose: (() -> Void)? = nil
     @Environment(\.dismiss) private var dismiss
     @Query(sort: \Habit.sortOrder) private var habits: [Habit]
 
-    private func close() { if let onClose { onClose() } else { dismiss() } }
-
     private var cal: Calendar { Calendar.current }
+
+    private func close() { if let onClose { onClose() } else { dismiss() } }
 
     var body: some View {
         VStack(spacing: 0) {
             header
-            titleBlock
             if entries.isEmpty {
+                titleBlock
                 emptyState
             } else {
-                HourlyTimelineGrid(entries: entries, showsCurrentTime: true)
+                ScrollView {
+                    VStack(alignment: .leading, spacing: Spacing.lg) {
+                        titleBlock
+                        ForEach(populatedSections) { section in
+                            sectionView(section)
+                        }
+                    }
+                    .padding(.bottom, Spacing.xxl)
+                }
+                .defaultScrollAnchor(.top)
             }
         }
         .background(Color.bgPrimary.ignoresSafeArea())
@@ -35,9 +44,7 @@ struct TodayScheduleView: View {
 
     private var header: some View {
         HStack {
-            Button {
-                close()
-            } label: {
+            Button(action: close) {
                 HStack(spacing: 4) {
                     Image(systemName: "chevron.left")
                         .font(.system(size: 14, weight: .semibold))
@@ -50,17 +57,12 @@ struct TodayScheduleView: View {
                 .background(Capsule().fill(Color.bgSecondary))
                 .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
             }
-
             Spacer()
-
             Text("Schedule")
                 .font(.system(size: 17, design: .serif))
                 .italic()
                 .foregroundStyle(Color.textPrimary)
-
             Spacer()
-
-            // Spacer to keep title centered.
             Color.clear.frame(width: 64, height: 36)
         }
         .padding(.horizontal, Spacing.md)
@@ -116,12 +118,48 @@ struct TodayScheduleView: View {
     private func statusPill(label: String, color: Color, filled: Bool) -> some View {
         Text(label)
             .font(.system(size: 11, weight: .semibold))
-            .foregroundStyle(filled ? .white : color)
+            .foregroundStyle(filled ? Color.bgPrimary : color)
             .padding(.horizontal, 10)
             .padding(.vertical, 5)
-            .background(
-                Capsule().fill(filled ? color : color.opacity(0.18))
-            )
+            .background(Capsule().fill(filled ? color : color.opacity(0.18)))
+    }
+
+    // MARK: Section view
+
+    private func sectionView(_ section: DaySection) -> some View {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
+            HStack(spacing: 6) {
+                Image(systemName: section.part.icon)
+                    .font(.system(size: 12))
+                    .foregroundStyle(Color.accentSage)
+                Text(section.part.title.uppercased())
+                    .font(.system(size: 11, weight: .semibold))
+                    .tracking(1)
+                    .foregroundStyle(Color.textTertiary)
+                if section.isNow {
+                    Text("NOW")
+                        .font(.system(size: 9, weight: .bold))
+                        .tracking(0.5)
+                        .foregroundStyle(Color.bgPrimary)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(Capsule().fill(Color.accentCoral))
+                }
+                Spacer()
+            }
+            .padding(.horizontal, Spacing.md)
+
+            VStack(spacing: Spacing.sm) {
+                ForEach(section.entries) { entry in
+                    ScheduleHabitCard(
+                        habit: entry.habit,
+                        reminderTime: entry.reminderTime,
+                        state: entry.state
+                    )
+                }
+            }
+            .padding(.horizontal, Spacing.md)
+        }
     }
 
     // MARK: Empty state
@@ -146,15 +184,66 @@ struct TodayScheduleView: View {
         }
     }
 
+    // MARK: Day parts
+
+    private enum DayPart: Int, CaseIterable {
+        case morning, afternoon, evening
+
+        var title: String {
+            switch self {
+            case .morning: return "Morning"
+            case .afternoon: return "Afternoon"
+            case .evening: return "Evening"
+            }
+        }
+        var icon: String {
+            switch self {
+            case .morning: return "sunrise"
+            case .afternoon: return "sun.max"
+            case .evening: return "moon.stars"
+            }
+        }
+        /// Hour range [start, end). Evening runs to 24.
+        var range: Range<Int> {
+            switch self {
+            case .morning: return 0..<12
+            case .afternoon: return 12..<17
+            case .evening: return 17..<24
+            }
+        }
+        static func of(hour: Int) -> DayPart {
+            switch hour {
+            case 0..<12: return .morning
+            case 12..<17: return .afternoon
+            default: return .evening
+            }
+        }
+    }
+
+    private struct DaySection: Identifiable {
+        let part: DayPart
+        let entries: [TimelineEntry]
+        let isNow: Bool
+        var id: Int { part.rawValue }
+    }
+
+    /// Only sections that actually have entries, in chronological order.
+    private var populatedSections: [DaySection] {
+        let nowPart = DayPart.of(hour: cal.component(.hour, from: .now))
+        return DayPart.allCases.compactMap { part in
+            let inPart = entries
+                .filter { part.range.contains(cal.component(.hour, from: $0.reminderTime)) }
+                .sorted { $0.reminderTime < $1.reminderTime }
+            guard !inPart.isEmpty else { return nil }
+            return DaySection(part: part, entries: inPart, isNow: part == nowPart)
+        }
+    }
+
     // MARK: Entries — derived
 
-    /// One entry per (habit, reminder time) pair that's scheduled today.
-    /// Multi-target habits with 3 reminder times produce 3 entries.
-    /// Habits with no notification times don't appear.
     private var entries: [TimelineEntry] {
         let now = Date.now
         let activeHabits = habits.filter { !$0.isArchived }
-
         return activeHabits.flatMap { habit -> [TimelineEntry] in
             guard isScheduledToday(habit) else { return [] }
             let projectedTimes = habit.notificationTimes.compactMap { projectToday($0) }
@@ -168,7 +257,6 @@ struct TodayScheduleView: View {
         }
     }
 
-    /// True if `habit.schedule` includes today's weekday.
     private func isScheduledToday(_ habit: Habit) -> Bool {
         let weekday = cal.component(.weekday, from: .now)
         switch habit.schedule {
@@ -179,8 +267,6 @@ struct TodayScheduleView: View {
         }
     }
 
-    /// Project a stored notification time (year/month/day from when it was
-    /// set) onto today.
     private func projectToday(_ time: Date) -> Date? {
         let comps = cal.dateComponents([.hour, .minute], from: time)
         return cal.date(bySettingHour: comps.hour ?? 0,
@@ -188,15 +274,17 @@ struct TodayScheduleView: View {
                         second: 0, of: .now)
     }
 
-    /// Classify a single (habit, time) pair:
-    ///  - `completed`: any log for this habit today (we don't link individual
-    ///    logs to individual reminder slots — that's correct UX, a 9am
-    ///    reminder counts as fulfilled if user logged at 9:30)
-    ///  - `upcoming`: reminder time in the future
-    ///  - `missed`: reminder time in the past, no log today
     private func classifyState(habit: Habit, reminderTime: Date, now: Date) -> ScheduleHabitCard.State {
         if habit.loggedToday { return .completed }
         if reminderTime > now { return .upcoming }
         return .missed
     }
+}
+
+/// One entry on the schedule (habit + a single reminder time + its state).
+struct TimelineEntry: Identifiable {
+    let id = UUID()
+    let habit: Habit
+    let reminderTime: Date
+    let state: ScheduleHabitCard.State
 }

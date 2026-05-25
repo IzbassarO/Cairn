@@ -47,7 +47,7 @@ struct UpNextCard: View {
         .padding(Spacing.md)
         .background(
             RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
-                .fill(Color.textPrimary)
+                .fill(Color.bgDark)
         )
     }
 

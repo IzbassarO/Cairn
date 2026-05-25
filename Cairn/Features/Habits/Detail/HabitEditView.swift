@@ -1,21 +1,6 @@
 import SwiftUI
 import SwiftData
 
-/// Edit screen for an existing habit. Presented as a full-screen cover on
-/// top of `HabitInfoView`.
-///
-/// Field accessibility:
-///  - Custom habit: every field is editable (icon, name, schedule, days,
-///    notifications, cue note).
-///  - Template habit: icon and name are read-only (locked from drift).
-///    All schedule/notification/cue fields remain editable.
-///
-/// Save behavior:
-///  - Applies draft to the live `Habit`.
-///  - Saves the SwiftData context.
-///  - Cancels old notifications and schedules new ones (or cancels entirely
-///    if the user turned the toggle off).
-///  - Dismisses the cover.
 struct HabitEditView: View {
     @Bindable var habit: Habit
     @Environment(\.dismiss) private var dismiss
