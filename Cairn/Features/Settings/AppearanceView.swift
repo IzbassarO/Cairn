@@ -19,7 +19,9 @@ struct AppearanceView: View {
             InfoScreenHeader(title: "Appearance", onClose: close)
             ScrollView {
                 VStack(alignment: .leading, spacing: Spacing.xl) {
+                    titleBlock
                     themeSection
+                    closingNote
                 }
                 .padding(.horizontal, Spacing.md)
                 .padding(.top, Spacing.md)
@@ -27,6 +29,47 @@ struct AppearanceView: View {
             }
         }
         .background(Color.bgPrimary.ignoresSafeArea())
+    }
+
+    // MARK: Title
+
+    private var titleBlock: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(alignment: .firstTextBaseline, spacing: 6) {
+                Text("Set the")
+                    .font(.system(size: 28, weight: .bold, design: .serif))
+                    .foregroundStyle(Color.textPrimary)
+                Text("mood.")
+                    .font(.system(size: 28, weight: .bold, design: .serif))
+                    .italic()
+                    .foregroundStyle(Color.accentSage)
+            }
+            Text("Cairn follows your system by default, or pick a light or dark feel that suits you.")
+                .font(.system(size: 14))
+                .foregroundStyle(Color.textSecondary)
+                .lineSpacing(2)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    // MARK: Closing note
+
+    private var closingNote: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "sparkles")
+                .font(.system(size: 14))
+                .foregroundStyle(Color.accentSage)
+            Text("More ways to make Cairn yours are on the way.")
+                .font(.system(size: 13, design: .serif))
+                .italic()
+                .foregroundStyle(Color.textSecondary)
+            Spacer(minLength: 0)
+        }
+        .padding(Spacing.md)
+        .background(
+            RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
+                .fill(Color.bgSecondary)
+        )
     }
 
     // MARK: Theme
@@ -110,9 +153,9 @@ struct AppearanceView: View {
             .padding(10)
         }
     }
-    
+
     // MARK: Helpers
-    
+
     private func sectionLabel(_ text: String) -> some View {
         Text(text)
             .font(.system(size: 12, weight: .semibold))

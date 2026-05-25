@@ -15,7 +15,6 @@ struct SettingsView: View {
     @AppStorage("hapticFeedbackEnabled") private var hapticFeedbackEnabled: Bool = true
 
     @AppStorage("themePreference") private var themeRaw: String = ThemePreference.system.rawValue
-    @AppStorage("textSize") private var textSizeRaw: String = TextSize.standard.rawValue
 
     // MARK: - Navigation state
     @State private var showProfile = false
@@ -66,20 +65,17 @@ struct SettingsView: View {
         .slideCover(isPresented: $showYourWhy)   { placeholder(title: "Your why", icon: "quote.opening") { showYourWhy = false } }
         .slideCover(isPresented: $showYourName)  { placeholder(title: "Your name", icon: "person") { showYourName = false } }
         .slideCover(isPresented: $showAppearance) { AppearanceView(onClose: { showAppearance = false }) }
-        .slideCover(isPresented: $showExport)    { placeholder(title: "Export data", icon: "square.and.arrow.up") { showExport = false } }
+        .slideCover(isPresented: $showExport)    { ExportDataView(onClose: { showExport = false }) }
         .slideCover(isPresented: $showAbout)     { AboutView(onClose: { showAbout = false }) }
         .slideCover(isPresented: $showPrivacy)   { PrivacyView(onClose: { showPrivacy = false }) }
         .slideCover(isPresented: $showTerms)     { TermsView(onClose: { showTerms = false }) }
-        
-        .cairnAlert(
-            isPresented: $showDeleteAllConfirm,
-            title: "Delete all data?",
-            message: deleteAllMessage,
-            confirmTitle: "Delete",
-            confirmRole: .destructive,
-            cancelTitle: "Cancel",
-            onConfirm: { /* Real wipe lands in the data-management request */ }
-        )
+        .sheet(isPresented: $showDeleteAllConfirm) {
+            DeleteAllDataSheet(onExportRequest: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                    showExport = true
+                }
+            })
+        }
     }
 
     // MARK: Title
@@ -157,7 +153,7 @@ struct SettingsView: View {
     }
 
     private var appearanceSummary: String {
-        "\(currentThemeLabel) · \(currentTextSizeLabel)"
+        currentThemeLabel
     }
 
     // MARK: Data
@@ -270,28 +266,6 @@ struct SettingsView: View {
 
     private var currentThemeLabel: String {
         (ThemePreference(rawValue: themeRaw) ?? .system).label
-    }
-
-    private var currentTextSizeLabel: String {
-        (TextSize(rawValue: textSizeRaw) ?? .standard).label
-    }
-
-    private var deleteAllMessage: String {
-        let stoneCount = totalStonesPlaced
-        let habitCount = habits.filter { !$0.isArchived }.count
-        if habitCount == 0 && stoneCount == 0 {
-            return "Cairn has no habits or stones yet. Nothing to remove."
-        }
-        let parts: String = {
-            switch (habitCount, stoneCount) {
-            case (1, 1): return "1 habit and its 1 stone"
-            case (1, _): return "1 habit and its \(stoneCount) stones"
-            case (_, 0): return "\(habitCount) habits"
-            case (_, 1): return "\(habitCount) habits and 1 stone"
-            default: return "\(habitCount) habits and \(stoneCount) stones"
-            }
-        }()
-        return "All \(parts) will be removed. This can't be undone."
     }
 
     // MARK: Placeholder
