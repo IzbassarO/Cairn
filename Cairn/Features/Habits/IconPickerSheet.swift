@@ -48,7 +48,6 @@ struct IconPickerSheet: View {
                     .foregroundStyle(isSelected ? Color.accentSage : Color.textSecondary)
             }
             .aspectRatio(1, contentMode: .fit)
-            .sensoryFeedback(.selection, trigger: isSelected)
         }
         .buttonStyle(.plain)
         .accessibilityLabel(icon.replacingOccurrences(of: ".", with: " "))

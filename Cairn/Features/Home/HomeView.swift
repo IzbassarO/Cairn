@@ -411,8 +411,25 @@ struct HomeView: View {
     // MARK: Logging
 
     private func log(_ habit: Habit) {
+        // Milestone detection needs the count BEFORE this placement.
+        let stonesBefore = activeHabits.totalStones
+
         do {
-            try service.log(habit)
+            let result = try service.log(habit)
+            guard result == .logged else { return }  // at-cap taps: no haptic
+
+            // Did this placement complete today's cairn?
+            let everythingPlaced = !activeHabits.isEmpty
+                && activeHabits.allSatisfy { $0.isFullyPlacedToday }
+
+            // Did total stones cross a milestone (1, 10, 100, 250, 500, 1000)?
+            let stonesAfter = stonesBefore + 1
+            let milestones = [1, 10, 100, 250, 500, 1000]
+            let hitMilestone = milestones.contains(stonesAfter)
+
+            let haptic: HapticService.Feedback = hitMilestone ? .milestone
+                : (everythingPlaced ? .dayComplete : .stonePlaced)
+            HapticService.shared.play(haptic, enabled: settings.hapticFeedbackEnabled)
         } catch {
             print("❌ Log failed: \(error)")
         }
