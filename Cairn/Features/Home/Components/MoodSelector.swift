@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 /// "How's your morning?" mood selector. Five rounded square cards in a row,
 /// shaded from light-sage (foggy, left) to deep-sage (bright, right). Tapping
@@ -54,14 +55,14 @@ struct MoodSelector: View {
             pick(mood)
         } label: {
             VStack(spacing: 6) {
-                indicatorDot(isSelected: isSelected, mood: mood)
+                moodFace(mood, isSelected: isSelected)
                 Text(mood.label)
                     .font(.system(size: 13, design: .serif))
                     .italic()
                     .foregroundStyle(isSelected ? .white : Color.textPrimary)
             }
             .frame(maxWidth: .infinity)
-            .frame(height: 72)
+            .frame(height: 84)
             .background(
                 RoundedRectangle(cornerRadius: 14, style: .continuous)
                     .fill(backgroundColor(for: mood, isSelected: isSelected))
@@ -74,17 +75,26 @@ struct MoodSelector: View {
         .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 
-    /// White check when this card is selected; otherwise a faint hollow circle
-    /// (lighter than the card so it shows through).
-    private func indicatorDot(isSelected: Bool, mood: MoodValue) -> some View {
-        ZStack {
-            Circle()
-                .fill(isSelected ? Color.white : Color.white.opacity(0.35))
-                .frame(width: 18, height: 18)
-            if isSelected {
-                Image(systemName: "checkmark")
-                    .font(.system(size: 10, weight: .bold))
-                    .foregroundStyle(Color.accentSage)
+    /// The mood's generated face image (`mood-foggy` … `mood-bright`). Falls
+    /// back to a check/dot until the assets are added, so nothing breaks.
+    @ViewBuilder
+    private func moodFace(_ mood: MoodValue, isSelected: Bool) -> some View {
+        let asset = "mood-\(mood.label)"   // mood-foggy, mood-off, …
+        if UIImage(named: asset) != nil {
+            Image(asset)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 38, height: 38)
+        } else {
+            ZStack {
+                Circle()
+                    .fill(isSelected ? Color.white : Color.white.opacity(0.35))
+                    .frame(width: 22, height: 22)
+                if isSelected {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 11, weight: .bold))
+                        .foregroundStyle(Color.accentSage)
+                }
             }
         }
     }

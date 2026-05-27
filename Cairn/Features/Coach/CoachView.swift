@@ -4,6 +4,8 @@ import SwiftData
 struct CoachView: View {
     @Query private var habits: [Habit]
 
+    @State private var inspected: InspectedHabit?
+
     private var insights: CoachInsights { CoachInsights(habits: habits) }
     private var activeHabitCount: Int { habits.filter { !$0.isArchived }.count }
 
@@ -13,23 +15,27 @@ struct CoachView: View {
                 titleBlock
                 guidanceCard
 
-                if insights.comebackCount >= 1 {
-                    comebackHero
-                }
-
                 if insights.lifetimeStones > 0 {
                     statGrid
-                    CoachMomentumChart(insights: insights)
+                }
+
+                if let day = insights.bestWeekday { weekdayCard(day) }
+                if let time = insights.bestTimeOfDay { timeOfDayCard(time) }
+
+                habitFeelSection
+
+                if let milestone = insights.milestoneReached {
+                    milestoneCard(milestone)
+                }
+
+                if insights.comebackCount >= 1 {
+                    comebackHero
                 }
 
                 if insights.categoryBreakdown.count >= 2 {
                     categoryBreakdownSection
                 }
 
-                if let day = insights.bestWeekday { weekdayCard(day) }
-                if let time = insights.bestTimeOfDay { timeOfDayCard(time) }
-
-                habitHealthSection
                 teachingTip
             }
             .padding(.horizontal, Spacing.md)
@@ -37,6 +43,9 @@ struct CoachView: View {
             .padding(.bottom, Spacing.xxl)
         }
         .background(Color.bgPrimary.ignoresSafeArea())
+        .fullScreenCover(item: $inspected) { item in
+            HabitInfoView(habit: item.habit)
+        }
     }
 
     // MARK: Title
@@ -54,10 +63,12 @@ struct CoachView: View {
                 .font(.system(size: 32, weight: .bold, design: .serif))
                 .italic()
                 .foregroundStyle(Color.accentSage)
-            Text(insights.headline)
+            Text(insights.weeklyNarrative)
                 .font(.system(size: 14))
                 .foregroundStyle(Color.textSecondary)
-                .padding(.top, 2)
+                .lineSpacing(3)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.top, 4)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -303,88 +314,116 @@ struct CoachView: View {
         .background(cardBackground)
     }
 
-    // MARK: Habit health (stone-dot sparklines)
+    // MARK: How your habits feel
 
-    private var habitHealthSection: some View {
+    private var habitFeelSection: some View {
         let health = insights.habitHealth
         return VStack(alignment: .leading, spacing: Spacing.md) {
-            sectionEyebrow("HABIT HEALTH", trailing: "\(health.count) \(health.count == 1 ? "habit" : "habits")")
+            VStack(alignment: .leading, spacing: 2) {
+                sectionEyebrow("HOW YOUR HABITS FEEL",
+                               trailing: "\(health.count) \(health.count == 1 ? "habit" : "habits")")
+                Text("A feel for each, this month.")
+                    .font(.system(size: 20, weight: .bold, design: .serif))
+                    .foregroundStyle(Color.textPrimary)
+            }
 
             if health.isEmpty {
-                Text("Once a habit is a week old, its last two weeks show up here as a row of stones.")
+                Text("Once a habit is a week old, how it's feeling shows up here.")
                     .font(.system(size: 14))
                     .foregroundStyle(Color.textTertiary)
                     .fixedSize(horizontal: false, vertical: true)
+                    .padding(Spacing.lg)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(cardBackground)
             } else {
-                VStack(spacing: Spacing.md) {
+                VStack(spacing: 10) {
                     ForEach(health) { h in
-                        habitHealthRow(h)
+                        habitFeelRow(h)
                     }
                 }
             }
         }
+    }
+
+    private func habitFeelRow(_ h: CoachInsights.HabitHealth) -> some View {
+        Button {
+            if let habit = habits.first(where: { $0.id == h.id }) {
+                inspected = InspectedHabit(habit: habit)
+            }
+        } label: {
+            HStack(spacing: Spacing.md) {
+                StateStone(kind: feelStone(h.feel), size: 44)
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(h.name)
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(Color.textPrimary)
+                        .lineLimit(1)
+                    Text(h.feel.word)
+                        .font(.system(size: 13, design: .serif))
+                        .italic()
+                        .foregroundStyle(feelColor(h.feel))
+                    Text(h.detail)
+                        .font(.system(size: 12))
+                        .foregroundStyle(Color.textTertiary)
+                        .lineLimit(1)
+                }
+                Spacer(minLength: 0)
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(Color.textTertiary)
+            }
+            .padding(Spacing.md)
+            .background(cardBackground)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func feelStone(_ f: CoachInsights.HabitFeel) -> StateStone.Kind {
+        switch f {
+        case .thriving:  return .thriving
+        case .steady:    return .steady
+        case .gentler:   return .slipping
+        case .returning: return .returning
+        }
+    }
+
+    private func feelColor(_ f: CoachInsights.HabitFeel) -> Color {
+        switch f {
+        case .thriving:  return .accentSage
+        case .steady:    return .accentSage.opacity(0.75)
+        case .gentler:   return .accentCoral
+        case .returning: return .accentSage
+        }
+    }
+
+    // MARK: Milestone
+
+    private func milestoneCard(_ n: Int) -> some View {
+        HStack(spacing: Spacing.md) {
+            StateStone(kind: .milestone, size: 44)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("MILESTONE")
+                    .font(.system(size: 11, weight: .semibold))
+                    .tracking(1)
+                    .foregroundStyle(Color.accentSage)
+                Text("\(n) stones placed — \(milestoneCaption(n)).")
+                    .font(.system(size: 16, weight: .semibold, design: .serif))
+                    .foregroundStyle(Color.textPrimary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer(minLength: 0)
+        }
         .padding(Spacing.lg)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(cardBackground)
     }
 
-    private func habitHealthRow(_ h: CoachInsights.HabitHealth) -> some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: Spacing.sm) {
-                iconBadge(h.iconName, size: 32)
-                Text(h.name)
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundStyle(Color.textPrimary)
-                    .lineLimit(1)
-                Spacer()
-                Text("\(h.completionPercent)%")
-                    .font(.system(size: 15, weight: .bold, design: .rounded))
-                    .foregroundStyle(trendColor(h.trend))
-            }
-            dotTrail(h.dots, tint: trendColor(h.trend))
-            HStack(spacing: 6) {
-                StateStone(kind: trendStone(h.trend), size: 18)
-                Text(trendLabel(h.trend))
-                    .font(.system(size: 10, weight: .semibold))
-                    .tracking(0.5)
-                    .foregroundStyle(trendColor(h.trend))
-            }
-        }
-    }
-
-    private func trendStone(_ t: CoachInsights.HealthTrend) -> StateStone.Kind {
-        switch t {
-        case .rockSolid: return .thriving
-        case .steady:    return .steady
-        case .slipping:  return .slipping
-        }
-    }
-
-    /// Last 14 days as small stones: filled = placed, faint = missed. A calm,
-    /// non-judgmental alternative to a progress bar — gaps read as rest, not red.
-    private func dotTrail(_ dots: [Bool], tint: Color) -> some View {
-        HStack(spacing: 5) {
-            ForEach(dots.indices, id: \.self) { i in
-                Circle()
-                    .fill(dots[i] ? tint : Color.bgTertiary)
-                    .frame(width: 9, height: 9)
-                    .frame(maxWidth: .infinity)
-            }
-        }
-    }
-
-    private func trendColor(_ t: CoachInsights.HealthTrend) -> Color {
-        switch t {
-        case .rockSolid: return .accentSage
-        case .steady:    return .accentSage.opacity(0.7)
-        case .slipping:  return .accentCoral
-        }
-    }
-
-    private func trendLabel(_ t: CoachInsights.HealthTrend) -> String {
-        switch t {
-        case .rockSolid: return "ROCK SOLID"
-        case .steady:    return "STEADY"
-        case .slipping:  return "READY FOR A GENTLER PLAN"
+    private func milestoneCaption(_ n: Int) -> String {
+        switch n {
+        case ..<50:   return "a small cairn"
+        case ..<250:  return "a real cairn now"
+        default:      return "a mountain of small wins"
         }
     }
 

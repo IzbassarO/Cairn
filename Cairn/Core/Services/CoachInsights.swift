@@ -107,12 +107,24 @@ struct CoachInsights {
         )
     }
 
-    // MARK: Habit health
+    // MARK: Habit health ("how your habits feel")
 
-    enum HealthTrend {
-        case rockSolid     // ≥ 85%
+    /// How a habit is doing, in human terms. `returning` takes priority — a
+    /// habit placed again after a pause is a comeback, never a failure.
+    enum HabitFeel {
+        case thriving      // ≥ 85%
         case steady        // 60–84%
-        case slipping      // < 60%
+        case gentler       // < 60% — "ready for a gentler plan"
+        case returning     // placed again after a 3+ day pause
+
+        var word: String {
+            switch self {
+            case .thriving:  return "Thriving"
+            case .steady:    return "Steady"
+            case .gentler:   return "Ready for a gentler plan"
+            case .returning: return "Returning"
+            }
+        }
     }
 
     struct HabitHealth: Identifiable {
@@ -120,14 +132,15 @@ struct CoachInsights {
         let name: String
         let iconName: String
         let completionPercent: Int   // last-30-day adherence
-        let trend: HealthTrend
+        let feel: HabitFeel
+        let detail: String           // human stat line under the name
         /// Last 14 calendar days, oldest→newest. true = a stone was placed
-        /// that day. Drives the stone-dot sparkline (replaces a progress bar).
+        /// that day. Drives the stone-dot sparkline.
         let dots: [Bool]
     }
 
-    /// Per-habit adherence over the last 30 days. Only habits old enough to
-    /// judge (≥ 7 days since creation) are included.
+    /// Per-habit "feel" over the last 30 days. Only habits old enough to judge
+    /// (≥ 7 days since creation) are included.
     var habitHealth: [HabitHealth] {
         let active = habits.filter { !$0.isArchived }
         let cutoff = calendar.date(byAdding: .day, value: -30, to: now) ?? now
@@ -137,23 +150,51 @@ struct CoachInsights {
             let ageDays = calendar.dateComponents([.day], from: habit.createdAt, to: now).day ?? 0
             guard ageDays >= 7 else { return nil }
 
-            // Days in the window the habit existed for.
+            let logs = (habit.logs ?? []).filter { $0.modelContext != nil }
+            let logDays = Set(logs.map { calendar.startOfDay(for: $0.loggedAt) }).sorted()
+            let lifetime = logs.count
+            let running = StreakCalculator(calendar: calendar, now: { now }).currentRun(logs)
+
+            // Adherence over the window the habit existed for.
             let windowStart = max(habit.createdAt, cutoff)
             let possibleDays = max(1, calendar.dateComponents([.day], from: windowStart, to: now).day ?? 1)
-            let placedDays = Set(
-                (habit.logs ?? [])
-                    .filter { $0.loggedAt >= windowStart }
-                    .map { calendar.startOfDay(for: $0.loggedAt) }
-            ).count
-
+            let placedDays = logDays.filter { $0 >= calendar.startOfDay(for: windowStart) }.count
             let pct = min(100, Int((Double(placedDays) / Double(possibleDays) * 100).rounded()))
-            let trend: HealthTrend = pct >= 85 ? .rockSolid : (pct >= 60 ? .steady : .slipping)
+
+            // Returning? Most recent placement is within 2 days AND ended a 3+ day gap.
+            var returningGap: Int?
+            if let last = logDays.last,
+               (calendar.dateComponents([.day], from: last, to: today).day ?? 0) <= 2,
+               logDays.count >= 2 {
+                let prev = logDays[logDays.count - 2]
+                let gap = calendar.dateComponents([.day], from: prev, to: last).day ?? 0
+                if gap >= 3 { returningGap = gap }
+            }
+
+            let feel: HabitFeel
+            if returningGap != nil { feel = .returning }
+            else if pct >= 85 { feel = .thriving }
+            else if pct >= 60 { feel = .steady }
+            else { feel = .gentler }
+
+            let detail: String
+            switch feel {
+            case .returning:
+                detail = "Back on after a \(returningGap ?? 0)-day pause — soft welcome"
+            case .thriving:
+                detail = running >= 2
+                    ? "\(lifetime) stones · \(running) days running"
+                    : "\(lifetime) \(lifetime == 1 ? "stone" : "stones") placed"
+            case .steady:
+                detail = "\(pct)% this month, holding"
+            case .gentler:
+                detail = "\(pct)% this month — some days needed rest"
+            }
 
             var dots: [Bool] = []
             for i in (0..<14).reversed() {
                 let day = calendar.date(byAdding: .day, value: -i, to: today) ?? today
-                let placed = (habit.logs ?? []).contains { calendar.isDate($0.loggedAt, inSameDayAs: day) }
-                dots.append(placed)
+                dots.append(logs.contains { calendar.isDate($0.loggedAt, inSameDayAs: day) })
             }
 
             return HabitHealth(
@@ -161,7 +202,8 @@ struct CoachInsights {
                 name: habit.name,
                 iconName: habit.iconName,
                 completionPercent: pct,
-                trend: trend,
+                feel: feel,
+                detail: detail,
                 dots: dots
             )
         }
@@ -279,33 +321,6 @@ struct CoachInsights {
             .map { $0 }
     }
 
-    // MARK: Momentum over time (for the interactive chart)
-
-    struct TrendPoint: Identifiable {
-        let id = UUID()
-        let date: Date
-        let stones: Int
-    }
-
-    /// Daily stones since the earliest active habit was created, capped at
-    /// `maxDays`. Grows from a single day so the chart reads correctly from day
-    /// one (a brand-new account shows one bar, not an empty multi-month grid).
-    func dailyMomentum(maxDays: Int = 60) -> [TrendPoint] {
-        let cal = calendar
-        let today = cal.startOfDay(for: now)
-        let creations = habits.filter { !$0.isArchived }.map { cal.startOfDay(for: $0.createdAt) }
-        let earliest = creations.min() ?? today
-        let cappedStart = cal.date(byAdding: .day, value: -(maxDays - 1), to: today) ?? today
-        let start = max(earliest, cappedStart)
-        let dayCount = max(0, cal.dateComponents([.day], from: start, to: today).day ?? 0)
-
-        return (0...dayCount).compactMap { i in
-            guard let day = cal.date(byAdding: .day, value: i, to: start) else { return nil }
-            let stones = allLogs.filter { cal.isDate($0.loggedAt, inSameDayAs: day) }.count
-            return TrendPoint(date: day, stones: stones)
-        }
-    }
-
     // MARK: Today's read (the guide)
 
     /// A single, data-reactive coaching message for the top of the screen.
@@ -359,6 +374,35 @@ struct CoachInsights {
             title: "One stone at a time.",
             body: "Every placement teaches me your rhythm. Show up when you can — that's all this asks."
         )
+    }
+
+    // MARK: Weekly narrative & milestone
+
+    /// A short narrative summary for under the title, in the coach's voice.
+    var weeklyNarrative: String {
+        guard totalStones > 0 else {
+            return "Your first stones will start the story here. Place one whenever you're ready."
+        }
+        var parts: [String] = []
+        let unit = weekStones == 1 ? "stone" : "stones"
+        parts.append("You've placed \(weekStones) \(unit) this week.")
+        if let time = bestTimeOfDay {
+            parts.append("\(time.label) are doing the heavy lifting.")
+        } else if let day = bestWeekday {
+            parts.append("\(day.weekdaySymbol)s are carrying you.")
+        }
+        if comebackCount >= 1 {
+            parts.append("And you keep coming back — that's the part that matters.")
+        } else {
+            parts.append("Keep the rhythm that feels easy.")
+        }
+        return parts.joined(separator: " ")
+    }
+
+    /// The highest stone milestone the user has crossed (nil below the first).
+    var milestoneReached: Int? {
+        let milestones = [10, 25, 50, 100, 250, 500, 1000]
+        return milestones.last { $0 <= totalStones }
     }
 
     // MARK: Headline
