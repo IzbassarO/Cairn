@@ -98,15 +98,32 @@ struct TodayCairnCard: View {
         }
     }
 
-    /// Dashed progress bar — one capsule per habit. Filled capsules are sage,
-    /// remaining are sage opacity-20.
+    /// Progress indicator under the headline. For a handful of habits we show
+    /// one capsule per habit (filled = placed). Past `maxDashes` the individual
+    /// dashes would become unreadable slivers, so we switch to a single
+    /// continuous bar that fills by fraction — keeps the row legible at any count.
+    private static let maxDashes = 8
+
+    @ViewBuilder
     private var progressDashes: some View {
-        HStack(spacing: 5) {
-            ForEach(0..<max(totalToday, 1), id: \.self) { i in
-                Capsule()
-                    .fill(i < placedToday ? Color.accentSage : Color.accentSage.opacity(0.20))
-                    .frame(height: 6)
+        if totalToday <= Self.maxDashes {
+            HStack(spacing: 5) {
+                ForEach(0..<max(totalToday, 1), id: \.self) { i in
+                    Capsule()
+                        .fill(i < placedToday ? Color.accentSage : Color.accentSage.opacity(0.20))
+                        .frame(height: 6)
+                }
             }
+        } else {
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule().fill(Color.accentSage.opacity(0.20))
+                    Capsule().fill(Color.accentSage)
+                        .frame(width: geo.size.width * CGFloat(fraction))
+                        .animation(.spring(response: 0.55, dampingFraction: 0.78), value: fraction)
+                }
+            }
+            .frame(height: 6)
         }
     }
 

@@ -10,6 +10,9 @@ import SwiftUI
 struct TodayHabitRow: View {
     let habit: Habit
     let onLog: () -> Void
+    /// Removes the most recent stone placed today. Lets the user undo an
+    /// accidental tap straight from the row, without opening the detail screen.
+    var onUndo: (() -> Void)? = nil
     var onRowTap: (() -> Void)? = nil
 
     /// 5-minute window after creation: shows "JUST ADDED" instead of the
@@ -65,7 +68,7 @@ struct TodayHabitRow: View {
 
     private var placedRow: some View {
         HStack(alignment: .center, spacing: Spacing.md) {
-            Button(action: onLog) {
+            Button(action: { (onUndo ?? onLog)() }) {
                 ZStack {
                     Circle().fill(Color.accentSage)
                     Image(systemName: "checkmark")
@@ -75,7 +78,8 @@ struct TodayHabitRow: View {
                 .frame(width: 40, height: 40)
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("Logged today")
+            .accessibilityLabel("Placed today")
+            .accessibilityHint("Double tap to undo")
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(habit.name)

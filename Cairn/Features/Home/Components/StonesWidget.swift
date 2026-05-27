@@ -8,8 +8,8 @@ import SwiftUI
 ///
 /// Filled state: one stone per habit logged today (we count uniquely by
 /// habit, not by log — multi-target habits don't create duplicate stones).
-/// Stones are arranged in a casual horizontal row of varied sizes, not a
-/// strict cairn pyramid.
+/// Stones sit in an overlapping horizontal pile whose size adapts to fit the
+/// card, so the row never overflows no matter how many habits are placed.
 struct StonesWidget: View {
     /// Habits the user has logged at least once today. Order doesn't matter
     /// — we lay them out by their identity hash for visual stability.
@@ -19,17 +19,19 @@ struct StonesWidget: View {
     let totalScheduledToday: Int
 
     var body: some View {
-        ZStack(alignment: .center) {
-            RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
-                .fill(Color.bgSecondary.opacity(0.55))
-                .frame(height: cardHeight)
+        GeometryReader { geo in
+            ZStack(alignment: .center) {
+                RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
+                    .fill(Color.bgSecondary.opacity(0.55))
 
-            if placedHabits.isEmpty {
-                emptyState
-            } else {
-                stonesPile
+                if placedHabits.isEmpty {
+                    emptyState
+                } else {
+                    stonesPile(available: geo.size.width - Spacing.lg * 2)
+                }
             }
         }
+        .frame(height: cardHeight)
     }
 
     private var cardHeight: CGFloat { 110 }
@@ -77,18 +79,65 @@ struct StonesWidget: View {
 
     // MARK: Filled state
 
-    private var stonesPile: some View {
-        // Horizontal pile. Stones overlap slightly (negative spacing) and use
-        // alternating sizes so the pile feels organic, not gridded.
-        HStack(spacing: -8) {
-            ForEach(Array(placedHabits.enumerated()), id: \.element.id) { index, habit in
-                StoneView(
-                    tint: tintForIndex(index),
-                    width: widthForIndex(index)
-                )
+    /// Horizontal pile that always fits the card. Stone size and overlap are
+    /// derived from how many stones there are and how much width we have, so a
+    /// busy day with many habits scales down instead of overflowing. When even
+    /// the smallest stones won't all fit, we cap the row and add a "+N" badge.
+    private func stonesPile(available: CGFloat) -> some View {
+        let layout = pileLayout(count: placedHabits.count, available: available)
+        return HStack(spacing: Spacing.sm) {
+            HStack(spacing: -layout.overlap) {
+                ForEach(0..<layout.visibleCount, id: \.self) { index in
+                    StoneView(tint: tintForIndex(index), width: layout.stoneWidth)
+                }
+            }
+            if layout.overflow > 0 {
+                overflowBadge(layout.overflow, diameter: layout.stoneWidth)
             }
         }
-        .padding(.horizontal, Spacing.lg)
+    }
+
+    private struct PileLayout {
+        let stoneWidth: CGFloat
+        let overlap: CGFloat
+        let visibleCount: Int
+        let overflow: Int
+    }
+
+    private func pileLayout(count: Int, available: CGFloat) -> PileLayout {
+        let maxStone: CGFloat = 60
+        let minStone: CGFloat = 30
+        let overlapFraction: CGFloat = 0.30
+        guard count > 0, available > 0 else {
+            return PileLayout(stoneWidth: maxStone, overlap: maxStone * overlapFraction,
+                              visibleCount: 0, overflow: 0)
+        }
+        // Width at which `n` stones (each overlapping the previous by
+        // `overlapFraction`) span exactly `available`.
+        func widthFitting(_ n: Int) -> CGFloat {
+            let denom = CGFloat(n) * (1 - overlapFraction) + overlapFraction
+            return available / denom
+        }
+        let ideal = min(maxStone, widthFitting(count))
+        if ideal >= minStone {
+            return PileLayout(stoneWidth: ideal, overlap: ideal * overlapFraction,
+                              visibleCount: count, overflow: 0)
+        }
+        // Too many to show even at the minimum size: cap and reserve room for
+        // the "+N" badge.
+        let usable = max(0, available - (minStone + Spacing.sm))
+        let raw = ((usable / minStone) - overlapFraction) / (1 - overlapFraction)
+        let visible = max(1, min(count, Int(raw)))
+        return PileLayout(stoneWidth: minStone, overlap: minStone * overlapFraction,
+                          visibleCount: visible, overflow: count - visible)
+    }
+
+    private func overflowBadge(_ n: Int, diameter: CGFloat) -> some View {
+        Text("+\(n)")
+            .font(.system(size: max(12, diameter * 0.34), weight: .bold, design: .rounded))
+            .foregroundStyle(Color.textSecondary)
+            .frame(width: diameter, height: diameter * 0.58)
+            .background(Capsule().fill(Color.bgTertiary))
     }
 
     /// Alternates between sage and beige stones, slightly biased so the
@@ -99,16 +148,5 @@ struct StonesWidget: View {
         case 1: return .accentSage
         default: return .stoneFill.opacity(0.85)
         }
-    }
-
-    /// Stones grow toward the middle of the pile (visual "cairn" shape).
-    /// Indices 0 and last get smaller widths.
-    private func widthForIndex(_ i: Int) -> CGFloat {
-        let count = placedHabits.count
-        guard count > 1 else { return 56 }
-        let mid = Double(count - 1) / 2.0
-        let dist = abs(Double(i) - mid) / max(mid, 1)
-        // dist=0 (center) → biggest, dist=1 (edge) → smallest
-        return 42 + (1.0 - dist) * 22
     }
 }

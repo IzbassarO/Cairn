@@ -205,28 +205,23 @@ struct HomeView: View {
                 }
                 VStack(spacing: 8) {
                     ForEach(group.habits) { habit in
-                        SwipeableRow(
-                            actions: [
-                                SwipeAction(
-                                    title: "Edit",
-                                    icon: "pencil",
-                                    tint: Color.accentSage,
-                                    action: { editingHabit = InspectedHabit(habit: habit) }
-                                ),
-                                SwipeAction(
-                                    title: "Delete",
-                                    icon: "trash",
-                                    tint: Color.accentCoral,
-                                    action: { pendingDeleteHabit = InspectedHabit(habit: habit) }
-                                )
-                            ],
-                            onFullSwipe: { pendingDeleteHabit = InspectedHabit(habit: habit) }
-                        ) {
-                            TodayHabitRow(
-                                habit: habit,
-                                onLog: { log(habit) },
-                                onRowTap: { inspectedHabit = InspectedHabit(habit: habit) }
-                            )
+                        TodayHabitRow(
+                            habit: habit,
+                            onLog: { log(habit) },
+                            onUndo: { undo(habit) },
+                            onRowTap: { inspectedHabit = InspectedHabit(habit: habit) }
+                        )
+                        .contextMenu {
+                            Button {
+                                editingHabit = InspectedHabit(habit: habit)
+                            } label: {
+                                Label("Edit habit", systemImage: "pencil")
+                            }
+                            Button(role: .destructive) {
+                                pendingDeleteHabit = InspectedHabit(habit: habit)
+                            } label: {
+                                Label("Delete habit", systemImage: "trash")
+                            }
                         }
                     }
                 }
@@ -432,6 +427,17 @@ struct HomeView: View {
             HapticService.shared.play(haptic, enabled: settings.hapticFeedbackEnabled)
         } catch {
             print("❌ Log failed: \(error)")
+        }
+    }
+
+    /// Undo the most recent stone for a habit (e.g. an accidental tap).
+    private func undo(_ habit: Habit) {
+        do {
+            if try service.removeLastStoneToday(habit) {
+                HapticService.shared.play(.stonePlaced, enabled: settings.hapticFeedbackEnabled)
+            }
+        } catch {
+            print("❌ Undo failed: \(error)")
         }
     }
 

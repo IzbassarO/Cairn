@@ -45,6 +45,22 @@ struct HabitService {
         try context.save()
     }
 
+    /// Removes the single most recent stone placed today. For a once-a-day
+    /// habit this un-places it; for a multi-target habit it decrements the
+    /// count. Used to undo an accidental tap. No-op if nothing placed today.
+    @discardableResult
+    func removeLastStoneToday(_ habit: Habit) throws -> Bool {
+        let cal = Calendar.current
+        let today = cal.startOfDay(for: .now)
+        let latest = (habit.logs ?? [])
+            .filter { cal.startOfDay(for: $0.loggedAt) == today }
+            .max { $0.loggedAt < $1.loggedAt }
+        guard let latest else { return false }
+        context.delete(latest)
+        try context.save()
+        return true
+    }
+
     func delete(_ habit: Habit) throws {
         let id = habit.id
         NotificationService.shared.cancel(habitId: id)

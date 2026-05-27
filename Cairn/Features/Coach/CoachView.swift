@@ -5,18 +5,27 @@ struct CoachView: View {
     @Query private var habits: [Habit]
 
     private var insights: CoachInsights { CoachInsights(habits: habits) }
+    private var activeHabitCount: Int { habits.filter { !$0.isArchived }.count }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Spacing.xl) {
                 titleBlock
-                if insights.hasEnoughData {
-                    if let day = insights.bestWeekday { weekdayCard(day) }
-                    if let time = insights.bestTimeOfDay { timeOfDayCard(time) }
-                    habitHealthSection
-                } else {
-                    warmupState
+                guidanceCard
+
+                if insights.comebackCount >= 1 {
+                    comebackHero
                 }
+
+                if insights.lifetimeStones > 0 {
+                    statGrid
+                }
+
+                if let day = insights.bestWeekday { weekdayCard(day) }
+                if let time = insights.bestTimeOfDay { timeOfDayCard(time) }
+
+                habitHealthSection
+                teachingTip
             }
             .padding(.horizontal, Spacing.md)
             .padding(.top, Spacing.lg)
@@ -46,6 +55,114 @@ struct CoachView: View {
                 .padding(.top, 2)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    // MARK: Today's read (the guide)
+
+    private var guidanceCard: some View {
+        let g = insights.todaysGuidance
+        return VStack(alignment: .leading, spacing: Spacing.md) {
+            sectionEyebrow(g.eyebrow, trailing: "for you")
+            HStack(alignment: .top, spacing: Spacing.sm) {
+                iconBadge(g.icon)
+                Text(g.title)
+                    .font(.system(size: 22, weight: .bold, design: .serif))
+                    .foregroundStyle(Color.textPrimary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Text(g.body)
+                .font(.system(size: 14))
+                .foregroundStyle(Color.textSecondary)
+                .lineSpacing(2)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(Spacing.lg)
+        .background(cardBackground)
+    }
+
+    // MARK: Comebacks — the heart of the shame-free promise
+
+    private var comebackHero: some View {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
+            sectionEyebrow("COMEBACKS", trailing: "all time")
+            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                Text("\(insights.comebackCount)")
+                    .font(.system(size: 44, weight: .bold, design: .serif))
+                    .foregroundStyle(Color.accentSage)
+                Text(insights.comebackCount == 1 ? "return" : "returns")
+                    .font(.system(size: 20, weight: .bold, design: .serif))
+                    .italic()
+                    .foregroundStyle(Color.textPrimary)
+            }
+            Text("Every time you came back after a missed day. Most apps only count streaks — this is the number that actually matters.")
+                .font(.system(size: 14))
+                .foregroundStyle(Color.textSecondary)
+                .lineSpacing(2)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(Spacing.lg)
+        .background(cardBackground)
+    }
+
+    // MARK: Varied stat cards
+
+    private struct Stat: Identifiable {
+        let id = UUID()
+        let value: String
+        let label: String
+        let caption: String
+        let icon: String
+    }
+
+    private var stats: [Stat] {
+        var out: [Stat] = []
+        if insights.currentRunDays >= 2 {
+            out.append(Stat(value: "\(insights.currentRunDays)", label: "CURRENT RUN",
+                            caption: "days in a row", icon: "leaf.fill"))
+        }
+        if insights.weekStones > 0 {
+            out.append(Stat(value: "\(insights.weekStones)", label: "THIS WEEK",
+                            caption: insights.weekStones == 1 ? "stone placed" : "stones placed",
+                            icon: "calendar"))
+        }
+        out.append(Stat(value: "\(insights.lifetimeStones)", label: "ALL TIME",
+                        caption: insights.lifetimeStones == 1 ? "stone placed" : "stones placed",
+                        icon: "circle.hexagongrid"))
+        if insights.longestRunDays >= 3 {
+            out.append(Stat(value: "\(insights.longestRunDays)", label: "BEST RUN",
+                            caption: "days, your record", icon: "mountain.2"))
+        }
+        return out
+    }
+
+    private var statGrid: some View {
+        let columns = [GridItem(.flexible(), spacing: Spacing.md),
+                       GridItem(.flexible(), spacing: Spacing.md)]
+        return LazyVGrid(columns: columns, spacing: Spacing.md) {
+            ForEach(stats) { stat in
+                statCard(stat)
+            }
+        }
+    }
+
+    private func statCard(_ stat: Stat) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            iconBadge(stat.icon, size: 30)
+            Text(stat.value)
+                .font(.system(size: 30, weight: .bold, design: .serif))
+                .foregroundStyle(Color.textPrimary)
+            Text(stat.label)
+                .font(.system(size: 11, weight: .semibold))
+                .tracking(1)
+                .foregroundStyle(Color.accentSage)
+            Text(stat.caption)
+                .font(.system(size: 12))
+                .foregroundStyle(Color.textTertiary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(Spacing.md)
+        .background(cardBackground)
     }
 
     // MARK: Weekday card ("THE READ")
@@ -135,7 +252,7 @@ struct CoachView: View {
         .background(cardBackground)
     }
 
-    // MARK: Habit health
+    // MARK: Habit health (stone-dot sparklines)
 
     private var habitHealthSection: some View {
         let health = insights.habitHealth
@@ -143,7 +260,7 @@ struct CoachView: View {
             sectionEyebrow("HABIT HEALTH", trailing: "\(health.count) \(health.count == 1 ? "habit" : "habits")")
 
             if health.isEmpty {
-                Text("Once your habits are a week old, their health shows up here.")
+                Text("Once a habit is a week old, its last two weeks show up here as a row of stones.")
                     .font(.system(size: 14))
                     .foregroundStyle(Color.textTertiary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -160,30 +277,36 @@ struct CoachView: View {
     }
 
     private func habitHealthRow(_ h: CoachInsights.HabitHealth) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: Spacing.sm) {
                 iconBadge(h.iconName, size: 32)
                 Text(h.name)
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundStyle(Color.textPrimary)
+                    .lineLimit(1)
                 Spacer()
                 Text("\(h.completionPercent)%")
                     .font(.system(size: 15, weight: .bold, design: .rounded))
                     .foregroundStyle(trendColor(h.trend))
             }
-            // Progress bar
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Capsule().fill(Color.bgTertiary.opacity(0.5)).frame(height: 6)
-                    Capsule().fill(trendColor(h.trend))
-                        .frame(width: geo.size.width * CGFloat(h.completionPercent) / 100, height: 6)
-                }
-            }
-            .frame(height: 6)
+            dotTrail(h.dots, tint: trendColor(h.trend))
             Text(trendLabel(h.trend))
                 .font(.system(size: 10, weight: .semibold))
                 .tracking(0.5)
                 .foregroundStyle(trendColor(h.trend))
+        }
+    }
+
+    /// Last 14 days as small stones: filled = placed, faint = missed. A calm,
+    /// non-judgmental alternative to a progress bar — gaps read as rest, not red.
+    private func dotTrail(_ dots: [Bool], tint: Color) -> some View {
+        HStack(spacing: 5) {
+            ForEach(dots.indices, id: \.self) { i in
+                Circle()
+                    .fill(dots[i] ? tint : Color.bgTertiary)
+                    .frame(width: 9, height: 9)
+                    .frame(maxWidth: .infinity)
+            }
         }
     }
 
@@ -199,43 +322,23 @@ struct CoachView: View {
         switch t {
         case .rockSolid: return "ROCK SOLID"
         case .steady:    return "STEADY"
-        case .slipping:  return "NEEDS A GENTLER PLAN"
+        case .slipping:  return "READY FOR A GENTLER PLAN"
         }
     }
 
-    // MARK: Warmup (not enough data)
+    // MARK: Teaching tip
 
-    private var warmupState: some View {
-        VStack(alignment: .leading, spacing: Spacing.md) {
-            HStack(spacing: Spacing.sm) {
-                iconBadge("hourglass")
-                Text("Still gathering your patterns.")
-                    .font(.system(size: 18, weight: .semibold, design: .serif))
-                    .foregroundStyle(Color.textPrimary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            Text("Coach reads your real history — no guesses. Place about \(insights.stonesUntilInsights) more \(insights.stonesUntilInsights == 1 ? "stone" : "stones") and your first patterns appear here.")
-                .font(.system(size: 14))
-                .foregroundStyle(Color.textSecondary)
-                .lineSpacing(2)
+    private var teachingTip: some View {
+        VStack(alignment: .leading, spacing: Spacing.sm) {
+            sectionEyebrow("FROM THE COACH", trailing: "tip")
+            Text(CoachMessages.dailyMessage(activeHabitCount: activeHabitCount))
+                .font(.system(size: 16, design: .serif))
+                .italic()
+                .foregroundStyle(Color.textPrimary)
+                .lineSpacing(3)
                 .fixedSize(horizontal: false, vertical: true)
-
-            // Warmup progress
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Capsule().fill(Color.bgTertiary.opacity(0.5)).frame(height: 8)
-                    Capsule().fill(Color.accentSage)
-                        .frame(width: max(8, geo.size.width * insights.warmupProgress), height: 8)
-                }
-            }
-            .frame(height: 8)
-            .padding(.top, 4)
-
-            Text("Your patterns are private to your device. Coach never trains on you.")
-                .font(.system(size: 12))
-                .foregroundStyle(Color.textTertiary)
-                .padding(.top, 4)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding(Spacing.lg)
         .background(cardBackground)
     }
