@@ -37,6 +37,11 @@ struct HomeView: View {
     /// Filter for the habit list.
     @State private var selectedFilter: HabitFilter = .all
 
+    /// Transient affirming message shown the moment a stone is placed.
+    @State private var affirmation: String?
+    /// Guards the auto-dismiss so rapid placements don't cut a message short.
+    @State private var affirmationToken = 0
+
     private var service: HabitService { HabitService(context: context) }
     private var activeHabits: [Habit] { habits.filter { !$0.isArchived } }
 
@@ -56,6 +61,10 @@ struct HomeView: View {
                 PrePermissionView()
                     .transition(.opacity)
                     .zIndex(1)
+            }
+
+            if let affirmation {
+                affirmationToast(affirmation)
             }
         }
         .task { await rescheduleNotificationsIfAuthorized() }
@@ -406,12 +415,14 @@ struct HomeView: View {
     // MARK: Logging
 
     private func log(_ habit: Habit) {
-        // Milestone detection needs the count BEFORE this placement.
+        // These all need the state BEFORE this placement.
         let stonesBefore = activeHabits.totalStones
+        let wasFirstToday = !activeHabits.contains { $0.placedTodayCount > 0 }
+        let comeback = isComeback(habit)
 
         do {
             let result = try service.log(habit)
-            guard result == .logged else { return }  // at-cap taps: no haptic
+            guard result == .logged else { return }  // at-cap taps: no feedback
 
             // Did this placement complete today's cairn?
             let everythingPlaced = !activeHabits.isEmpty
@@ -425,9 +436,69 @@ struct HomeView: View {
             let haptic: HapticService.Feedback = hitMilestone ? .milestone
                 : (everythingPlaced ? .dayComplete : .stonePlaced)
             HapticService.shared.play(haptic, enabled: settings.hapticFeedbackEnabled)
+
+            // The "second moment": a brief affirming line. Priority runs from
+            // the biggest event (milestone) down to an ordinary placement.
+            let moment: CoachMessages.StoneMoment
+            if hitMilestone { moment = .milestone(stonesAfter) }
+            else if everythingPlaced { moment = .dayComplete }
+            else if comeback { moment = .comeback }
+            else if wasFirstToday { moment = .firstOfDay }
+            else { moment = .placed }
+            showAffirmation(CoachMessages.affirmation(for: moment))
         } catch {
             print("❌ Log failed: \(error)")
         }
+    }
+
+    /// True when this habit had prior momentum and is being placed after a
+    /// 2+ day gap — i.e. the user is returning to it.
+    private func isComeback(_ habit: Habit) -> Bool {
+        let cal = Calendar.current
+        let today = cal.startOfDay(for: .now)
+        let priorDays = (habit.logs ?? [])
+            .map { cal.startOfDay(for: $0.loggedAt) }
+            .filter { $0 < today }
+        guard let lastPrior = priorDays.max() else { return false }
+        return (cal.dateComponents([.day], from: lastPrior, to: today).day ?? 0) >= 2
+    }
+
+    /// Show a transient affirmation, auto-dismissing after a beat. The token
+    /// guards against an earlier dismissal cutting off a newer message.
+    private func showAffirmation(_ text: String) {
+        affirmationToken += 1
+        let token = affirmationToken
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.85)) {
+            affirmation = text
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.4) {
+            if token == affirmationToken {
+                withAnimation(.easeOut(duration: 0.3)) { affirmation = nil }
+            }
+        }
+    }
+
+    private func affirmationToast(_ text: String) -> some View {
+        VStack {
+            Text(text)
+                .font(.system(size: 15, weight: .semibold, design: .serif))
+                .italic()
+                .foregroundStyle(Color.textPrimary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, Spacing.lg)
+                .padding(.vertical, 12)
+                .background(
+                    Capsule()
+                        .fill(Color.bgSecondary)
+                        .shadow(color: .black.opacity(0.12), radius: 12, y: 4)
+                )
+                .padding(.top, Spacing.sm)
+            Spacer()
+        }
+        .frame(maxWidth: .infinity)
+        .transition(.move(edge: .top).combined(with: .opacity))
+        .zIndex(2)
+        .allowsHitTesting(false)
     }
 
     /// Undo the most recent stone for a habit (e.g. an accidental tap).

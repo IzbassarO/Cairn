@@ -245,6 +245,40 @@ struct CoachInsights {
         return best
     }
 
+    // MARK: Category breakdown
+
+    struct CategoryShare: Identifiable {
+        let id: Int          // category rawValue
+        let name: String
+        let iconName: String
+        let stones: Int
+        let percent: Int
+    }
+
+    /// Where the user's stones go, by category — the top areas only (a long
+    /// flat list isn't a useful read). Each carries its share of all stones.
+    /// Empty when fewer than two categories have stones (nothing to compare).
+    var categoryBreakdown: [CategoryShare] {
+        var counts: [Int: Int] = [:]   // categoryRaw -> stones
+        for habit in habits where !habit.isArchived {
+            counts[habit.categoryRaw, default: 0] += (habit.logs?.count ?? 0)
+        }
+        let withStones = counts.filter { $0.value > 0 }
+        let total = withStones.values.reduce(0, +)
+        guard withStones.count >= 2, total > 0 else { return [] }
+
+        return withStones
+            .map { raw, stones -> CategoryShare in
+                let cat = HabitCategory(rawValue: raw) ?? .custom
+                let pct = Int((Double(stones) / Double(total) * 100).rounded())
+                return CategoryShare(id: raw, name: cat.displayName,
+                                     iconName: cat.defaultIcon, stones: stones, percent: pct)
+            }
+            .sorted { $0.stones > $1.stones }
+            .prefix(4)
+            .map { $0 }
+    }
+
     // MARK: Today's read (the guide)
 
     /// A single, data-reactive coaching message for the top of the screen.

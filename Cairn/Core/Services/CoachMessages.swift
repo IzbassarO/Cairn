@@ -29,6 +29,49 @@ enum CoachMessages {
         return pick(from: corpus, on: date)
     }
 
+    // MARK: - Stone-placed affirmations
+    //
+    // The "second moment": a brief, calm line shown the instant a stone is
+    // placed. Comeback-aware and shame-free — celebrates the act, never scolds.
+
+    enum StoneMoment {
+        case milestone(Int)   // crossed 1, 10, 100, 250, 500, 1000
+        case dayComplete      // every habit for today is now placed
+        case comeback         // this habit was placed after a 2+ day gap
+        case firstOfDay       // first stone of the day across all habits
+        case placed           // an ordinary placement
+    }
+
+    private static let firstOfDayLines = [
+        "First stone down. The rest is lighter.",
+        "There it is — the day has begun.",
+        "One placed. The hardest part is behind you."
+    ]
+
+    private static let placedLines = [
+        "Placed. The thread holds.",
+        "Another stone, quietly stacked.",
+        "That counts — every one does.",
+        "Steady. This is how cairns rise."
+    ]
+
+    private static let comebackLines = [
+        "Welcome back. The thread, retied.",
+        "You returned — that's the whole skill.",
+        "No catching up needed. Just this one."
+    ]
+
+    /// A short affirmation for the moment a stone is placed.
+    static func affirmation(for moment: StoneMoment) -> String {
+        switch moment {
+        case .milestone(let n): return "\(n) stones. Look how far you've come."
+        case .dayComplete:      return "Every stone placed. Beautiful."
+        case .comeback:         return comebackLines.randomElement() ?? "Welcome back."
+        case .firstOfDay:       return firstOfDayLines.randomElement() ?? "First stone down."
+        case .placed:           return placedLines.randomElement() ?? "Placed."
+        }
+    }
+
     private static func pick(from corpus: [String], on date: Date) -> String {
         guard !corpus.isEmpty else { return "" }
         let calendar = Calendar.current

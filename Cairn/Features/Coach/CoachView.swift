@@ -21,6 +21,10 @@ struct CoachView: View {
                     statGrid
                 }
 
+                if insights.categoryBreakdown.count >= 2 {
+                    categoryBreakdownSection
+                }
+
                 if let day = insights.bestWeekday { weekdayCard(day) }
                 if let time = insights.bestTimeOfDay { timeOfDayCard(time) }
 
@@ -163,6 +167,49 @@ struct CoachView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(Spacing.md)
         .background(cardBackground)
+    }
+
+    // MARK: Category breakdown ("where your stones go")
+
+    private var categoryBreakdownSection: some View {
+        let items = insights.categoryBreakdown
+        let maxStones = max(items.first?.stones ?? 1, 1)
+        return VStack(alignment: .leading, spacing: Spacing.md) {
+            sectionEyebrow("WHERE YOUR STONES GO", trailing: "by area")
+            VStack(spacing: Spacing.md) {
+                ForEach(items) { item in
+                    categoryRow(item, maxStones: maxStones)
+                }
+            }
+        }
+        .padding(Spacing.lg)
+        .background(cardBackground)
+    }
+
+    private func categoryRow(_ item: CoachInsights.CategoryShare, maxStones: Int) -> some View {
+        HStack(spacing: Spacing.sm) {
+            iconBadge(item.iconName, size: 32)
+            VStack(alignment: .leading, spacing: 6) {
+                HStack {
+                    Text(item.name)
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundStyle(Color.textPrimary)
+                        .lineLimit(1)
+                    Spacer()
+                    Text("\(item.percent)%")
+                        .font(.system(size: 14, weight: .bold, design: .rounded))
+                        .foregroundStyle(Color.accentSage)
+                }
+                GeometryReader { geo in
+                    ZStack(alignment: .leading) {
+                        Capsule().fill(Color.accentSage.opacity(0.18))
+                        Capsule().fill(Color.accentSage)
+                            .frame(width: geo.size.width * CGFloat(item.stones) / CGFloat(maxStones))
+                    }
+                }
+                .frame(height: 6)
+            }
+        }
     }
 
     // MARK: Weekday card ("THE READ")
