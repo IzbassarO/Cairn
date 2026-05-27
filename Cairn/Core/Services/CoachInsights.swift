@@ -376,12 +376,44 @@ struct CoachInsights {
         )
     }
 
-    // MARK: Weekly narrative & milestone
+    // MARK: Title, narrative & milestone
 
-    /// A short narrative summary for under the title, in the coach's voice.
+    /// Rotating two-line title for the top of the Coach. Changes per week (and
+    /// has a dedicated welcome for a brand-new account).
+    private static let titles: [(String, String)] = [
+        ("Patterns I've", "been watching."),
+        ("Soft week,", "steady showing."),
+        ("Small stones,", "real momentum."),
+        ("Quiet progress,", "worth noticing."),
+        ("Your rhythm,", "taking shape.")
+    ]
+
+    var coachTitle: (line1: String, line2: String) {
+        guard totalStones > 0 else { return ("A space for", "your patterns.") }
+        let pair = Self.titles[(max(0, weekNumber - 1)) % Self.titles.count]
+        return (pair.0, pair.1)
+    }
+
+    /// Weeks since the earliest active habit was created (1-based). A fresh
+    /// account is "Week 1" rather than the calendar week.
+    var weekNumber: Int {
+        let creations = habits.filter { !$0.isArchived }.map { calendar.startOfDay(for: $0.createdAt) }
+        guard let earliest = creations.min() else { return 1 }
+        let days = calendar.dateComponents([.day], from: earliest, to: calendar.startOfDay(for: now)).day ?? 0
+        return max(1, days / 7 + 1)
+    }
+
+    /// Situation-aware summary under the title. First-timers get a fascinating
+    /// welcome (never an empty view); early users get a "warming up" line;
+    /// established users get real stats.
     var weeklyNarrative: String {
-        guard totalStones > 0 else {
-            return "Your first stones will start the story here. Place one whenever you're ready."
+        if totalStones == 0 {
+            return "This is where I read your rhythm — your best hours, your strongest days, the comebacks that count. Place your first stone and it all begins."
+        }
+        if totalStones < Self.minimumStonesForInsights {
+            let left = Self.minimumStonesForInsights - totalStones
+            let placed = "\(totalStones) \(totalStones == 1 ? "stone" : "stones")"
+            return "You're \(placed) in. About \(left) more and I'll start showing you when and how you show up best."
         }
         var parts: [String] = []
         let unit = weekStones == 1 ? "stone" : "stones"
@@ -391,11 +423,9 @@ struct CoachInsights {
         } else if let day = bestWeekday {
             parts.append("\(day.weekdaySymbol)s are carrying you.")
         }
-        if comebackCount >= 1 {
-            parts.append("And you keep coming back — that's the part that matters.")
-        } else {
-            parts.append("Keep the rhythm that feels easy.")
-        }
+        parts.append(comebackCount >= 1
+            ? "And you keep coming back — that's the part that matters."
+            : "Keep the rhythm that feels easy.")
         return parts.joined(separator: " ")
     }
 
@@ -403,6 +433,47 @@ struct CoachInsights {
     var milestoneReached: Int? {
         let milestones = [10, 25, 50, 100, 250, 500, 1000]
         return milestones.last { $0 <= totalStones }
+    }
+
+    // MARK: One small move (gentle, rule-based)
+
+    struct SmallMove {
+        let habitID: UUID
+        let habitName: String
+        let title: String
+        let body: String
+        let ruleLine: String
+    }
+
+    /// A single gentle suggestion for the habit having the hardest stretch.
+    /// Non-prescriptive: the UI offers to open that habit so the user adjusts it.
+    var oneSmallMove: SmallMove? {
+        guard let target = habitHealth
+            .filter({ $0.feel == .gentler })
+            .min(by: { $0.completionPercent < $1.completionPercent })
+        else { return nil }
+        return SmallMove(
+            habitID: target.id,
+            habitName: target.name,
+            title: "Give \(target.name) a softer plan.",
+            body: "It's been a harder stretch. Easing it — a smaller target or a gentler time — often turns a habit around faster than pushing.",
+            ruleLine: "rule · \(target.completionPercent)% placed this month"
+        )
+    }
+
+    // MARK: Reflection prompt
+
+    private static let reflectionPrompts = [
+        "Which stone today felt easiest to place — and what made it so?",
+        "What got in the way today, gently?",
+        "What's one tiny thing that helped you show up?",
+        "Which habit felt most like \u{201C}you\u{201D} today?",
+        "What would make tomorrow's first stone easier?"
+    ]
+
+    var reflectionPrompt: String {
+        let day = calendar.ordinality(of: .day, in: .era, for: now) ?? 0
+        return Self.reflectionPrompts[day % Self.reflectionPrompts.count]
     }
 
     // MARK: Headline

@@ -2,18 +2,29 @@ import SwiftUI
 import SwiftData
 
 struct CoachView: View {
+    @Environment(\.modelContext) private var context
     @Query private var habits: [Habit]
+    @Query(sort: \CoachMessage.createdAt, order: .reverse) private var coachMessages: [CoachMessage]
 
     @State private var inspected: InspectedHabit?
+    @State private var editing: InspectedHabit?
+    @State private var dismissedMove = false
+    @State private var reflectionText = ""
+    @FocusState private var reflectionFocused: Bool
 
     private var insights: CoachInsights { CoachInsights(habits: habits) }
     private var activeHabitCount: Int { habits.filter { !$0.isArchived }.count }
+    private var reflections: [CoachMessage] { coachMessages.filter { $0.kind == .userComposed } }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Spacing.xl) {
                 titleBlock
                 guidanceCard
+
+                if let move = insights.oneSmallMove, !dismissedMove {
+                    oneSmallMoveCard(move)
+                }
 
                 if insights.lifetimeStones > 0 {
                     statGrid
@@ -32,6 +43,8 @@ struct CoachView: View {
                     comebackHero
                 }
 
+                reflectionCard
+
                 if insights.categoryBreakdown.count >= 2 {
                     categoryBreakdownSection
                 }
@@ -43,23 +56,28 @@ struct CoachView: View {
             .padding(.bottom, Spacing.xxl)
         }
         .background(Color.bgPrimary.ignoresSafeArea())
+        .scrollDismissesKeyboard(.interactively)
         .fullScreenCover(item: $inspected) { item in
             HabitInfoView(habit: item.habit)
+        }
+        .fullScreenCover(item: $editing) { item in
+            HabitEditView(habit: item.habit)
         }
     }
 
     // MARK: Title
 
     private var titleBlock: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text("CAIRN COACH")
+        let title = insights.coachTitle
+        return VStack(alignment: .leading, spacing: 6) {
+            Text("CAIRN COACH · WEEK \(insights.weekNumber)")
                 .font(.system(size: 12, weight: .semibold))
                 .tracking(1.4)
                 .foregroundStyle(Color.accentSage)
-            Text("Patterns I've")
+            Text(title.line1)
                 .font(.system(size: 32, weight: .bold, design: .serif))
                 .foregroundStyle(Color.textPrimary)
-            Text("been watching.")
+            Text(title.line2)
                 .font(.system(size: 32, weight: .bold, design: .serif))
                 .italic()
                 .foregroundStyle(Color.accentSage)
@@ -425,6 +443,144 @@ struct CoachView: View {
         case ..<250:  return "a real cairn now"
         default:      return "a mountain of small wins"
         }
+    }
+
+    // MARK: One small move (dark, actionable card)
+
+    private func oneSmallMoveCard(_ move: CoachInsights.SmallMove) -> some View {
+        VStack(alignment: .leading, spacing: Spacing.md) {
+            HStack(spacing: Spacing.sm) {
+                Image(systemName: "arrow.triangle.swap")
+                    .font(.system(size: 13, weight: .bold))
+                    .foregroundStyle(Color.accentSage)
+                Text("ONE SMALL MOVE · GENTLE")
+                    .font(.system(size: 11, weight: .semibold))
+                    .tracking(1)
+                    .foregroundStyle(Color.accentSage)
+            }
+            Text(move.title)
+                .font(.system(size: 22, weight: .bold, design: .serif))
+                .foregroundStyle(.white)
+                .fixedSize(horizontal: false, vertical: true)
+            Text(move.body)
+                .font(.system(size: 14))
+                .foregroundStyle(Color.white.opacity(0.75))
+                .lineSpacing(2)
+                .fixedSize(horizontal: false, vertical: true)
+            Text(move.ruleLine)
+                .font(.system(size: 11, design: .monospaced))
+                .foregroundStyle(Color.white.opacity(0.45))
+
+            HStack(spacing: Spacing.sm) {
+                Button {
+                    if let habit = habits.first(where: { $0.id == move.habitID }) {
+                        editing = InspectedHabit(habit: habit)
+                    }
+                } label: {
+                    HStack(spacing: 6) {
+                        Image(systemName: "slider.horizontal.3").font(.system(size: 13, weight: .bold))
+                        Text("Adjust \(move.habitName)").font(.system(size: 15, weight: .semibold))
+                    }
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(Capsule().fill(Color.accentSage))
+                }
+                .buttonStyle(.plain)
+
+                Button {
+                    withAnimation(.easeOut(duration: 0.25)) { dismissedMove = true }
+                } label: {
+                    Text("Not today")
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundStyle(Color.white.opacity(0.8))
+                        .padding(.horizontal, 18)
+                        .padding(.vertical, 12)
+                        .background(Capsule().fill(Color.white.opacity(0.12)))
+                }
+                .buttonStyle(.plain)
+            }
+            .padding(.top, 2)
+        }
+        .padding(Spacing.lg)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
+                .fill(Color.bgDark)
+        )
+    }
+
+    // MARK: A small reflection (journaling)
+
+    private var reflectionCard: some View {
+        VStack(alignment: .leading, spacing: Spacing.md) {
+            sectionEyebrow("A SMALL REFLECTION", trailing: "optional")
+            Text(insights.reflectionPrompt)
+                .font(.system(size: 18, weight: .semibold, design: .serif))
+                .italic()
+                .foregroundStyle(Color.textPrimary)
+                .fixedSize(horizontal: false, vertical: true)
+
+            HStack(alignment: .bottom, spacing: Spacing.sm) {
+                TextField(
+                    "",
+                    text: $reflectionText,
+                    prompt: Text("Tap to write one sentence…").foregroundStyle(Color.textTertiary),
+                    axis: .vertical
+                )
+                .font(.system(size: 15))
+                .foregroundStyle(Color.textPrimary)
+                .focused($reflectionFocused)
+                .lineLimit(1...4)
+
+                if !reflectionText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    Button(action: saveReflection) {
+                        Image(systemName: "arrow.up.circle.fill")
+                            .font(.system(size: 26))
+                            .foregroundStyle(Color.accentSage)
+                    }
+                    .buttonStyle(.plain)
+                    .transition(.scale.combined(with: .opacity))
+                }
+            }
+            .padding(.vertical, 10)
+            .padding(.horizontal, Spacing.md)
+            .background(
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .strokeBorder(
+                        Color.textTertiary.opacity(0.35),
+                        style: StrokeStyle(lineWidth: 1, dash: [5, 4])
+                    )
+            )
+
+            if reflectionsThisMonth > 0 {
+                HStack(spacing: 6) {
+                    Image(systemName: "leaf").font(.system(size: 12)).foregroundStyle(Color.accentSage)
+                    Text("You've reflected \(reflectionsThisMonth) \(reflectionsThisMonth == 1 ? "time" : "times") this month — small notes add up.")
+                        .font(.system(size: 12))
+                        .foregroundStyle(Color.textTertiary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+        }
+        .padding(Spacing.lg)
+        .background(cardBackground)
+    }
+
+    private var reflectionsThisMonth: Int {
+        let cal = Calendar.current
+        let start = cal.date(from: cal.dateComponents([.year, .month], from: .now)) ?? .now
+        return reflections.filter { $0.createdAt >= start }.count
+    }
+
+    private func saveReflection() {
+        let trimmed = reflectionText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return }
+        let msg = CoachMessage(kind: .userComposed, body: trimmed, modelUsed: "")
+        context.insert(msg)
+        do { try context.save() } catch { print("❌ Reflection save failed: \(error)") }
+        withAnimation(.easeOut(duration: 0.2)) { reflectionText = "" }
+        reflectionFocused = false
     }
 
     // MARK: Teaching tip
