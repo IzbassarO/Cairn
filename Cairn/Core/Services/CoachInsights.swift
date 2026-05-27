@@ -279,6 +279,75 @@ struct CoachInsights {
             .map { $0 }
     }
 
+    // MARK: Momentum over time (for the interactive chart)
+
+    enum TrendPeriod: String, CaseIterable, Identifiable {
+        case week, month, halfYear
+        var id: String { rawValue }
+        var label: String {
+            switch self {
+            case .week:     return "Week"
+            case .month:    return "Month"
+            case .halfYear: return "6 Months"
+            }
+        }
+        /// Caption used under the headline (reads naturally after "this/the").
+        var caption: String {
+            switch self {
+            case .week:     return "past week"
+            case .month:    return "past 5 weeks"
+            case .halfYear: return "past 6 months"
+            }
+        }
+    }
+
+    struct TrendPoint: Identifiable {
+        let id = UUID()
+        let label: String   // unique within a series (safe as a Chart x value)
+        let stones: Int
+    }
+
+    /// Stones bucketed over time for the chosen period. Buckets are unique by
+    /// label within each period, oldest→newest. Drives the momentum chart.
+    func momentumSeries(_ period: TrendPeriod) -> [TrendPoint] {
+        let cal = calendar
+        let today = cal.startOfDay(for: now)
+
+        func count(from lo: Date, before hi: Date) -> Int {
+            allLogs.filter { $0.loggedAt >= lo && $0.loggedAt < hi }.count
+        }
+
+        switch period {
+        case .week:
+            let symbols = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+            return (0..<7).reversed().compactMap { i in
+                guard let day = cal.date(byAdding: .day, value: -i, to: today) else { return nil }
+                let stones = allLogs.filter { cal.isDate($0.loggedAt, inSameDayAs: day) }.count
+                let wd = cal.component(.weekday, from: day) // 1...7
+                return TrendPoint(label: symbols[wd - 1], stones: stones)
+            }
+        case .month:
+            return (0..<5).reversed().compactMap { w in
+                guard let anchor = cal.date(byAdding: .day, value: -7 * w, to: today),
+                      let windowStart = cal.date(byAdding: .day, value: -6, to: anchor),
+                      let hi = cal.date(byAdding: .day, value: 1, to: anchor) else { return nil }
+                let stones = count(from: cal.startOfDay(for: windowStart), before: cal.startOfDay(for: hi))
+                let label = w == 0 ? "Now" : "\(w)w"   // "Now", "1w", "2w"… (unique)
+                return TrendPoint(label: label, stones: stones)
+            }
+        case .halfYear:
+            let fmt = DateFormatter()
+            fmt.dateFormat = "MMM"
+            return (0..<6).reversed().compactMap { m in
+                guard let monthDate = cal.date(byAdding: .month, value: -m, to: today),
+                      let monthStart = cal.date(from: cal.dateComponents([.year, .month], from: monthDate)),
+                      let monthEnd = cal.date(byAdding: .month, value: 1, to: monthStart) else { return nil }
+                let stones = count(from: monthStart, before: monthEnd)
+                return TrendPoint(label: fmt.string(from: monthStart), stones: stones)
+            }
+        }
+    }
+
     // MARK: Today's read (the guide)
 
     /// A single, data-reactive coaching message for the top of the screen.

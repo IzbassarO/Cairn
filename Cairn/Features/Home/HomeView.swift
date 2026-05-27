@@ -23,6 +23,10 @@ struct HomeView: View {
     /// Pending delete confirm (swipe Delete or full-swipe).
     @State private var pendingDeleteHabit: InspectedHabit?
 
+    /// Pending undo confirm — removing a stone is destructive enough to confirm,
+    /// so a mis-tap on a completed habit doesn't silently erase today's stone.
+    @State private var pendingUndoHabit: InspectedHabit?
+
     /// Garden cover (View → calendar). Currently a stub; Part C builds it out.
     @State private var showGarden = false
 
@@ -116,6 +120,15 @@ struct HomeView: View {
             confirmRole: .destructive,
             cancelTitle: "Cancel",
             onConfirm: { performSwipeDelete() }
+        )
+        .cairnAlert(
+            isPresented: pendingUndoBinding,
+            title: "Remove this stone?",
+            message: pendingUndoMessage,
+            confirmTitle: "Remove",
+            confirmRole: .destructive,
+            cancelTitle: "Keep",
+            onConfirm: { performUndo() }
         )
     }
 
@@ -217,7 +230,7 @@ struct HomeView: View {
                         TodayHabitRow(
                             habit: habit,
                             onLog: { log(habit) },
-                            onUndo: { undo(habit) },
+                            onUndo: { pendingUndoHabit = InspectedHabit(habit: habit) },
                             onRowTap: { inspectedHabit = InspectedHabit(habit: habit) }
                         )
                         .contextMenu {
@@ -501,8 +514,26 @@ struct HomeView: View {
         .allowsHitTesting(false)
     }
 
-    /// Undo the most recent stone for a habit (e.g. an accidental tap).
-    private func undo(_ habit: Habit) {
+    // MARK: Undo (confirm before removing a placed stone)
+
+    private var pendingUndoBinding: Binding<Bool> {
+        Binding(
+            get: { pendingUndoHabit != nil },
+            set: { if !$0 { pendingUndoHabit = nil } }
+        )
+    }
+
+    private var pendingUndoMessage: String {
+        guard let habit = pendingUndoHabit?.habit, habit.modelContext != nil else {
+            return "Remove the stone you placed today? You can place it again anytime."
+        }
+        return "Remove the stone you placed for \u{201C}\(habit.name)\u{201D} today? You can place it again anytime."
+    }
+
+    /// Remove the most recent stone, after the user confirms.
+    private func performUndo() {
+        guard let habit = pendingUndoHabit?.habit else { return }
+        pendingUndoHabit = nil
         do {
             if try service.removeLastStoneToday(habit) {
                 HapticService.shared.play(.stonePlaced, enabled: settings.hapticFeedbackEnabled)

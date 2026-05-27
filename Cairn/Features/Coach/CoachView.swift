@@ -19,6 +19,7 @@ struct CoachView: View {
 
                 if insights.lifetimeStones > 0 {
                     statGrid
+                    CoachMomentumChart(insights: insights)
                 }
 
                 if insights.categoryBreakdown.count >= 2 {
