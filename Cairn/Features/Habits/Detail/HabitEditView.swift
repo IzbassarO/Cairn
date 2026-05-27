@@ -5,6 +5,7 @@ struct HabitEditView: View {
     @Bindable var habit: Habit
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
+    @EnvironmentObject private var settings: AppSettings
 
     @State private var draft: HabitEditDraft
     @State private var showTimeSheet = false
@@ -24,6 +25,7 @@ struct HabitEditView: View {
                     iconBlock
                     nameField
                     scheduleCard
+                    quietHoursWarning
                     cueNoteSection
                 }
                 .padding(.horizontal, Spacing.md)
@@ -297,6 +299,40 @@ struct HabitEditView: View {
                 .foregroundStyle(Color.accentSage)
         }
         .frame(width: 40, height: 40)
+    }
+
+    // MARK: Quiet-hours warning
+    /// Shown when notifications are on and the reminder time lands inside the
+    /// user's quiet hours. Informational, not blocking.
+    @ViewBuilder
+    private var quietHoursWarning: some View {
+        if draft.notificationsEnabled, settings.isWithinQuietHours(draft.reminderTime) {
+            HStack(alignment: .top, spacing: Spacing.sm) {
+                Image(systemName: "moon.zzz.fill")
+                    .font(.system(size: 15))
+                    .foregroundStyle(Color.accentCoral)
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("Reminder lands in your quiet hours")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(Color.textPrimary)
+                    Text("\(draft.reminderTimeLabel) is inside your quiet hours (\(quietHoursRangeText)). You can still set it — change quiet hours in Settings if you'd prefer it didn't interrupt your rest.")
+                        .font(.system(size: 12))
+                        .foregroundStyle(Color.textSecondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: 0)
+            }
+            .padding(Spacing.md)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(
+                RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
+                    .fill(Color.accentCoral.opacity(0.12))
+            )
+        }
+    }
+
+    private var quietHoursRangeText: String {
+        String(format: "%02d:00 – %02d:00", settings.quietHoursStartHour, settings.quietHoursEndHour)
     }
 
     // MARK: Cue & Note

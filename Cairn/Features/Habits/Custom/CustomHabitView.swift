@@ -4,6 +4,7 @@ import SwiftData
 struct CustomHabitView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
+    @EnvironmentObject private var settings: AppSettings
 
     let onPlanted: (Habit) -> Void
 
@@ -24,6 +25,7 @@ struct CustomHabitView: View {
                     iconPickerTrigger
                     nameField
                     scheduleCard
+                    quietHoursWarning
                     cueNoteSection
                     helperHint
                 }
@@ -391,6 +393,50 @@ struct CustomHabitView: View {
             RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
                 .fill(Color.accentSage.opacity(0.12))
         )
+    }
+
+    // MARK: Quiet-hours warning
+    /// Shown when notifications are on and a chosen reminder time lands inside
+    /// the user's quiet hours. Informational, not blocking — the user can still
+    /// save; we just point them to Settings if they want to adjust rest hours.
+    @ViewBuilder
+    private var quietHoursWarning: some View {
+        if draft.notificationsEnabled, let conflict = firstQuietHoursConflict {
+            HStack(alignment: .top, spacing: Spacing.sm) {
+                Image(systemName: "moon.zzz.fill")
+                    .font(.system(size: 15))
+                    .foregroundStyle(Color.accentCoral)
+                VStack(alignment: .leading, spacing: 3) {
+                    Text("Reminder lands in your quiet hours")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(Color.textPrimary)
+                    Text("\(conflict) is inside your quiet hours (\(quietHoursRangeText)). You can still set it — change quiet hours in Settings if you'd prefer it didn't interrupt your rest.")
+                        .font(.system(size: 12))
+                        .foregroundStyle(Color.textSecondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: 0)
+            }
+            .padding(Spacing.md)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(
+                RoundedRectangle(cornerRadius: Radius.card, style: .continuous)
+                    .fill(Color.accentCoral.opacity(0.12))
+            )
+        }
+    }
+
+    /// The first chosen reminder time (formatted) that falls within quiet hours,
+    /// or nil if none do.
+    private var firstQuietHoursConflict: String? {
+        guard let time = draft.reminderTimes.first(where: { settings.isWithinQuietHours($0) }) else {
+            return nil
+        }
+        return formatTime(time)
+    }
+
+    private var quietHoursRangeText: String {
+        String(format: "%02d:00 – %02d:00", settings.quietHoursStartHour, settings.quietHoursEndHour)
     }
 
     // MARK: Helpers
