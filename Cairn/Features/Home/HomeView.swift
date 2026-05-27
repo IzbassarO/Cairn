@@ -408,20 +408,22 @@ struct HomeView: View {
         let cal = Calendar.current
         let dayStart = cal.startOfDay(for: .now)
 
-        if let existing = todaysMood {
-            existing.mood = mood
-            existing.loggedAt = .now
-        } else {
-            let log = MoodLog(day: dayStart, mood: mood, loggedAt: .now)
-            context.insert(log)
-        }
-        do {
-            try context.save()
-        } catch {
-            print("❌ MoodLog save failed: \(error)")
-        }
-        withAnimation(.easeOut(duration: 0.35)) {
-            // todaysMood becomes non-nil → MoodSelector branch goes away.
+        // Persist inside the animation transaction so the @Query-driven removal
+        // of the MoodSelector (todaysMood becomes non-nil) animates as a smooth
+        // collapse rather than a hard cut.
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.85)) {
+            if let existing = todaysMood {
+                existing.mood = mood
+                existing.loggedAt = .now
+            } else {
+                let log = MoodLog(day: dayStart, mood: mood, loggedAt: .now)
+                context.insert(log)
+            }
+            do {
+                try context.save()
+            } catch {
+                print("❌ MoodLog save failed: \(error)")
+            }
         }
     }
 

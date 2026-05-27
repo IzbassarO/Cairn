@@ -90,14 +90,17 @@ struct CoachView: View {
     private var comebackHero: some View {
         VStack(alignment: .leading, spacing: Spacing.sm) {
             sectionEyebrow("COMEBACKS", trailing: "all time")
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
-                Text("\(insights.comebackCount)")
-                    .font(.system(size: 44, weight: .bold, design: .serif))
-                    .foregroundStyle(Color.accentSage)
-                Text(insights.comebackCount == 1 ? "return" : "returns")
-                    .font(.system(size: 20, weight: .bold, design: .serif))
-                    .italic()
-                    .foregroundStyle(Color.textPrimary)
+            HStack(alignment: .center, spacing: Spacing.sm) {
+                StateStone(kind: .returning, size: 44)
+                HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    Text("\(insights.comebackCount)")
+                        .font(.system(size: 44, weight: .bold, design: .serif))
+                        .foregroundStyle(Color.accentSage)
+                    Text(insights.comebackCount == 1 ? "return" : "returns")
+                        .font(.system(size: 20, weight: .bold, design: .serif))
+                        .italic()
+                        .foregroundStyle(Color.textPrimary)
+                }
             }
             Text("Every time you came back after a missed day. Most apps only count streaks — this is the number that actually matters.")
                 .font(.system(size: 14))
@@ -338,10 +341,21 @@ struct CoachView: View {
                     .foregroundStyle(trendColor(h.trend))
             }
             dotTrail(h.dots, tint: trendColor(h.trend))
-            Text(trendLabel(h.trend))
-                .font(.system(size: 10, weight: .semibold))
-                .tracking(0.5)
-                .foregroundStyle(trendColor(h.trend))
+            HStack(spacing: 6) {
+                StateStone(kind: trendStone(h.trend), size: 18)
+                Text(trendLabel(h.trend))
+                    .font(.system(size: 10, weight: .semibold))
+                    .tracking(0.5)
+                    .foregroundStyle(trendColor(h.trend))
+            }
+        }
+    }
+
+    private func trendStone(_ t: CoachInsights.HealthTrend) -> StateStone.Kind {
+        switch t {
+        case .rockSolid: return .thriving
+        case .steady:    return .steady
+        case .slipping:  return .slipping
         }
     }
 

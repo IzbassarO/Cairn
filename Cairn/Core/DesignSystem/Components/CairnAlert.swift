@@ -79,8 +79,12 @@ struct CairnAlert: ViewModifier {
                         : Color.accentSage,
                     weight: .semibold
                 ) {
-                    withAnimation { isPresented = false }
+                    // Run the action BEFORE dismissing. Callers often back their
+                    // `isPresented` with a derived binding that clears pending
+                    // state on dismiss; firing onConfirm first ensures that state
+                    // is still readable when the action runs.
                     config.onConfirm()
+                    withAnimation { isPresented = false }
                 }
             }
             .frame(height: 48)

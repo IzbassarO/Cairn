@@ -1,40 +1,31 @@
 import SwiftUI
 import SwiftData
 
-/// 12-week heatmap for the Habit Info screen. Visual model:
-///  - "LAST 3 MONTHS" eyebrow
-///  - 7 rows × 12 cols (Mon..Sun rows, oldest..newest weeks as columns)
-///  - Top-left cell = Monday of the earliest week in the window. Cells before
-///    `habit.createdAt` are rendered at lowest opacity, so the user sees
-///    "this habit didn't exist yet" rather than "missed".
-///  - Date range "Mar 1 ... May 17" at the bottom corners
-///  - Two intensity levels per cell:
-///     - `partial` (sage low): logged at least once that day
-///     - `full` (sage strong): reached `targetPerDay` that day
+/// Stone map for the Habit Info screen — a GitHub-style heatmap anchored at the
+/// habit's creation day. The top-left square is day one; days fill **downward**
+/// (7 per column) then wrap to the next column, so a brand-new habit shows a
+/// single square and the map grows as days accrue. Caps at ~3 months; older
+/// habits show a rolling window. Tap any square for that day's detail.
 struct HabitHeatmapGrid: View {
     let habit: Habit
 
-    private let weekCount: Int = 12
-    private let cellSpacing: CGFloat = 3
+    private let maxDays = 91            // ~3 month ceiling
+    private let rows = 7
+    private let cellSize: CGFloat = 16
+    private let cellSpacing: CGFloat = 4
     private let cornerRadius: CGFloat = 4
 
     private var cal: Calendar { Calendar.current }
+
+    @State private var selectedDay: Date?
 
     var body: some View {
         let layout = computeLayout()
 
         VStack(alignment: .leading, spacing: Spacing.md) {
-            header
-
-            grid(
-                gridStart: layout.gridStart,
-                today: layout.today,
-                creationDay: layout.creationDay,
-                logsByDay: layout.logsByDay,
-                target: layout.target
-            )
-
-            dateRange(gridStart: layout.gridStart, today: layout.today)
+            header(layout: layout)
+            grid(layout: layout)
+            infoLine(layout: layout)
         }
         .padding(Spacing.md)
         .background(
@@ -43,170 +34,152 @@ struct HabitHeatmapGrid: View {
         )
     }
 
-    // MARK: Layout precomputation
-    // Done outside of @ViewBuilder so the body stays a clean View expression.
+    // MARK: Layout
 
     private struct Layout {
+        let firstDay: Date
         let today: Date
-        let gridStart: Date
-        let creationDay: Date
+        let dayCount: Int          // days from firstDay…today, inclusive
+        let columns: Int
         let logsByDay: [Date: Int]
         let target: Int
+        let anchoredAtCreation: Bool
     }
 
     private func computeLayout() -> Layout {
         let today = cal.startOfDay(for: .now)
-        let weekday = cal.component(.weekday, from: today)
-        // 1=Sun … 7=Sat. Make Monday=2 the row-zero anchor.
-        let daysBackToMonday = (weekday - 2 + 7) % 7
-        let currentWeekStart = cal.date(byAdding: .day, value: -daysBackToMonday, to: today) ?? today
-        let gridStart = cal.date(byAdding: .day, value: -(weekCount - 1) * 7, to: currentWeekStart) ?? today
+        let creationDay = cal.startOfDay(for: habit.createdAt)
+        let cappedStart = cal.date(byAdding: .day, value: -(maxDays - 1), to: today) ?? today
+        let anchoredAtCreation = creationDay >= cappedStart
+        let firstDay = anchoredAtCreation ? creationDay : cappedStart
+        let dayCount = max(1, (cal.dateComponents([.day], from: firstDay, to: today).day ?? 0) + 1)
+        let columns = max(1, Int(ceil(Double(dayCount) / Double(rows))))
 
         return Layout(
+            firstDay: firstDay,
             today: today,
-            gridStart: gridStart,
-            creationDay: cal.startOfDay(for: habit.createdAt),
+            dayCount: dayCount,
+            columns: columns,
             logsByDay: bucketLogs(),
-            target: max(1, habit.targetPerDay)
+            target: max(1, habit.targetPerDay),
+            anchoredAtCreation: anchoredAtCreation
         )
     }
 
     // MARK: Header
 
-    private var header: some View {
+    private func header(layout: Layout) -> some View {
         HStack(alignment: .firstTextBaseline) {
-            Text("LAST 3 MONTHS")
+            Text(layout.anchoredAtCreation ? "SINCE DAY ONE" : "LAST 3 MONTHS")
                 .font(.system(size: 11, weight: .semibold))
                 .foregroundStyle(Color.accentSage)
                 .tracking(1.4)
             Spacer()
+            Text(layout.dayCount == 1 ? "Day 1" : "\(layout.dayCount) days")
+                .font(.system(size: 11, weight: .medium, design: .monospaced))
+                .foregroundStyle(Color.textTertiary)
         }
     }
 
-    // MARK: Grid (7 rows × 12 cols)
+    // MARK: Grid (column-major, fills downward then wraps)
 
-    private func grid(
-        gridStart: Date,
-        today: Date,
-        creationDay: Date,
-        logsByDay: [Date: Int],
-        target: Int
-    ) -> some View {
-        // We render row-major because rows = weekdays (Mon at row 0 on top).
-        VStack(spacing: cellSpacing) {
-            ForEach(0..<7, id: \.self) { row in
-                HStack(spacing: cellSpacing) {
-                    ForEach(0..<weekCount, id: \.self) { week in
-                        cell(
-                            week: week,
-                            row: row,
-                            gridStart: gridStart,
-                            today: today,
-                            creationDay: creationDay,
-                            logsByDay: logsByDay,
-                            target: target
-                        )
-                        .aspectRatio(1, contentMode: .fit)
+    private func grid(layout: Layout) -> some View {
+        HStack(alignment: .top, spacing: cellSpacing) {
+            ForEach(0..<layout.columns, id: \.self) { col in
+                VStack(spacing: cellSpacing) {
+                    ForEach(0..<rows, id: \.self) { row in
+                        cell(col: col, row: row, layout: layout)
                     }
                 }
             }
+            Spacer(minLength: 0)
         }
     }
 
     @ViewBuilder
-    private func cell(
-        week: Int,
-        row: Int,
-        gridStart: Date,
-        today: Date,
-        creationDay: Date,
-        logsByDay: [Date: Int],
-        target: Int
-    ) -> some View {
-        let level = cellLevel(
-            week: week,
-            row: row,
-            gridStart: gridStart,
-            today: today,
-            creationDay: creationDay,
-            logsByDay: logsByDay,
-            target: target
-        )
+    private func cell(col: Int, row: Int, layout: Layout) -> some View {
+        let index = col * rows + row
+        if index < layout.dayCount {
+            let date = cal.date(byAdding: .day, value: index, to: layout.firstDay) ?? layout.firstDay
+            let count = layout.logsByDay[date] ?? 0
+            let isSelected = selectedDay.map { cal.isDate($0, inSameDayAs: date) } ?? false
 
-        RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-            .fill(level.fill)
+            RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                .fill(fill(count: count, target: layout.target))
+                .frame(width: cellSize, height: cellSize)
+                .overlay(
+                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                        .strokeBorder(Color.textPrimary.opacity(isSelected ? 0.7 : 0), lineWidth: 1.5)
+                )
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    withAnimation(.easeOut(duration: 0.15)) {
+                        selectedDay = isSelected ? nil : date
+                    }
+                }
+        } else {
+            // Future cell in the last column — reserve space, stay invisible.
+            Color.clear.frame(width: cellSize, height: cellSize)
+        }
     }
 
-    /// Pure helper — no SwiftUI involved. Kept separate from `cell(...)` so the
-    /// `@ViewBuilder` doesn't try to interpret the if/else chain as views.
-    private func cellLevel(
-        week: Int,
-        row: Int,
-        gridStart: Date,
-        today: Date,
-        creationDay: Date,
-        logsByDay: [Date: Int],
-        target: Int
-    ) -> CellLevel {
-        let offset = week * 7 + row
-        let date = cal.date(byAdding: .day, value: offset, to: gridStart) ?? gridStart
-        let count = logsByDay[date] ?? 0
-
-        if date > today {
-            return .future
-        }
-        if date < creationDay {
-            return .beforeCreation
-        }
-        if count >= target {
-            return .full
-        }
-        if count > 0 {
-            return .partial
-        }
-        return .empty
+    private func fill(count: Int, target: Int) -> Color {
+        if count >= target { return Color.accentSage }
+        if count > 0 { return Color.accentSage.opacity(0.42) }
+        return Color.bgTertiary
     }
 
-    // MARK: Date range
+    // MARK: Info line (selected day, or legend)
 
-    private func dateRange(gridStart: Date, today: Date) -> some View {
-        let f = DateFormatter()
-        f.dateFormat = "MMM d"
-        return HStack {
-            Text(f.string(from: gridStart))
-                .font(.system(size: 12))
+    @ViewBuilder
+    private func infoLine(layout: Layout) -> some View {
+        if let day = selectedDay {
+            let count = layout.logsByDay[cal.startOfDay(for: day)] ?? 0
+            HStack(spacing: 6) {
+                Text(dayLabel(day))
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(Color.textPrimary)
+                Text("·").foregroundStyle(Color.textTertiary)
+                Text(count == 0 ? "no stones" : "\(count) \(count == 1 ? "stone" : "stones")")
+                    .font(.system(size: 13))
+                    .foregroundStyle(count == 0 ? Color.textTertiary : Color.accentSage)
+                Spacer()
+            }
+            .padding(.top, 2)
+        } else {
+            legendRow
+        }
+    }
+
+    private var legendRow: some View {
+        HStack(spacing: 6) {
+            Text("Less")
+                .font(.system(size: 11))
+                .foregroundStyle(Color.textTertiary)
+            legendSquare(Color.bgTertiary)
+            legendSquare(Color.accentSage.opacity(0.42))
+            legendSquare(Color.accentSage)
+            Text("More")
+                .font(.system(size: 11))
                 .foregroundStyle(Color.textTertiary)
             Spacer()
-            Text(f.string(from: today))
-                .font(.system(size: 12))
+            Text("Tap a square")
+                .font(.system(size: 11))
                 .foregroundStyle(Color.textTertiary)
         }
-        .padding(.top, 4)
+        .padding(.top, 2)
     }
 
-    // MARK: Cell levels
+    private func legendSquare(_ color: Color) -> some View {
+        RoundedRectangle(cornerRadius: 3, style: .continuous)
+            .fill(color)
+            .frame(width: 12, height: 12)
+    }
 
-    private enum CellLevel {
-        case future          // not rendered (clear)
-        case beforeCreation  // habit didn't exist yet — very faint bg
-        case empty           // no log, but habit existed — faint bg
-        case partial         // logged at least once
-        case full            // reached targetPerDay
-
-        var fill: AnyShapeStyle {
-            switch self {
-            case .future:
-                return AnyShapeStyle(Color.clear)
-            case .beforeCreation:
-                return AnyShapeStyle(Color.bgTertiary.opacity(0.45))
-            case .empty:
-                return AnyShapeStyle(Color.bgTertiary)
-            case .partial:
-                return AnyShapeStyle(Color.accentSage.opacity(0.42))
-            case .full:
-                return AnyShapeStyle(Color.accentSage)
-            }
-        }
+    private func dayLabel(_ date: Date) -> String {
+        let f = DateFormatter()
+        f.dateFormat = "EEE, MMM d"
+        return f.string(from: date)
     }
 
     // MARK: Bucket
