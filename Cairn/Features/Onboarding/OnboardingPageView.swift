@@ -19,28 +19,8 @@ struct OnboardingPageView: View {
                 .opacity(heroOpacity)
                 .onAppear { animateIn() }
 
-            VStack(spacing: Spacing.sm) {
-                if let eyebrow = page.eyebrow {
-                    Text(eyebrow)
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(Color.accentSage)
-                        .textCase(.uppercase)
-                        .tracking(1.4)
-                        .padding(.bottom, 2)
-                }
-
-                Text(page.headline)
-                    .font(.system(size: 28, weight: .bold, design: .rounded))
-                    .foregroundStyle(Color.textPrimary)
-                    .multilineTextAlignment(.center)
-
-                Text(page.subhead)
-                    .font(.system(size: 16))
-                    .foregroundStyle(Color.textSecondary)
-                    .multilineTextAlignment(.center)
-                    .lineSpacing(3)
-            }
-            .padding(.horizontal, Spacing.lg)
+            textBlock
+                .padding(.horizontal, Spacing.lg)
 
             if case .nameField = page.hero {
                 nameInputField
@@ -53,15 +33,54 @@ struct OnboardingPageView: View {
         }
     }
 
+    // MARK: Text block (eyebrow + headline + italic accent + subhead)
+
+    private var textBlock: some View {
+        VStack(spacing: Spacing.sm) {
+            if let eyebrow = page.eyebrow {
+                Text(eyebrow)
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundStyle(Color.accentSage)
+                    .tracking(1.4)
+                    .padding(.bottom, 2)
+            }
+
+            Text(page.headline)
+                .font(.system(size: 32, weight: .bold, design: .serif))
+                .foregroundStyle(Color.textPrimary)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+
+            if let accent = page.accent {
+                Text(accent)
+                    .font(.system(size: 32, weight: .bold, design: .serif))
+                    .italic()
+                    .foregroundStyle(Color.accentSage)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
+            Text(page.subhead)
+                .font(.system(size: 16))
+                .foregroundStyle(Color.textSecondary)
+                .multilineTextAlignment(.center)
+                .lineSpacing(4)
+                .padding(.top, Spacing.xs)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    // MARK: Hero
+
     @ViewBuilder
     private var hero: some View {
         switch page.hero {
-        case .symbol(let name, let color):
+        case .symbol(let symbolName, let color):
             ZStack {
                 Circle()
                     .fill(color.opacity(0.12))
                     .frame(width: 200, height: 200)
-                Image(systemName: name)
+                Image(systemName: symbolName)
                     .font(.system(size: 80, weight: .regular))
                     .foregroundStyle(color)
             }
@@ -79,12 +98,22 @@ struct OnboardingPageView: View {
             RestingStoneView(width: 140)
                 .frame(width: 180, height: 140)
                 .accessibilityHidden(true)
+        case .stateStone(let kind):
+            ZStack {
+                Circle()
+                    .fill(Color.accentSage.opacity(0.12))
+                    .frame(width: 200, height: 200)
+                StateStone(kind: kind, size: 130)
+            }
+            .accessibilityHidden(true)
         }
     }
 
+    // MARK: Name field
+
     private var nameInputField: some View {
         TextField("First name", text: $name)
-            .font(.system(size: 18, weight: .medium, design: .rounded))
+            .font(.system(size: 18, weight: .medium, design: .serif))
             .foregroundStyle(Color.textPrimary)
             .multilineTextAlignment(.center)
             .textInputAutocapitalization(.words)

@@ -8,7 +8,34 @@ struct HabitHistoryView: View {
     @Bindable var habit: Habit
     @Environment(\.dismiss) private var dismiss
 
+    @State private var range: TimeRange = .month
+
     private var cal: Calendar { Calendar.current }
+
+    /// Time window for the history list. Older entries still exist in the
+    /// detail card and the heatmap — this just keeps the long list scannable.
+    enum TimeRange: String, CaseIterable, Identifiable {
+        case week, month, halfYear, year, all
+        var id: String { rawValue }
+        var label: String {
+            switch self {
+            case .week:     return "Week"
+            case .month:    return "Month"
+            case .halfYear: return "6mo"
+            case .year:     return "Year"
+            case .all:      return "All"
+            }
+        }
+        func cutoff(now: Date, calendar: Calendar) -> Date? {
+            switch self {
+            case .week:     return calendar.date(byAdding: .day, value: -7, to: now)
+            case .month:    return calendar.date(byAdding: .month, value: -1, to: now)
+            case .halfYear: return calendar.date(byAdding: .month, value: -6, to: now)
+            case .year:     return calendar.date(byAdding: .year, value: -1, to: now)
+            case .all:      return nil
+            }
+        }
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -17,6 +44,7 @@ struct HabitHistoryView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: Spacing.lg) {
                     titleBlock
+                    rangePicker
 
                     if grouped.isEmpty {
                         emptyState
@@ -84,11 +112,40 @@ struct HabitHistoryView: View {
         let total = grouped.reduce(0) { $0 + $1.logs.count }
         let days = grouped.count
         switch (total, days) {
-        case (0, _): return "No stones yet."
-        case (1, _): return "1 stone placed."
+        case (0, _): return "No stones in this window."
+        case (1, _): return "1 stone · \(range.label.lowercased())."
         case (_, 1): return "\(total) stones · 1 day."
         default: return "\(total) stones · \(days) days."
         }
+    }
+
+    // MARK: Range picker
+
+    private var rangePicker: some View {
+        HStack(spacing: 4) {
+            ForEach(TimeRange.allCases) { r in
+                let active = r == range
+                Button {
+                    withAnimation(.easeInOut(duration: 0.2)) { range = r }
+                } label: {
+                    Text(r.label)
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(active ? .white : Color.textSecondary)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 9, style: .continuous)
+                                .fill(active ? Color.accentSage : Color.clear)
+                        )
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(4)
+        .background(
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .fill(Color.bgTertiary.opacity(0.5))
+        )
     }
 
     // MARK: Day section
@@ -156,11 +213,11 @@ struct HabitHistoryView: View {
             Image(systemName: "leaf")
                 .font(.system(size: 28))
                 .foregroundStyle(Color.accentSage.opacity(0.6))
-            Text("No stones placed yet.")
+            Text(range == .all ? "No stones placed yet." : "Nothing in this window.")
                 .font(.system(size: 16, design: .serif))
                 .italic()
                 .foregroundStyle(Color.textSecondary)
-            Text("The first stone is the heaviest.")
+            Text(range == .all ? "The first stone is the heaviest." : "Try a wider time range.")
                 .font(.system(size: 14))
                 .foregroundStyle(Color.textTertiary)
         }
@@ -177,7 +234,10 @@ struct HabitHistoryView: View {
 
     private var grouped: [DayGroup] {
         let cal = self.cal
-        let validLogs = (habit.logs ?? []).filter { $0.modelContext != nil }
+        let cutoff = range.cutoff(now: .now, calendar: cal)
+        let validLogs = (habit.logs ?? [])
+            .filter { $0.modelContext != nil }
+            .filter { cutoff.map { c in $0.loggedAt >= c } ?? true }
         let buckets = Dictionary(grouping: validLogs) { cal.startOfDay(for: $0.loggedAt) }
         return buckets
             .map { day, logs in

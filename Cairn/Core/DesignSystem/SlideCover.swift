@@ -77,6 +77,9 @@ private struct SlideCoverBoolModifier<Cover: View>: ViewModifier {
                     cover()
                         .frame(width: geo.size.width, height: geo.size.height)
                         .background(Color.bgPrimary.ignoresSafeArea())
+                        // Hide the parent TabView's tab bar while we're shown,
+                        // so drill-in screens read as their own surface.
+                        .toolbar(.hidden, for: .tabBar)
                         // Single offset for the WHOLE cover → moves as one unit.
                         .offset(x: visible ? 0 : geo.size.width)
                         .zIndex(1)
@@ -125,6 +128,7 @@ private struct SlideCoverItemModifier<Item: Identifiable, Cover: View>: ViewModi
                     cover(value)
                         .frame(width: geo.size.width, height: geo.size.height)
                         .background(Color.bgPrimary.ignoresSafeArea())
+                        .toolbar(.hidden, for: .tabBar)
                         .offset(x: visible ? 0 : geo.size.width)
                         .zIndex(1)
                 }
