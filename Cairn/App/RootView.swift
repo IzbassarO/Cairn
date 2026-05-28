@@ -11,16 +11,21 @@ struct RootView: View {
     private enum Tab: Hashable { case today, coach, settings }
 
     var body: some View {
-        Group {
-            if hasCompletedOnboarding {
-                mainTabs
-            } else {
-                OnboardingView(onComplete: {
-                    withAnimation(.easeInOut(duration: 0.35)) {
-                        hasCompletedOnboarding = true
-                    }
-                })
-                .transition(.opacity)
+        // SlideCoverHost provides the root-level overlay layer that
+        // .slideCover renders into, so drill-in screens sit *above* the
+        // tab bar without animating it in and out.
+        SlideCoverHost {
+            Group {
+                if hasCompletedOnboarding {
+                    mainTabs
+                } else {
+                    OnboardingView(onComplete: {
+                        withAnimation(.easeInOut(duration: 0.35)) {
+                            hasCompletedOnboarding = true
+                        }
+                    })
+                    .transition(.opacity)
+                }
             }
         }
         // Settings cascade across the whole app:

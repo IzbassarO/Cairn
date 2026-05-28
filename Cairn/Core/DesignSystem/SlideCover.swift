@@ -2,154 +2,156 @@ import SwiftUI
 
 // MARK: - Slide (horizontal push) presentation
 //
-// A reusable full-screen presentation that enters from the trailing edge and
-// exits back to the trailing edge — the "push" feel of Instagram / WhatsApp.
+// A reusable presentation that enters from the trailing edge and exits back
+// to the trailing edge — the "push" feel of Instagram / WhatsApp.
 //
-// Unlike NavigationStack, this is driven ONLY by button taps: there is no
-// interactive edge-swipe to dismiss. Open and close both animate horizontally
-// and only happen when code flips the binding (i.e. when a button is tapped).
+// Architecture:
+//   ┌─ SlideCoverHost (wraps the app root) ──────────────────┐
+//   │  ┌─ your content (TabView, tabs, screens) ─────────┐   │
+//   │  │  ↑ child views call `.slideCover(isPresented:)`  │   │
+//   │  └──────────────────────────────────────────────────┘   │
+//   │  ┌─ overlay layer (above everything, incl. tab bar) ─┐  │
+//   │  │  ↑ this is where the cover actually renders       │  │
+//   │  └───────────────────────────────────────────────────┘  │
+//   └────────────────────────────────────────────────────────┘
 //
-// Use this for "drilling deeper" (settings detail screens, Add another,
-// Calendar, Notifications, Profile → Edit). Keep the system `.fullScreenCover`
-// for things that should feel like modals rising from the bottom (creating a
-// habit via the row, pickers, View Garden, the habit list).
+// Why centralized: when the modifier renders the cover *inside* the calling
+// view's tree, that tree is constrained to a tab's content area — so the
+// system tab bar sits visually on top of the cover. Lifting the overlay to
+// the root makes the cover sit on top of the tab bar, with the tab bar
+// remaining mounted underneath (it doesn't animate in or out).
 //
-// IMPORTANT: presented views are NOT inside a system presenter, so
-// `@Environment(\.dismiss)` does NOT work here. Dismiss by setting the binding
-// from the presented view's own button — pass it a close callback:
-//
-//   .slideCover(isPresented: $showProfile) {
-//       ProfileView(onDismiss: { showProfile = false })
-//   }
-//
-// The whole cover (header, back button, content) moves as ONE layer via a
-// single animated `offset`, so nothing lags behind during the transition.
-
-extension View {
-    /// Presents `content` with a horizontal slide-in/out, gated on a Bool.
-    func slideCover<Cover: View>(
-        isPresented: Binding<Bool>,
-        animation: Animation = SlideCover.defaultAnimation,
-        @ViewBuilder content: @escaping () -> Cover
-    ) -> some View {
-        modifier(SlideCoverBoolModifier(isPresented: isPresented,
-                                        animation: animation,
-                                        cover: content))
-    }
-
-    /// Presents `content` with a horizontal slide-in/out, gated on an optional
-    /// Identifiable item (mirrors `fullScreenCover(item:)`).
-    func slideCover<Item: Identifiable, Cover: View>(
-        item: Binding<Item?>,
-        animation: Animation = SlideCover.defaultAnimation,
-        @ViewBuilder content: @escaping (Item) -> Cover
-    ) -> some View {
-        modifier(SlideCoverItemModifier(item: item,
-                                        animation: animation,
-                                        cover: content))
-    }
-}
+// Like before, this is BUTTON-DRIVEN: no edge-swipe. Open and close both
+// happen only when code flips the binding. Presented views must use their
+// own callback (e.g. `onClose: { showX = false }`) to dismiss —
+// `@Environment(\.dismiss)` does NOT work here (no system presenter).
 
 enum SlideCover {
     /// Snappy but smooth — close to a native push, intentionally quick.
-    static let defaultAnimation: Animation = .timingCurve(0.32, 0.72, 0, 1, duration: 0.34)
+    static let animation: Animation = .timingCurve(0.32, 0.72, 0, 1, duration: 0.34)
+    /// Matches `animation.duration` — used to schedule unmount after slide-out.
+    static let animationSeconds: Double = 0.34
 }
 
-// MARK: - Bool-driven modifier
+// MARK: - Presenter
 
-private struct SlideCoverBoolModifier<Cover: View>: ViewModifier {
+/// Holds the stack of slide covers currently presented. One per app root,
+/// supplied via `SlideCoverHost`.
+@MainActor
+final class SlidePresenter: ObservableObject {
+    struct Entry: Identifiable {
+        let id: UUID
+        let content: AnyView
+        var visible: Bool
+    }
+
+    @Published private(set) var entries: [Entry] = []
+
+    func push(id: UUID, content: AnyView) {
+        // Guard against re-pushing the same modifier id (avoids duplicates).
+        guard !entries.contains(where: { $0.id == id }) else { return }
+        entries.append(Entry(id: id, content: content, visible: false))
+        // Animate in on the next runloop tick so SwiftUI mounts at off-screen
+        // first and then transitions to on-screen.
+        DispatchQueue.main.async {
+            withAnimation(SlideCover.animation) {
+                if let idx = self.entries.firstIndex(where: { $0.id == id }) {
+                    self.entries[idx].visible = true
+                }
+            }
+        }
+    }
+
+    func dismiss(id: UUID) {
+        guard let idx = entries.firstIndex(where: { $0.id == id }) else { return }
+        withAnimation(SlideCover.animation) {
+            entries[idx].visible = false
+        }
+        // Unmount once the slide-out has finished.
+        DispatchQueue.main.asyncAfter(deadline: .now() + SlideCover.animationSeconds + 0.04) {
+            self.entries.removeAll { $0.id == id }
+        }
+    }
+}
+
+// MARK: - Public API (modifier)
+
+extension View {
+    /// Presents `content` with a horizontal slide-in/out, gated on a Bool.
+    /// The cover is rendered by the nearest `SlideCoverHost` ancestor so it
+    /// can sit on top of any tab bar or root chrome.
+    func slideCover<Cover: View>(
+        isPresented: Binding<Bool>,
+        @ViewBuilder content: @escaping () -> Cover
+    ) -> some View {
+        modifier(SlideCoverModifier(isPresented: isPresented, content: content))
+    }
+}
+
+private struct SlideCoverModifier<C: View>: ViewModifier {
     @Binding var isPresented: Bool
-    let animation: Animation
-    @ViewBuilder let cover: () -> Cover
+    @ViewBuilder let content: () -> C
+    @EnvironmentObject private var presenter: SlidePresenter
+    /// Stable across re-renders of this modifier, so push/dismiss target the
+    /// same entry on the presenter.
+    @State private var entryID = UUID()
 
-    /// Drives the offset. Decoupled from `isPresented` so the OUTGOING content
-    /// stays mounted while it slides off, then unmounts when offset settles.
-    @State private var visible = false
-    /// Keeps the cover mounted during the close animation.
-    @State private var mounted = false
-
-    func body(content: Content) -> some View {
-        GeometryReader { geo in
-            ZStack {
-                content
-
-                if mounted {
-                    cover()
-                        .frame(width: geo.size.width, height: geo.size.height)
-                        .background(Color.bgPrimary.ignoresSafeArea())
-                        // Hide the parent TabView's tab bar while we're shown,
-                        // so drill-in screens read as their own surface.
-                        .toolbar(.hidden, for: .tabBar)
-                        // Single offset for the WHOLE cover → moves as one unit.
-                        .offset(x: visible ? 0 : geo.size.width)
-                        .zIndex(1)
+    func body(content base: Content) -> some View {
+        base
+            // React to the binding flipping; sync with the presenter.
+            .onChange(of: isPresented) { _, new in
+                if new {
+                    presenter.push(id: entryID, content: AnyView(self.content()))
+                } else {
+                    presenter.dismiss(id: entryID)
                 }
             }
-        }
-        .onAppear { syncMountState() }
-        .onChange(of: isPresented) { _, _ in syncMountState() }
-    }
-
-    private func syncMountState() {
-        if isPresented {
-            // Mount off-screen, then animate in next runloop tick.
-            mounted = true
-            visible = false
-            DispatchQueue.main.async {
-                withAnimation(animation) { visible = true }
+            // If the presenting view leaves the tree while a cover is up
+            // (e.g. tab swap), clear the cover too — otherwise it'd be
+            // orphaned on the root overlay.
+            .onDisappear {
+                if isPresented {
+                    presenter.dismiss(id: entryID)
+                }
             }
-        } else if mounted {
-            // Animate out, then unmount once it's fully off-screen.
-            withAnimation(animation) { visible = false }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                if !isPresented { mounted = false }
-            }
-        }
     }
 }
 
-// MARK: - Item-driven modifier
+// MARK: - Host (rendered once at the app root)
 
-private struct SlideCoverItemModifier<Item: Identifiable, Cover: View>: ViewModifier {
-    @Binding var item: Item?
-    let animation: Animation
-    @ViewBuilder let cover: (Item) -> Cover
+/// Wraps the app's root content and provides the overlay layer used by
+/// `.slideCover(...)`. Must be the ancestor of every view that calls
+/// `.slideCover`, and must inject `SlidePresenter` into its content.
+struct SlideCoverHost<Content: View>: View {
+    @StateObject private var presenter = SlidePresenter()
+    private let content: Content
 
-    @State private var visible = false
-    /// Held separately so the outgoing view keeps its data while sliding off.
-    @State private var heldItem: Item?
-
-    func body(content: Content) -> some View {
-        GeometryReader { geo in
-            ZStack {
-                content
-
-                if let value = heldItem {
-                    cover(value)
-                        .frame(width: geo.size.width, height: geo.size.height)
-                        .background(Color.bgPrimary.ignoresSafeArea())
-                        .toolbar(.hidden, for: .tabBar)
-                        .offset(x: visible ? 0 : geo.size.width)
-                        .zIndex(1)
-                }
-            }
-        }
-        .onAppear { syncMountState() }
-        .onChange(of: item?.id) { _, _ in syncMountState() }
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
     }
 
-    private func syncMountState() {
-        if let current = item {
-            heldItem = current
-            visible = false
-            DispatchQueue.main.async {
-                withAnimation(animation) { visible = true }
+    var body: some View {
+        ZStack {
+            content
+                .environmentObject(presenter)
+
+            GeometryReader { geo in
+                ForEach(Array(presenter.entries.enumerated()), id: \.element.id) { idx, entry in
+                    entry.content
+                        // Inject the presenter again so nested `.slideCover`s
+                        // inside an entry can push to this same overlay
+                        // (e.g. Profile → Edit Profile).
+                        .environmentObject(presenter)
+                        .frame(width: geo.size.width, height: geo.size.height)
+                        .background(Color.bgPrimary.ignoresSafeArea())
+                        .offset(x: entry.visible ? 0 : geo.size.width)
+                        .zIndex(Double(100 + idx))
+                        // Don't intercept touches while the cover is mounted
+                        // but off-screen (sliding out / not yet slid in).
+                        .allowsHitTesting(entry.visible)
+                }
             }
-        } else if heldItem != nil {
-            withAnimation(animation) { visible = false }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                if item?.id == nil { heldItem = nil }
-            }
+            .ignoresSafeArea()
         }
     }
 }

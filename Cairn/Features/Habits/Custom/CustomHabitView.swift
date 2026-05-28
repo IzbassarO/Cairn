@@ -13,6 +13,8 @@ struct CustomHabitView: View {
     @State private var showTimeSheet = false
     @State private var showDaysSheet = false
     @State private var editingTimeIndex: Int = 0
+    @State private var showDuplicateAlert = false
+    @State private var duplicateMessage = ""
 
     private var service: HabitService { HabitService(context: context) }
 
@@ -49,6 +51,14 @@ struct CustomHabitView: View {
         .sheet(isPresented: $showDaysSheet) {
             CustomDaysSheet(draft: draft)
         }
+        .cairnAlert(
+            isPresented: $showDuplicateAlert,
+            title: "Already have one",
+            message: duplicateMessage,
+            confirmTitle: "Got it",
+            cancelTitle: "Change name",
+            onConfirm: { }
+        )
     }
 
     // MARK: Header
@@ -468,6 +478,20 @@ struct CustomHabitView: View {
     private func save() async {
         let (schedule, customDays) = draft.resolvedScheduleAndCustomDays
         let trimmedName = draft.name.trimmingCharacters(in: .whitespaces)
+        let times = draft.notificationsEnabled ? draft.reminderTimes : []
+
+        // Block silly duplicates (same name + same time would just double-fire).
+        do {
+            if try service.duplicateExists(name: trimmedName, reminderTimes: times) {
+                duplicateMessage = duplicateText(name: trimmedName, hasTimes: !times.isEmpty)
+                showDuplicateAlert = true
+                return
+            }
+        } catch {
+            // If the check itself errors, fall through and let `add` run —
+            // the user shouldn't be blocked by an internal fetch failure.
+            print("⚠️ Duplicate check failed: \(error)")
+        }
 
         let habit = Habit(
             name: trimmedName,
@@ -475,7 +499,7 @@ struct CustomHabitView: View {
             colorTokenName: "accent.sage",
             category: .custom,
             schedule: schedule,
-            notificationTimes: draft.notificationsEnabled ? draft.reminderTimes : [],
+            notificationTimes: times,
             sortOrder: 0,
             targetPerDay: max(1, min(draft.targetPerDay, 3)),
             cueNote: draft.cueNote.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -490,6 +514,13 @@ struct CustomHabitView: View {
         }
 
         onPlanted(habit)
+    }
+
+    private func duplicateText(name: String, hasTimes: Bool) -> String {
+        let quoted = "\u{201C}\(name)\u{201D}"
+        return hasTimes
+            ? "You already have \(quoted) at this time. Change the name or the reminder time to add another."
+            : "You already have a \(quoted). Pick a different name to add another."
     }
 }
 

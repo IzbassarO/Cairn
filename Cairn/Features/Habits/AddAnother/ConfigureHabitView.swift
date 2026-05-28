@@ -11,6 +11,8 @@ struct ConfigureHabitView: View {
     @State private var draft: ConfigureHabitDraft
     @State private var showTimeSheet = false
     @State private var showDaysSheet = false
+    @State private var showDuplicateAlert = false
+    @State private var duplicateMessage = ""
     @FocusState private var cueFocused: Bool
 
     init(
@@ -56,6 +58,14 @@ struct ConfigureHabitView: View {
         .sheet(isPresented: $showDaysSheet) {
             ConfigureDaysSheet(draft: draft)
         }
+        .cairnAlert(
+            isPresented: $showDuplicateAlert,
+            title: "Already have one",
+            message: duplicateMessage,
+            confirmTitle: "Got it",
+            cancelTitle: "OK",
+            onConfirm: { }
+        )
     }
 
     // MARK: Header
@@ -442,13 +452,29 @@ struct ConfigureHabitView: View {
 
     private func save() async {
         let (schedule, customDays) = draft.resolvedScheduleAndCustomDays
+        let times: [Date] = draft.notificationsEnabled ? [draft.reminderTime] : []
+        let name = draft.template.name
+
+        // Block silly duplicates (e.g. tapping "Drink water" twice at 09:00).
+        do {
+            if try service.duplicateExists(name: name, reminderTimes: times) {
+                duplicateMessage = times.isEmpty
+                    ? "You already have a \u{201C}\(name)\u{201D}."
+                    : "You already have \u{201C}\(name)\u{201D} at this time. Change the reminder time to add another."
+                showDuplicateAlert = true
+                return
+            }
+        } catch {
+            print("⚠️ Duplicate check failed: \(error)")
+        }
+
         let habit = Habit(
-            name: draft.template.name,
+            name: name,
             iconName: draft.template.iconName,
             colorTokenName: draft.template.colorTokenName,
             category: draft.template.category,
             schedule: schedule,
-            notificationTimes: draft.notificationsEnabled ? [draft.reminderTime] : [],
+            notificationTimes: times,
             sortOrder: 0,
             targetPerDay: 1,
             cueNote: draft.cueNote.trimmingCharacters(in: .whitespacesAndNewlines)

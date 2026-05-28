@@ -157,7 +157,9 @@ final class AppSettings: ObservableObject {
         let hour = calendar.component(.hour, from: date)
         let start = quietHoursStartHour
         let end = quietHoursEndHour
-        if start == end { return false }
+        // start == end while enabled = the user dragged the dial to mean
+        // "all day quiet" (24h). Treat any hour as inside the window.
+        if start == end { return true }
         if start < end {
             return hour >= start && hour < end          // same-day window
         } else {
