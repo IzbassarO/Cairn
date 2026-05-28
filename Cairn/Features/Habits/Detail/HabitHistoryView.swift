@@ -235,13 +235,15 @@ struct HabitHistoryView: View {
     private var grouped: [DayGroup] {
         let cal = self.cal
         let cutoff = range.cutoff(now: .now, calendar: cal)
-        let validLogs = (habit.logs ?? [])
-            .filter { $0.modelContext != nil }
-            .filter { cutoff.map { c in $0.loggedAt >= c } ?? true }
+        let validLogs: [HabitLog] = (habit.logs ?? []).filter { log in
+            guard log.modelContext != nil else { return false }
+            if let cutoff { return log.loggedAt >= cutoff }
+            return true
+        }
         let buckets = Dictionary(grouping: validLogs) { cal.startOfDay(for: $0.loggedAt) }
         return buckets
-            .map { day, logs in
-                DayGroup(day: day, logs: logs.sorted { $0.loggedAt > $1.loggedAt })
+            .map { (key, value) -> DayGroup in
+                DayGroup(day: key, logs: value.sorted { $0.loggedAt > $1.loggedAt })
             }
             .sorted { $0.day > $1.day }
     }
