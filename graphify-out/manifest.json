@@ -80,8 +80,8 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Core/Models/Enums.swift": {
-    "mtime": 1779553191.3644793,
-    "ast_hash": "f503db0759e52459ed00508d8dabdb09",
+    "mtime": 1780244178.9181032,
+    "ast_hash": "04cbdda35005beee977f3804ceb0c9fe",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Core/Models/UserProfile.swift": {
@@ -90,8 +90,8 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Core/Models/HabitTemplate.swift": {
-    "mtime": 1779553225.398466,
-    "ast_hash": "c3d1c0c179c30189011b23cdeb5ff081",
+    "mtime": 1780244178.9191737,
+    "ast_hash": "6a78d7c732dac6616e1c73b16c40b9a8",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Core/Models/CoachMessage.swift": {
@@ -365,8 +365,8 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Home/Components/HabitsCategoryHeader.swift": {
-    "mtime": 1779046648.1112225,
-    "ast_hash": "101e9a8f10ae34e7c7b848fe5c65ef2a",
+    "mtime": 1780244178.9245586,
+    "ast_hash": "47465fe5ad2b11f2749a7b7bb5e90b59",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Home/Components/TodayHabitRow.swift": {
@@ -410,13 +410,13 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Habits/AddAnother/AreasOfLifeChips.swift": {
-    "mtime": 1779553471.7006178,
-    "ast_hash": "ba358f1b490a9b93bea42a03abd3ed01",
+    "mtime": 1780244178.9209797,
+    "ast_hash": "a87ba5e24d56343594d65d832c9ed29d",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Habits/AddAnother/AddAnotherHabitView.swift": {
-    "mtime": 1779616162.2938154,
-    "ast_hash": "6c7032341210e5dec91824fa8b758d60",
+    "mtime": 1780244178.9201941,
+    "ast_hash": "ad6a0b2f549378a607c33f17645ac35d",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Habits/AddAnother/TemplateLibraryRow.swift": {
@@ -425,8 +425,8 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Habits/AddAnother/ConfigureHabitDraft.swift": {
-    "mtime": 1779553453.9973202,
-    "ast_hash": "f631fd8671e4de75e8f87baa1901ab16",
+    "mtime": 1780244178.9220772,
+    "ast_hash": "c841bda1d5e27517299b644c664051c1",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Habits/AddAnother/ConfigureHabitView.swift": {
@@ -435,8 +435,8 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Habits/Detail/HabitInfoView.swift": {
-    "mtime": 1779736256.0140307,
-    "ast_hash": "4c517b3e611712a69cd87ceeb15ba568",
+    "mtime": 1780244178.92355,
+    "ast_hash": "02e8881de24c2cf899d12498e52f5dfb",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Habits/Detail/HabitHistoryView.swift": {
@@ -450,8 +450,8 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Habits/Detail/HabitEditDraft.swift": {
-    "mtime": 1779012411.966992,
-    "ast_hash": "a2d9a591be9441f03a37d61f76451b52",
+    "mtime": 1780244178.9228213,
+    "ast_hash": "726dfb46e2b8ce6f6974425385c31f48",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Habits/Detail/HabitEditView.swift": {

@@ -1102,10 +1102,28 @@
       "norm_label": "hyperfocuscheckin"
     },
     {
-      "label": "custom",
+      "label": "learning",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L11",
+      "id": "models_enums_habitcategory_learning",
+      "community": 1,
+      "norm_label": "learning"
+    },
+    {
+      "label": "tidy",
+      "file_type": "code",
+      "source_file": "Cairn/Core/Models/Enums.swift",
+      "source_location": "L12",
+      "id": "models_enums_habitcategory_tidy",
+      "community": 1,
+      "norm_label": "tidy"
+    },
+    {
+      "label": "custom",
+      "file_type": "code",
+      "source_file": "Cairn/Core/Models/Enums.swift",
+      "source_location": "L13",
       "id": "models_enums_habitcategory_custom",
       "community": 1,
       "norm_label": "custom"
@@ -1114,7 +1132,7 @@
       "label": "HabitSchedule",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L40",
+      "source_location": "L46",
       "id": "models_enums_habitschedule",
       "community": 116,
       "norm_label": "habitschedule"
@@ -1123,7 +1141,7 @@
       "label": "daily",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L41",
+      "source_location": "L47",
       "id": "models_enums_habitschedule_daily",
       "community": 116,
       "norm_label": "daily"
@@ -1132,7 +1150,7 @@
       "label": "weekdays",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L42",
+      "source_location": "L48",
       "id": "models_enums_habitschedule_weekdays",
       "community": 116,
       "norm_label": "weekdays"
@@ -1141,7 +1159,7 @@
       "label": "weekends",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L43",
+      "source_location": "L49",
       "id": "models_enums_habitschedule_weekends",
       "community": 116,
       "norm_label": "weekends"
@@ -1150,7 +1168,7 @@
       "label": "custom",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L44",
+      "source_location": "L50",
       "id": "models_enums_habitschedule_custom",
       "community": 116,
       "norm_label": "custom"
@@ -1159,7 +1177,7 @@
       "label": "LogSource",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L65",
+      "source_location": "L71",
       "id": "models_enums_logsource",
       "community": 77,
       "norm_label": "logsource"
@@ -1168,7 +1186,7 @@
       "label": "app",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L66",
+      "source_location": "L72",
       "id": "models_enums_logsource_app",
       "community": 77,
       "norm_label": "app"
@@ -1177,7 +1195,7 @@
       "label": "widget",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L67",
+      "source_location": "L73",
       "id": "models_enums_logsource_widget",
       "community": 77,
       "norm_label": "widget"
@@ -1186,7 +1204,7 @@
       "label": "siri",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L68",
+      "source_location": "L74",
       "id": "models_enums_logsource_siri",
       "community": 77,
       "norm_label": "siri"
@@ -1195,7 +1213,7 @@
       "label": "watch",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L69",
+      "source_location": "L75",
       "id": "models_enums_logsource_watch",
       "community": 77,
       "norm_label": "watch"
@@ -1204,7 +1222,7 @@
       "label": "shortcut",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L70",
+      "source_location": "L76",
       "id": "models_enums_logsource_shortcut",
       "community": 77,
       "norm_label": "shortcut"
@@ -1213,7 +1231,7 @@
       "label": "MoodTag",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L73",
+      "source_location": "L79",
       "id": "models_enums_moodtag",
       "community": 110,
       "norm_label": "moodtag"
@@ -1222,7 +1240,7 @@
       "label": "easy",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L74",
+      "source_location": "L80",
       "id": "models_enums_moodtag_easy",
       "community": 110,
       "norm_label": "easy"
@@ -1231,7 +1249,7 @@
       "label": "ok",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L75",
+      "source_location": "L81",
       "id": "models_enums_moodtag_ok",
       "community": 110,
       "norm_label": "ok"
@@ -1240,7 +1258,7 @@
       "label": "struggle",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L76",
+      "source_location": "L82",
       "id": "models_enums_moodtag_struggle",
       "community": 110,
       "norm_label": "struggle"
@@ -1249,7 +1267,7 @@
       "label": "CoachMessageKind",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L79",
+      "source_location": "L85",
       "id": "models_enums_coachmessagekind",
       "community": 114,
       "norm_label": "coachmessagekind"
@@ -1258,7 +1276,7 @@
       "label": "dailyCheckIn",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L80",
+      "source_location": "L86",
       "id": "models_enums_coachmessagekind_dailycheckin",
       "community": 114,
       "norm_label": "dailycheckin"
@@ -1267,7 +1285,7 @@
       "label": "weeklySummary",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L81",
+      "source_location": "L87",
       "id": "models_enums_coachmessagekind_weeklysummary",
       "community": 114,
       "norm_label": "weeklysummary"
@@ -1276,7 +1294,7 @@
       "label": "reaction",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L82",
+      "source_location": "L88",
       "id": "models_enums_coachmessagekind_reaction",
       "community": 114,
       "norm_label": "reaction"
@@ -1285,7 +1303,7 @@
       "label": "userComposed",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L83",
+      "source_location": "L89",
       "id": "models_enums_coachmessagekind_usercomposed",
       "community": 114,
       "norm_label": "usercomposed"
@@ -1294,7 +1312,7 @@
       "label": "UserReaction",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L86",
+      "source_location": "L92",
       "id": "models_enums_userreaction",
       "community": 111,
       "norm_label": "userreaction"
@@ -1303,7 +1321,7 @@
       "label": "helpful",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L87",
+      "source_location": "L93",
       "id": "models_enums_userreaction_helpful",
       "community": 111,
       "norm_label": "helpful"
@@ -1312,7 +1330,7 @@
       "label": "noted",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L88",
+      "source_location": "L94",
       "id": "models_enums_userreaction_noted",
       "community": 111,
       "norm_label": "noted"
@@ -1321,7 +1339,7 @@
       "label": "notNow",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L89",
+      "source_location": "L95",
       "id": "models_enums_userreaction_notnow",
       "community": 111,
       "norm_label": "notnow"
@@ -1330,7 +1348,7 @@
       "label": "CoachTone",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L92",
+      "source_location": "L98",
       "id": "models_enums_coachtone",
       "community": 115,
       "norm_label": "coachtone"
@@ -1339,7 +1357,7 @@
       "label": "gentle",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L93",
+      "source_location": "L99",
       "id": "models_enums_coachtone_gentle",
       "community": 115,
       "norm_label": "gentle"
@@ -1348,7 +1366,7 @@
       "label": "structured",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L94",
+      "source_location": "L100",
       "id": "models_enums_coachtone_structured",
       "community": 115,
       "norm_label": "structured"
@@ -1357,7 +1375,7 @@
       "label": "bluntKind",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L95",
+      "source_location": "L101",
       "id": "models_enums_coachtone_bluntkind",
       "community": 115,
       "norm_label": "bluntkind"
@@ -1366,7 +1384,7 @@
       "label": "playful",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L96",
+      "source_location": "L102",
       "id": "models_enums_coachtone_playful",
       "community": 115,
       "norm_label": "playful"
@@ -1375,7 +1393,7 @@
       "label": "Appearance",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L99",
+      "source_location": "L105",
       "id": "models_enums_appearance",
       "community": 113,
       "norm_label": "appearance"
@@ -1384,7 +1402,7 @@
       "label": "system",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L100",
+      "source_location": "L106",
       "id": "models_enums_appearance_system",
       "community": 113,
       "norm_label": "system"
@@ -1393,7 +1411,7 @@
       "label": "light",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L101",
+      "source_location": "L107",
       "id": "models_enums_appearance_light",
       "community": 113,
       "norm_label": "light"
@@ -1402,7 +1420,7 @@
       "label": "dark",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L102",
+      "source_location": "L108",
       "id": "models_enums_appearance_dark",
       "community": 113,
       "norm_label": "dark"
@@ -1411,7 +1429,7 @@
       "label": "highContrast",
       "file_type": "code",
       "source_file": "Cairn/Core/Models/Enums.swift",
-      "source_location": "L103",
+      "source_location": "L109",
       "id": "models_enums_appearance_highcontrast",
       "community": 113,
       "norm_label": "highcontrast"
@@ -1962,7 +1980,7 @@
       "source_file": "Cairn/Core/Services/NotificationService.swift",
       "source_location": "L1",
       "id": "cairn_core_services_notificationservice_swift",
-      "community": 15,
+      "community": 3,
       "norm_label": "notificationservice.swift"
     },
     {
@@ -1971,7 +1989,7 @@
       "source_file": "Cairn/Core/Services/NotificationService.swift",
       "source_location": "L4",
       "id": "services_notificationservice_notificationservice",
-      "community": 15,
+      "community": 3,
       "norm_label": "notificationservice"
     },
     {
@@ -1980,7 +1998,7 @@
       "source_file": "Cairn/Core/Services/NotificationService.swift",
       "source_location": "L8",
       "id": "services_notificationservice_notificationservice_init",
-      "community": 15,
+      "community": 3,
       "norm_label": ".init()"
     },
     {
@@ -1989,7 +2007,7 @@
       "source_file": "Cairn/Core/Services/NotificationService.swift",
       "source_location": "L10",
       "id": "services_notificationservice_authorizationstate",
-      "community": 15,
+      "community": 3,
       "norm_label": "authorizationstate"
     },
     {
@@ -1998,7 +2016,7 @@
       "source_file": "Cairn/Core/Services/NotificationService.swift",
       "source_location": "L11",
       "id": "services_notificationservice_authorizationstate_notdetermined",
-      "community": 15,
+      "community": 3,
       "norm_label": "notdetermined"
     },
     {
@@ -2007,7 +2025,7 @@
       "source_file": "Cairn/Core/Services/NotificationService.swift",
       "source_location": "L12",
       "id": "services_notificationservice_authorizationstate_denied",
-      "community": 15,
+      "community": 3,
       "norm_label": "denied"
     },
     {
@@ -2016,7 +2034,7 @@
       "source_file": "Cairn/Core/Services/NotificationService.swift",
       "source_location": "L13",
       "id": "services_notificationservice_authorizationstate_authorized",
-      "community": 15,
+      "community": 3,
       "norm_label": "authorized"
     },
     {
@@ -2025,7 +2043,7 @@
       "source_file": "Cairn/Core/Services/NotificationService.swift",
       "source_location": "L16",
       "id": "services_notificationservice_notificationservice_authorizationstate",
-      "community": 15,
+      "community": 3,
       "norm_label": ".authorizationstate()"
     },
     {
@@ -2034,7 +2052,7 @@
       "source_file": "Cairn/Core/Services/NotificationService.swift",
       "source_location": "L26",
       "id": "services_notificationservice_notificationservice_requestauthorization",
-      "community": 15,
+      "community": 3,
       "norm_label": ".requestauthorization()"
     },
     {
@@ -2043,7 +2061,7 @@
       "source_file": "Cairn/Core/Services/NotificationService.swift",
       "source_location": "L37",
       "id": "services_notificationservice_notificationservice_ensureauthorizedthenschedule",
-      "community": 15,
+      "community": 3,
       "norm_label": ".ensureauthorizedthenschedule()"
     },
     {
@@ -2052,7 +2070,7 @@
       "source_file": "Cairn/Core/Services/NotificationService.swift",
       "source_location": "L46",
       "id": "services_notificationservice_notificationservice_schedule",
-      "community": 15,
+      "community": 3,
       "norm_label": ".schedule()"
     },
     {
@@ -2061,7 +2079,7 @@
       "source_file": "Cairn/Core/Services/NotificationService.swift",
       "source_location": "L94",
       "id": "services_notificationservice_notificationservice_identifier",
-      "community": 15,
+      "community": 3,
       "norm_label": ".identifier()"
     },
     {
@@ -2070,7 +2088,7 @@
       "source_file": "Cairn/Core/Services/NotificationService.swift",
       "source_location": "L102",
       "id": "services_notificationservice_notificationservice_rescheduleall",
-      "community": 15,
+      "community": 3,
       "norm_label": ".rescheduleall()"
     },
     {
@@ -2079,7 +2097,7 @@
       "source_file": "Cairn/Core/Services/NotificationService.swift",
       "source_location": "L113",
       "id": "services_notificationservice_notificationservice_cancel",
-      "community": 15,
+      "community": 3,
       "norm_label": ".cancel()"
     },
     {
@@ -2088,7 +2106,7 @@
       "source_file": "Cairn/Core/Services/NotificationService.swift",
       "source_location": "L123",
       "id": "services_notificationservice_notificationservice_cancelall",
-      "community": 15,
+      "community": 3,
       "norm_label": ".cancelall()"
     },
     {
@@ -2412,7 +2430,7 @@
       "source_file": "Cairn/Features/Settings/AboutView.swift",
       "source_location": "L1",
       "id": "cairn_features_settings_aboutview_swift",
-      "community": 71,
+      "community": 68,
       "norm_label": "aboutview.swift"
     },
     {
@@ -2421,7 +2439,7 @@
       "source_file": "Cairn/Features/Settings/AboutView.swift",
       "source_location": "L3",
       "id": "settings_aboutview_aboutview",
-      "community": 71,
+      "community": 68,
       "norm_label": "aboutview"
     },
     {
@@ -2430,7 +2448,7 @@
       "source_file": "Cairn/Features/Settings/AboutView.swift",
       "source_location": "L6",
       "id": "settings_aboutview_aboutview_close",
-      "community": 71,
+      "community": 68,
       "norm_label": ".close()"
     },
     {
@@ -2457,7 +2475,7 @@
       "source_file": "Cairn/Features/Settings/AppearanceView.swift",
       "source_location": "L15",
       "id": "settings_appearanceview_appearanceview_close",
-      "community": 52,
+      "community": 71,
       "norm_label": ".close()"
     },
     {
@@ -2556,7 +2574,7 @@
       "source_file": "Cairn/Features/Settings/PrivacyView.swift",
       "source_location": "L1",
       "id": "cairn_features_settings_privacyview_swift",
-      "community": 82,
+      "community": 71,
       "norm_label": "privacyview.swift"
     },
     {
@@ -2565,7 +2583,7 @@
       "source_file": "Cairn/Features/Settings/PrivacyView.swift",
       "source_location": "L3",
       "id": "settings_privacyview_privacyview",
-      "community": 82,
+      "community": 71,
       "norm_label": "privacyview"
     },
     {
@@ -2574,7 +2592,7 @@
       "source_file": "Cairn/Features/Settings/PrivacyView.swift",
       "source_location": "L6",
       "id": "settings_privacyview_privacyview_close",
-      "community": 82,
+      "community": 71,
       "norm_label": ".close()"
     },
     {
@@ -2592,7 +2610,7 @@
       "source_file": "Cairn/Features/Settings/ExportDataView.swift",
       "source_location": "L4",
       "id": "settings_exportdataview_exportdataview",
-      "community": 89,
+      "community": 11,
       "norm_label": "exportdataview"
     },
     {
@@ -2601,7 +2619,7 @@
       "source_file": "Cairn/Features/Settings/ExportDataView.swift",
       "source_location": "L14",
       "id": "settings_exportdataview_exportdataview_close",
-      "community": 89,
+      "community": 11,
       "norm_label": ".close()"
     },
     {
@@ -2610,7 +2628,7 @@
       "source_file": "Cairn/Features/Settings/ExportDataView.swift",
       "source_location": "L96",
       "id": "settings_exportdataview_exportdataview_stat",
-      "community": 89,
+      "community": 11,
       "norm_label": ".stat()"
     },
     {
@@ -2619,7 +2637,7 @@
       "source_file": "Cairn/Features/Settings/ExportDataView.swift",
       "source_location": "L135",
       "id": "settings_exportdataview_exportdataview_formatrow",
-      "community": 89,
+      "community": 11,
       "norm_label": ".formatrow()"
     },
     {
@@ -2628,7 +2646,7 @@
       "source_file": "Cairn/Features/Settings/ExportDataView.swift",
       "source_location": "L197",
       "id": "settings_exportdataview_exportdataview_runexport",
-      "community": 89,
+      "community": 11,
       "norm_label": ".runexport()"
     },
     {
@@ -3114,7 +3132,7 @@
       "source_file": "Cairn/Features/Settings/ReminderStyleView.swift",
       "source_location": "L12",
       "id": "settings_reminderstyleview_reminderstyleview_close",
-      "community": 71,
+      "community": 41,
       "norm_label": ".close()"
     },
     {
@@ -3699,7 +3717,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L1",
       "id": "cairn_features_home_remindersinboxview_swift",
-      "community": 3,
+      "community": 15,
       "norm_label": "remindersinboxview.swift"
     },
     {
@@ -3708,7 +3726,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L21",
       "id": "home_remindersinboxview_remindersinboxview",
-      "community": 3,
+      "community": 15,
       "norm_label": "remindersinboxview"
     },
     {
@@ -3717,7 +3735,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L27",
       "id": "home_remindersinboxview_remindersinboxview_close",
-      "community": 3,
+      "community": 15,
       "norm_label": ".close()"
     },
     {
@@ -3726,7 +3744,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L123",
       "id": "home_remindersinboxview_remindersinboxview_daysection",
-      "community": 3,
+      "community": 15,
       "norm_label": ".daysection()"
     },
     {
@@ -3735,7 +3753,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L150",
       "id": "home_remindersinboxview_remindersinboxview_inboxrow",
-      "community": 3,
+      "community": 15,
       "norm_label": ".inboxrow()"
     },
     {
@@ -3744,7 +3762,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L181",
       "id": "home_remindersinboxview_remindersinboxview_rowsubtitle",
-      "community": 3,
+      "community": 15,
       "norm_label": ".rowsubtitle()"
     },
     {
@@ -3753,7 +3771,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L193",
       "id": "home_remindersinboxview_remindersinboxview_daysummary",
-      "community": 3,
+      "community": 15,
       "norm_label": ".daysummary()"
     },
     {
@@ -3762,7 +3780,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L239",
       "id": "home_remindersinboxview_inboxentry",
-      "community": 3,
+      "community": 15,
       "norm_label": "inboxentry"
     },
     {
@@ -3771,7 +3789,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L248",
       "id": "home_remindersinboxview_daygroup",
-      "community": 3,
+      "community": 15,
       "norm_label": "daygroup"
     },
     {
@@ -3780,7 +3798,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L322",
       "id": "home_remindersinboxview_remindersinboxview_isscheduledon",
-      "community": 3,
+      "community": 15,
       "norm_label": ".isscheduledon()"
     },
     {
@@ -3789,7 +3807,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L331",
       "id": "home_remindersinboxview_remindersinboxview_projectonto",
-      "community": 3,
+      "community": 15,
       "norm_label": ".projectonto()"
     },
     {
@@ -3798,7 +3816,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L340",
       "id": "home_remindersinboxview_remindersinboxview_daylabel",
-      "community": 3,
+      "community": 15,
       "norm_label": ".daylabel()"
     },
     {
@@ -3807,7 +3825,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L350",
       "id": "home_remindersinboxview_remindersinboxview_timestring",
-      "community": 3,
+      "community": 15,
       "norm_label": ".timestring()"
     },
     {
@@ -4833,7 +4851,7 @@
       "source_file": "Cairn/Features/Habits/HabitCreationSheet.swift",
       "source_location": "L1",
       "id": "cairn_features_habits_habitcreationsheet_swift",
-      "community": 68,
+      "community": 71,
       "norm_label": "habitcreationsheet.swift"
     },
     {
@@ -4842,7 +4860,7 @@
       "source_file": "Cairn/Features/Habits/HabitCreationSheet.swift",
       "source_location": "L4",
       "id": "habits_habitcreationsheet_habitcreationsheet",
-      "community": 68,
+      "community": 71,
       "norm_label": "habitcreationsheet"
     },
     {
@@ -4851,7 +4869,7 @@
       "source_file": "Cairn/Features/Habits/HabitCreationSheet.swift",
       "source_location": "L65",
       "id": "habits_habitcreationsheet_habitcreationsheet_templatecard",
-      "community": 68,
+      "community": 71,
       "norm_label": ".templatecard()"
     },
     {
@@ -4860,7 +4878,7 @@
       "source_file": "Cairn/Features/Habits/HabitCreationSheet.swift",
       "source_location": "L145",
       "id": "habits_habitcreationsheet_habitcreationsheet_submit",
-      "community": 68,
+      "community": 71,
       "norm_label": ".submit()"
     },
     {
@@ -5119,7 +5137,7 @@
       "label": ".chip()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/AddAnother/AreasOfLifeChips.swift",
-      "source_location": "L22",
+      "source_location": "L23",
       "id": "addanother_areasoflifechips_areasoflifechips_chip",
       "community": 34,
       "norm_label": ".chip()"
@@ -5128,7 +5146,7 @@
       "label": ".toggle()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/AddAnother/AreasOfLifeChips.swift",
-      "source_location": "L44",
+      "source_location": "L45",
       "id": "addanother_areasoflifechips_areasoflifechips_toggle",
       "community": 34,
       "norm_label": ".toggle()"
@@ -5137,7 +5155,7 @@
       "label": ".label()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/AddAnother/AreasOfLifeChips.swift",
-      "source_location": "L56",
+      "source_location": "L57",
       "id": "addanother_areasoflifechips_areasoflifechips_label",
       "community": 34,
       "norm_label": ".label()"
@@ -5146,7 +5164,7 @@
       "label": ".iconName()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/AddAnother/AreasOfLifeChips.swift",
-      "source_location": "L69",
+      "source_location": "L72",
       "id": "addanother_areasoflifechips_areasoflifechips_iconname",
       "community": 34,
       "norm_label": ".iconname()"
@@ -5209,7 +5227,7 @@
       "label": "PendingTemplate",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/AddAnother/AddAnotherHabitView.swift",
-      "source_location": "L292",
+      "source_location": "L294",
       "id": "addanother_addanotherhabitview_pendingtemplate",
       "community": 4,
       "norm_label": "pendingtemplate"
@@ -5218,7 +5236,7 @@
       "label": ".hash()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/AddAnother/AddAnotherHabitView.swift",
-      "source_location": "L298",
+      "source_location": "L300",
       "id": "addanother_addanotherhabitview_pendingtemplate_hash",
       "community": 4,
       "norm_label": ".hash()"
@@ -5272,7 +5290,7 @@
       "label": ".shortDayLabel()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/AddAnother/ConfigureHabitDraft.swift",
-      "source_location": "L105",
+      "source_location": "L107",
       "id": "addanother_configurehabitdraft_configurehabitdraft_shortdaylabel",
       "community": 8,
       "norm_label": ".shortdaylabel()"
@@ -5281,7 +5299,7 @@
       "label": ".generateCueNote()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/AddAnother/ConfigureHabitDraft.swift",
-      "source_location": "L118",
+      "source_location": "L120",
       "id": "addanother_configurehabitdraft_configurehabitdraft_generatecuenote",
       "community": 8,
       "norm_label": ".generatecuenote()"
@@ -5290,7 +5308,7 @@
       "label": ".templateActionPhrase()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/AddAnother/ConfigureHabitDraft.swift",
-      "source_location": "L124",
+      "source_location": "L126",
       "id": "addanother_configurehabitdraft_configurehabitdraft_templateactionphrase",
       "community": 8,
       "norm_label": ".templateactionphrase()"
@@ -5497,7 +5515,7 @@
       "label": ".daysCountText()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitInfoView.swift",
-      "source_location": "L473",
+      "source_location": "L475",
       "id": "detail_habitinfoview_habitinfoview_dayscounttext",
       "community": 2,
       "norm_label": ".dayscounttext()"
@@ -5506,7 +5524,7 @@
       "label": "MonthStats",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitInfoView.swift",
-      "source_location": "L499",
+      "source_location": "L501",
       "id": "detail_habitinfoview_monthstats",
       "community": 2,
       "norm_label": "monthstats"
@@ -5515,7 +5533,7 @@
       "label": ".performDelete()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitInfoView.swift",
-      "source_location": "L553",
+      "source_location": "L555",
       "id": "detail_habitinfoview_habitinfoview_performdelete",
       "community": 2,
       "norm_label": ".performdelete()"
@@ -5794,7 +5812,7 @@
       "label": ".apply()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitEditDraft.swift",
-      "source_location": "L118",
+      "source_location": "L120",
       "id": "detail_habiteditdraft_habiteditdraft_apply",
       "community": 94,
       "norm_label": ".apply()"
@@ -5803,7 +5821,7 @@
       "label": ".shortDayLabel()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitEditDraft.swift",
-      "source_location": "L132",
+      "source_location": "L134",
       "id": "detail_habiteditdraft_habiteditdraft_shortdaylabel",
       "community": 94,
       "norm_label": ".shortdaylabel()"
@@ -5812,7 +5830,7 @@
       "label": ".weekdays()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitEditDraft.swift",
-      "source_location": "L146",
+      "source_location": "L148",
       "id": "detail_habiteditdraft_habiteditdraft_weekdays",
       "community": 94,
       "norm_label": ".weekdays()"
@@ -5821,7 +5839,7 @@
       "label": ".defaultReminderTime()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitEditDraft.swift",
-      "source_location": "L155",
+      "source_location": "L157",
       "id": "detail_habiteditdraft_habiteditdraft_defaultremindertime",
       "community": 94,
       "norm_label": ".defaultremindertime()"
@@ -9264,9 +9282,9 @@
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
       "source_location": "L41",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "designsystem_slidecover_slidepresenter",
-      "target": "observableobject",
-      "confidence_score": 1.0
+      "target": "observableobject"
     },
     {
       "relation": "calls",
@@ -9587,9 +9605,9 @@
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
       "source_location": "L43",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "designsystem_slidecover_entry",
-      "target": "identifiable",
-      "confidence_score": 1.0
+      "target": "identifiable"
     },
     {
       "relation": "inherits",
@@ -9927,9 +9945,9 @@
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
       "source_location": "L41",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cairn_core_designsystem_slidecover_swift",
-      "target": "designsystem_slidecover_slidepresenter",
-      "confidence_score": 1.0
+      "target": "designsystem_slidecover_slidepresenter"
     },
     {
       "relation": "contains",
@@ -9937,9 +9955,9 @@
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
       "source_location": "L43",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cairn_core_designsystem_slidecover_swift",
-      "target": "designsystem_slidecover_entry",
-      "confidence_score": 1.0
+      "target": "designsystem_slidecover_entry"
     },
     {
       "relation": "contains",
@@ -9957,9 +9975,9 @@
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
       "source_location": "L92",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cairn_core_designsystem_slidecover_swift",
-      "target": "designsystem_slidecover_slidecovermodifier",
-      "confidence_score": 1.0
+      "target": "designsystem_slidecover_slidecovermodifier"
     },
     {
       "relation": "contains",
@@ -9967,9 +9985,9 @@
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
       "source_location": "L126",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cairn_core_designsystem_slidecover_swift",
-      "target": "designsystem_slidecover_slidecoverhost",
-      "confidence_score": 1.0
+      "target": "designsystem_slidecover_slidecoverhost"
     },
     {
       "relation": "contains",
@@ -9997,9 +10015,9 @@
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
       "source_location": "L51",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "designsystem_slidecover_slidepresenter",
-      "target": "designsystem_slidecover_slidepresenter_push",
-      "confidence_score": 1.0
+      "target": "designsystem_slidecover_slidepresenter_push"
     },
     {
       "relation": "method",
@@ -10007,9 +10025,9 @@
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
       "source_location": "L66",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "designsystem_slidecover_slidepresenter",
-      "target": "designsystem_slidecover_slidepresenter_dismiss",
-      "confidence_score": 1.0
+      "target": "designsystem_slidecover_slidepresenter_dismiss"
     },
     {
       "relation": "calls",
@@ -10018,9 +10036,9 @@
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
       "source_location": "L54",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "designsystem_slidecover_slidepresenter_push",
-      "target": "designsystem_slidecover_entry",
-      "confidence_score": 1.0
+      "target": "designsystem_slidecover_entry"
     },
     {
       "relation": "calls",
@@ -10040,9 +10058,9 @@
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
       "source_location": "L105",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "designsystem_slidecover_slidecovermodifier_body",
-      "target": "designsystem_slidecover_slidepresenter_push",
-      "confidence_score": 1.0
+      "target": "designsystem_slidecover_slidepresenter_push"
     },
     {
       "relation": "calls",
@@ -10051,9 +10069,9 @@
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
       "source_location": "L107",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "designsystem_slidecover_slidecovermodifier_body",
-      "target": "designsystem_slidecover_slidepresenter_dismiss",
-      "confidence_score": 1.0
+      "target": "designsystem_slidecover_slidepresenter_dismiss"
     },
     {
       "relation": "calls",
@@ -10258,9 +10276,9 @@
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
       "source_location": "L126",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "designsystem_slidecover_slidecoverhost",
-      "target": "designsystem_slidecover_view",
-      "confidence_score": 1.0
+      "target": "designsystem_slidecover_view"
     },
     {
       "relation": "calls",
@@ -10269,9 +10287,9 @@
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
       "source_location": "L88",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "designsystem_slidecover_view_slidecover",
-      "target": "designsystem_slidecover_slidecovermodifier",
-      "confidence_score": 1.0
+      "target": "designsystem_slidecover_slidecovermodifier"
     },
     {
       "relation": "calls",
@@ -10301,9 +10319,9 @@
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
       "source_location": "L92",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "designsystem_slidecover_slidecovermodifier",
-      "target": "viewmodifier",
-      "confidence_score": 1.0
+      "target": "viewmodifier"
     },
     {
       "relation": "method",
@@ -10311,9 +10329,9 @@
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
       "source_location": "L100",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "designsystem_slidecover_slidecovermodifier",
-      "target": "designsystem_slidecover_slidecovermodifier_body",
-      "confidence_score": 1.0
+      "target": "designsystem_slidecover_slidecovermodifier_body"
     },
     {
       "relation": "inherits",
@@ -10361,9 +10379,9 @@
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
       "source_location": "L130",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "designsystem_slidecover_slidecoverhost",
-      "target": "designsystem_slidecover_slidecoverhost_init",
-      "confidence_score": 1.0
+      "target": "designsystem_slidecover_slidecoverhost_init"
     },
     {
       "relation": "contains",
@@ -11878,6 +11896,26 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L11",
       "weight": 1.0,
+      "source": "models_enums_habitcategory",
+      "target": "models_enums_habitcategory_learning",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Core/Models/Enums.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "models_enums_habitcategory",
+      "target": "models_enums_habitcategory_tidy",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Core/Models/Enums.swift",
+      "source_location": "L11",
+      "weight": 1.0,
       "confidence_score": 1.0,
       "source": "models_enums_habitcategory",
       "target": "models_enums_habitcategory_custom"
@@ -12865,9 +12903,9 @@
       "source_file": "Cairn/Core/Services/HabitService.swift",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_habitservice_habitservice",
-      "target": "services_habitservice_habitservice_duplicateexists",
-      "confidence_score": 1.0
+      "target": "services_habitservice_habitservice_duplicateexists"
     },
     {
       "relation": "method",
@@ -12875,9 +12913,9 @@
       "source_file": "Cairn/Core/Services/HabitService.swift",
       "source_location": "L44",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_habitservice_habitservice",
-      "target": "services_habitservice_habitservice_minuteslot",
-      "confidence_score": 1.0
+      "target": "services_habitservice_habitservice_minuteslot"
     },
     {
       "relation": "method",
@@ -12979,9 +13017,9 @@
       "source_file": "Cairn/Core/Services/HabitService.swift",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_habitservice_habitservice_duplicateexists",
-      "target": "services_habitservice_habitservice_minuteslot",
-      "confidence_score": 1.0
+      "target": "services_habitservice_habitservice_minuteslot"
     },
     {
       "relation": "case_of",
@@ -18507,9 +18545,9 @@
       "source_file": "Cairn/Features/Habits/Custom/CustomHabitView.swift",
       "source_location": "L548",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "custom_customhabitview_customhabitview",
-      "target": "custom_customhabitview_customhabitview_duplicatetext",
-      "confidence_score": 1.0
+      "target": "custom_customhabitview_customhabitview_duplicatetext"
     },
     {
       "relation": "calls",
@@ -18540,9 +18578,9 @@
       "source_file": "Cairn/Features/Habits/Custom/CustomHabitView.swift",
       "source_location": "L503",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "custom_customhabitview_customhabitview_save",
-      "target": "custom_customhabitview_customhabitview_duplicatetext",
-      "confidence_score": 1.0
+      "target": "custom_customhabitview_customhabitview_duplicatetext"
     },
     {
       "relation": "method",
@@ -20915,5 +20953,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "1845eebfb2ad7c52df41b38164004dbf78a7ef24"
+  "built_at_commit": "126822102e104d4439a3486273d5f76a5d303fc7"
 }

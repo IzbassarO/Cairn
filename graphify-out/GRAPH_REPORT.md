@@ -1,16 +1,16 @@
 # Graph Report - Cairn  (2026-05-31)
 
 ## Corpus Check
-- 140 files · ~80,837 words
+- 140 files · ~81,559 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 975 nodes · 1194 edges · 122 communities (73 shown, 49 thin omitted)
+- 977 nodes · 1196 edges · 120 communities (74 shown, 46 thin omitted)
 - Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 61 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `1845eebf`
+- Built from commit: `12682210`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -97,13 +97,11 @@
 - [[_COMMUNITY_Community 79|Community 79]]
 - [[_COMMUNITY_Community 80|Community 80]]
 - [[_COMMUNITY_Community 81|Community 81]]
-- [[_COMMUNITY_Community 82|Community 82]]
 - [[_COMMUNITY_Community 83|Community 83]]
 - [[_COMMUNITY_Community 84|Community 84]]
 - [[_COMMUNITY_Community 85|Community 85]]
 - [[_COMMUNITY_Community 86|Community 86]]
 - [[_COMMUNITY_Community 87|Community 87]]
-- [[_COMMUNITY_Community 89|Community 89]]
 - [[_COMMUNITY_Community 90|Community 90]]
 - [[_COMMUNITY_Community 91|Community 91]]
 - [[_COMMUNITY_Community 92|Community 92]]
@@ -139,10 +137,10 @@
 
 ## God Nodes (most connected - your core abstractions)
 1. `CoachView` - 20 edges
-2. `HomeView` - 13 edges
-3. `State` - 13 edges
-4. `HabitHeatmapGrid` - 13 edges
-5. `HabitCategory` - 12 edges
+2. `HabitCategory` - 14 edges
+3. `HomeView` - 13 edges
+4. `State` - 13 edges
+5. `HabitHeatmapGrid` - 13 edges
 6. `HabitService` - 12 edges
 7. `HabitInfoView` - 12 edges
 8. `Cairn Progress Tracker` - 12 edges
@@ -153,15 +151,15 @@
 - `CairnApp` --inherits--> `app`  [EXTRACTED]
   Cairn/CairnApp.swift → Cairn/Core/Models/Enums.swift
 
-## Communities (122 total, 49 thin omitted)
+## Communities (120 total, 46 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.22
 Nodes (3): EditDaysSheet, HabitEditView, Pattern
 
 ### Community 1 - "Community 1"
-Cohesion: 0.22
-Nodes (9): HabitCategory, custom, focus, hyperfocusCheckIn, meds, movement, sleep, transition (+1 more)
+Cohesion: 0.18
+Nodes (11): HabitCategory, custom, focus, hyperfocusCheckIn, learning, meds, movement, sleep (+3 more)
 
 ### Community 2 - "Community 2"
 Cohesion: 0.06
@@ -169,7 +167,7 @@ Nodes (10): CairnUITests, CairnUITestsLaunchTests, HabitInfoView, MonthStats, Ha
 
 ### Community 3 - "Community 3"
 Cohesion: 0.09
-Nodes (7): CustomHabitDraft, Array, DayGroup, HabitHistoryView, DayGroup, InboxEntry, RemindersInboxView
+Nodes (9): CustomHabitDraft, Array, DayGroup, HabitHistoryView, AuthorizationState, authorized, denied, notDetermined (+1 more)
 
 ### Community 4 - "Community 4"
 Cohesion: 0.06
@@ -200,8 +198,8 @@ Cohesion: 0.20
 Nodes (5): ConfigureDaysSheet, Pattern, Pattern, Equatable, Pattern
 
 ### Community 11 - "Community 11"
-Cohesion: 0.29
-Nodes (3): ShareSheet, URL, UIViewControllerRepresentable
+Cohesion: 0.17
+Nodes (4): ExportDataView, ShareSheet, URL, UIViewControllerRepresentable
 
 ### Community 13 - "Community 13"
 Cohesion: 0.14
@@ -212,8 +210,8 @@ Cohesion: 0.22
 Nodes (8): Kind, milestone, resting, returning, slipping, steady, thriving, StateStone
 
 ### Community 15 - "Community 15"
-Cohesion: 0.21
-Nodes (5): AuthorizationState, authorized, denied, notDetermined, NotificationService
+Cohesion: 0.23
+Nodes (3): DayGroup, InboxEntry, RemindersInboxView
 
 ### Community 17 - "Community 17"
 Cohesion: 0.22
@@ -320,7 +318,7 @@ Cohesion: 0.40
 Nodes (4): colors, info, author, version
 
 ### Community 52 - "Community 52"
-Cohesion: 0.21
+Cohesion: 0.24
 Nodes (4): StoneShape, AppearanceView, DiagonalHalf, Shape
 
 ### Community 56 - "Community 56"
@@ -354,6 +352,10 @@ Nodes (4): colors, info, author, version
 ### Community 65 - "Community 65"
 Cohesion: 0.50
 Nodes (3): info, author, version
+
+### Community 71 - "Community 71"
+Cohesion: 0.15
+Nodes (3): HabitCreationSheet, DeleteAllDataSheet, PrivacyView
 
 ### Community 74 - "Community 74"
 Cohesion: 0.50
@@ -444,9 +446,9 @@ Cohesion: 0.40
 Nodes (5): HabitSchedule, custom, daily, weekdays, weekends
 
 ## Knowledge Gaps
-- **257 isolated node(s):** `PreToolUse`, `Keys`, `hour`, `day`, `week` (+252 more)
+- **259 isolated node(s):** `PreToolUse`, `Keys`, `hour`, `day`, `week` (+254 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **49 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **46 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -457,11 +459,11 @@ _Questions this graph is uniquely positioned to answer:_
   _High betweenness centrality (0.049) - this node is a cross-community bridge._
 - **Why does `HomeView` connect `Community 19` to `Community 6`?**
   _High betweenness centrality (0.044) - this node is a cross-community bridge._
-- **Are the 9 inferred relationships involving `State` (e.g. with `.init()` and `.init()`) actually correct?**
-  _`State` has 9 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `PreToolUse`, `Keys`, `hour` to the rest of the system?**
-  _257 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _259 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 2` be split into smaller, more focused modules?**
   _Cohesion score 0.05609756097560976 - nodes in this community are weakly interconnected._
 - **Should `Community 3` be split into smaller, more focused modules?**
-  _Cohesion score 0.09359605911330049 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.09032258064516129 - nodes in this community are weakly interconnected._
+- **Should `Community 4` be split into smaller, more focused modules?**
+  _Cohesion score 0.06417112299465241 - nodes in this community are weakly interconnected._
