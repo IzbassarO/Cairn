@@ -144,7 +144,7 @@
       "source_file": "Cairn/CairnApp.swift",
       "source_location": "L1",
       "id": "cairn_cairnapp_swift",
-      "community": 1,
+      "community": 77,
       "norm_label": "cairnapp.swift"
     },
     {
@@ -153,7 +153,7 @@
       "source_file": "Cairn/CairnApp.swift",
       "source_location": "L4",
       "id": "cairn_cairnapp_cairnapp",
-      "community": 1,
+      "community": 77,
       "norm_label": "cairnapp"
     },
     {
@@ -306,7 +306,7 @@
       "source_file": "",
       "source_location": "",
       "id": "identifiable",
-      "community": 24,
+      "community": 117,
       "norm_label": "identifiable"
     },
     {
@@ -493,7 +493,7 @@
       "label": ".syncMountState()",
       "file_type": "code",
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
-      "source_location": "L90",
+      "source_location": "L93",
       "id": "designsystem_slidecover_slidecoverboolmodifier_syncmountstate",
       "community": 5,
       "norm_label": ".syncmountstate()"
@@ -502,7 +502,7 @@
       "label": "SlideCoverItemModifier",
       "file_type": "code",
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
-      "source_location": "L110",
+      "source_location": "L113",
       "id": "designsystem_slidecover_slidecoveritemmodifier",
       "community": 5,
       "norm_label": "slidecoveritemmodifier"
@@ -511,7 +511,7 @@
       "label": ".body()",
       "file_type": "code",
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
-      "source_location": "L119",
+      "source_location": "L122",
       "id": "designsystem_slidecover_slidecoveritemmodifier_body",
       "community": 5,
       "norm_label": ".body()"
@@ -520,7 +520,7 @@
       "label": ".syncMountState()",
       "file_type": "code",
       "source_file": "Cairn/Core/DesignSystem/SlideCover.swift",
-      "source_location": "L137",
+      "source_location": "L141",
       "id": "designsystem_slidecover_slidecoveritemmodifier_syncmountstate",
       "community": 5,
       "norm_label": ".syncmountstate()"
@@ -688,6 +688,87 @@
       "norm_label": ".line()"
     },
     {
+      "label": "StateStone.swift",
+      "file_type": "code",
+      "source_file": "Cairn/Core/DesignSystem/Components/StateStone.swift",
+      "source_location": "L1",
+      "id": "cairn_core_designsystem_components_statestone_swift",
+      "community": 14,
+      "norm_label": "statestone.swift"
+    },
+    {
+      "label": "StateStone",
+      "file_type": "code",
+      "source_file": "Cairn/Core/DesignSystem/Components/StateStone.swift",
+      "source_location": "L9",
+      "id": "components_statestone_statestone",
+      "community": 14,
+      "norm_label": "statestone"
+    },
+    {
+      "label": "Kind",
+      "file_type": "code",
+      "source_file": "Cairn/Core/DesignSystem/Components/StateStone.swift",
+      "source_location": "L10",
+      "id": "components_statestone_kind",
+      "community": 14,
+      "norm_label": "kind"
+    },
+    {
+      "label": "thriving",
+      "file_type": "code",
+      "source_file": "Cairn/Core/DesignSystem/Components/StateStone.swift",
+      "source_location": "L11",
+      "id": "components_statestone_kind_thriving",
+      "community": 14,
+      "norm_label": "thriving"
+    },
+    {
+      "label": "steady",
+      "file_type": "code",
+      "source_file": "Cairn/Core/DesignSystem/Components/StateStone.swift",
+      "source_location": "L12",
+      "id": "components_statestone_kind_steady",
+      "community": 14,
+      "norm_label": "steady"
+    },
+    {
+      "label": "slipping",
+      "file_type": "code",
+      "source_file": "Cairn/Core/DesignSystem/Components/StateStone.swift",
+      "source_location": "L13",
+      "id": "components_statestone_kind_slipping",
+      "community": 14,
+      "norm_label": "slipping"
+    },
+    {
+      "label": "returning",
+      "file_type": "code",
+      "source_file": "Cairn/Core/DesignSystem/Components/StateStone.swift",
+      "source_location": "L14",
+      "id": "components_statestone_kind_returning",
+      "community": 14,
+      "norm_label": "returning"
+    },
+    {
+      "label": "resting",
+      "file_type": "code",
+      "source_file": "Cairn/Core/DesignSystem/Components/StateStone.swift",
+      "source_location": "L15",
+      "id": "components_statestone_kind_resting",
+      "community": 14,
+      "norm_label": "resting"
+    },
+    {
+      "label": "milestone",
+      "file_type": "code",
+      "source_file": "Cairn/Core/DesignSystem/Components/StateStone.swift",
+      "source_location": "L16",
+      "id": "components_statestone_kind_milestone",
+      "community": 14,
+      "norm_label": "milestone"
+    },
+    {
       "label": "CairnAlert.swift",
       "file_type": "code",
       "source_file": "Cairn/Core/DesignSystem/Components/CairnAlert.swift",
@@ -727,7 +808,7 @@
       "label": ".actionButton()",
       "file_type": "code",
       "source_file": "Cairn/Core/DesignSystem/Components/CairnAlert.swift",
-      "source_location": "L96",
+      "source_location": "L100",
       "id": "components_cairnalert_cairnalert_actionbutton",
       "community": 5,
       "norm_label": ".actionbutton()"
@@ -736,7 +817,7 @@
       "label": "View",
       "file_type": "code",
       "source_file": "Cairn/Core/DesignSystem/Components/CairnAlert.swift",
-      "source_location": "L113",
+      "source_location": "L117",
       "id": "components_cairnalert_view",
       "community": 5,
       "norm_label": "view"
@@ -745,7 +826,7 @@
       "label": ".cairnAlert()",
       "file_type": "code",
       "source_file": "Cairn/Core/DesignSystem/Components/CairnAlert.swift",
-      "source_location": "L114",
+      "source_location": "L118",
       "id": "components_cairnalert_view_cairnalert",
       "community": 5,
       "norm_label": ".cairnalert()"
@@ -756,7 +837,7 @@
       "source_file": "Cairn/Core/DesignSystem/Components/PrimaryButton.swift",
       "source_location": "L1",
       "id": "cairn_core_designsystem_components_primarybutton_swift",
-      "community": 6,
+      "community": 119,
       "norm_label": "primarybutton.swift"
     },
     {
@@ -765,7 +846,7 @@
       "source_file": "Cairn/Core/DesignSystem/Components/PrimaryButton.swift",
       "source_location": "L3",
       "id": "components_primarybutton_primarybutton",
-      "community": 6,
+      "community": 119,
       "norm_label": "primarybutton"
     },
     {
@@ -864,7 +945,7 @@
       "source_file": "Cairn/Core/DesignSystem/Components/CairnCard.swift",
       "source_location": "L1",
       "id": "cairn_core_designsystem_components_cairncard_swift",
-      "community": 6,
+      "community": 118,
       "norm_label": "cairncard.swift"
     },
     {
@@ -873,7 +954,7 @@
       "source_file": "Cairn/Core/DesignSystem/Components/CairnCard.swift",
       "source_location": "L3",
       "id": "components_cairncard_cairncard",
-      "community": 6,
+      "community": 118,
       "norm_label": "cairncard"
     },
     {
@@ -909,7 +990,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L1",
       "id": "cairn_core_models_enums_swift",
-      "community": 1,
+      "community": 110,
       "norm_label": "enums.swift"
     },
     {
@@ -927,7 +1008,7 @@
       "source_file": "",
       "source_location": "",
       "id": "int",
-      "community": 1,
+      "community": 24,
       "norm_label": "int"
     },
     {
@@ -936,7 +1017,7 @@
       "source_file": "",
       "source_location": "",
       "id": "codable",
-      "community": 1,
+      "community": 111,
       "norm_label": "codable"
     },
     {
@@ -1017,7 +1098,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L40",
       "id": "models_enums_habitschedule",
-      "community": 1,
+      "community": 116,
       "norm_label": "habitschedule"
     },
     {
@@ -1026,7 +1107,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L41",
       "id": "models_enums_habitschedule_daily",
-      "community": 1,
+      "community": 116,
       "norm_label": "daily"
     },
     {
@@ -1035,7 +1116,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L42",
       "id": "models_enums_habitschedule_weekdays",
-      "community": 1,
+      "community": 116,
       "norm_label": "weekdays"
     },
     {
@@ -1044,7 +1125,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L43",
       "id": "models_enums_habitschedule_weekends",
-      "community": 1,
+      "community": 116,
       "norm_label": "weekends"
     },
     {
@@ -1053,7 +1134,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L44",
       "id": "models_enums_habitschedule_custom",
-      "community": 1,
+      "community": 116,
       "norm_label": "custom"
     },
     {
@@ -1062,7 +1143,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L65",
       "id": "models_enums_logsource",
-      "community": 1,
+      "community": 77,
       "norm_label": "logsource"
     },
     {
@@ -1071,7 +1152,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L66",
       "id": "models_enums_logsource_app",
-      "community": 1,
+      "community": 77,
       "norm_label": "app"
     },
     {
@@ -1080,7 +1161,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L67",
       "id": "models_enums_logsource_widget",
-      "community": 1,
+      "community": 77,
       "norm_label": "widget"
     },
     {
@@ -1089,7 +1170,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L68",
       "id": "models_enums_logsource_siri",
-      "community": 1,
+      "community": 77,
       "norm_label": "siri"
     },
     {
@@ -1098,7 +1179,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L69",
       "id": "models_enums_logsource_watch",
-      "community": 1,
+      "community": 77,
       "norm_label": "watch"
     },
     {
@@ -1107,7 +1188,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L70",
       "id": "models_enums_logsource_shortcut",
-      "community": 1,
+      "community": 77,
       "norm_label": "shortcut"
     },
     {
@@ -1116,7 +1197,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L73",
       "id": "models_enums_moodtag",
-      "community": 1,
+      "community": 110,
       "norm_label": "moodtag"
     },
     {
@@ -1125,7 +1206,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L74",
       "id": "models_enums_moodtag_easy",
-      "community": 1,
+      "community": 110,
       "norm_label": "easy"
     },
     {
@@ -1134,7 +1215,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L75",
       "id": "models_enums_moodtag_ok",
-      "community": 1,
+      "community": 110,
       "norm_label": "ok"
     },
     {
@@ -1143,7 +1224,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L76",
       "id": "models_enums_moodtag_struggle",
-      "community": 1,
+      "community": 110,
       "norm_label": "struggle"
     },
     {
@@ -1152,7 +1233,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L79",
       "id": "models_enums_coachmessagekind",
-      "community": 1,
+      "community": 114,
       "norm_label": "coachmessagekind"
     },
     {
@@ -1161,7 +1242,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L80",
       "id": "models_enums_coachmessagekind_dailycheckin",
-      "community": 1,
+      "community": 114,
       "norm_label": "dailycheckin"
     },
     {
@@ -1170,7 +1251,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L81",
       "id": "models_enums_coachmessagekind_weeklysummary",
-      "community": 1,
+      "community": 114,
       "norm_label": "weeklysummary"
     },
     {
@@ -1179,7 +1260,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L82",
       "id": "models_enums_coachmessagekind_reaction",
-      "community": 1,
+      "community": 114,
       "norm_label": "reaction"
     },
     {
@@ -1188,7 +1269,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L83",
       "id": "models_enums_coachmessagekind_usercomposed",
-      "community": 1,
+      "community": 114,
       "norm_label": "usercomposed"
     },
     {
@@ -1197,7 +1278,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L86",
       "id": "models_enums_userreaction",
-      "community": 1,
+      "community": 111,
       "norm_label": "userreaction"
     },
     {
@@ -1206,7 +1287,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L87",
       "id": "models_enums_userreaction_helpful",
-      "community": 1,
+      "community": 111,
       "norm_label": "helpful"
     },
     {
@@ -1215,7 +1296,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L88",
       "id": "models_enums_userreaction_noted",
-      "community": 1,
+      "community": 111,
       "norm_label": "noted"
     },
     {
@@ -1224,7 +1305,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L89",
       "id": "models_enums_userreaction_notnow",
-      "community": 1,
+      "community": 111,
       "norm_label": "notnow"
     },
     {
@@ -1233,7 +1314,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L92",
       "id": "models_enums_coachtone",
-      "community": 1,
+      "community": 115,
       "norm_label": "coachtone"
     },
     {
@@ -1242,7 +1323,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L93",
       "id": "models_enums_coachtone_gentle",
-      "community": 1,
+      "community": 115,
       "norm_label": "gentle"
     },
     {
@@ -1251,7 +1332,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L94",
       "id": "models_enums_coachtone_structured",
-      "community": 1,
+      "community": 115,
       "norm_label": "structured"
     },
     {
@@ -1260,7 +1341,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L95",
       "id": "models_enums_coachtone_bluntkind",
-      "community": 1,
+      "community": 115,
       "norm_label": "bluntkind"
     },
     {
@@ -1269,7 +1350,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L96",
       "id": "models_enums_coachtone_playful",
-      "community": 1,
+      "community": 115,
       "norm_label": "playful"
     },
     {
@@ -1278,7 +1359,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L99",
       "id": "models_enums_appearance",
-      "community": 1,
+      "community": 113,
       "norm_label": "appearance"
     },
     {
@@ -1287,7 +1368,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L100",
       "id": "models_enums_appearance_system",
-      "community": 1,
+      "community": 113,
       "norm_label": "system"
     },
     {
@@ -1296,7 +1377,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L101",
       "id": "models_enums_appearance_light",
-      "community": 1,
+      "community": 113,
       "norm_label": "light"
     },
     {
@@ -1305,7 +1386,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L102",
       "id": "models_enums_appearance_dark",
-      "community": 1,
+      "community": 113,
       "norm_label": "dark"
     },
     {
@@ -1314,7 +1395,7 @@
       "source_file": "Cairn/Core/Models/Enums.swift",
       "source_location": "L103",
       "id": "models_enums_appearance_highcontrast",
-      "community": 1,
+      "community": 113,
       "norm_label": "highcontrast"
     },
     {
@@ -1395,7 +1476,7 @@
       "source_file": "Cairn/Core/Models/CoachMessage.swift",
       "source_location": "L1",
       "id": "cairn_core_models_coachmessage_swift",
-      "community": 77,
+      "community": 20,
       "norm_label": "coachmessage.swift"
     },
     {
@@ -1404,7 +1485,7 @@
       "source_file": "Cairn/Core/Models/CoachMessage.swift",
       "source_location": "L4",
       "id": "models_coachmessage_coachmessage",
-      "community": 77,
+      "community": 20,
       "norm_label": "coachmessage"
     },
     {
@@ -1413,7 +1494,7 @@
       "source_file": "Cairn/Core/Models/CoachMessage.swift",
       "source_location": "L15",
       "id": "models_coachmessage_coachmessage_init",
-      "community": 77,
+      "community": 20,
       "norm_label": ".init()"
     },
     {
@@ -2104,7 +2185,7 @@
       "label": "CoachInsights",
       "file_type": "code",
       "source_file": "Cairn/Core/Services/CoachInsights.swift",
-      "source_location": "L4",
+      "source_location": "L5",
       "id": "services_coachinsights_coachinsights",
       "community": 27,
       "norm_label": "coachinsights"
@@ -2113,7 +2194,7 @@
       "label": "WeekdayInsight",
       "file_type": "code",
       "source_file": "Cairn/Core/Services/CoachInsights.swift",
-      "source_location": "L29",
+      "source_location": "L30",
       "id": "services_coachinsights_weekdayinsight",
       "community": 27,
       "norm_label": "weekdayinsight"
@@ -2122,52 +2203,61 @@
       "label": "TimeOfDayInsight",
       "file_type": "code",
       "source_file": "Cairn/Core/Services/CoachInsights.swift",
-      "source_location": "L69",
+      "source_location": "L70",
       "id": "services_coachinsights_timeofdayinsight",
       "community": 27,
       "norm_label": "timeofdayinsight"
     },
     {
-      "label": "HealthTrend",
+      "label": "HabitFeel",
       "file_type": "code",
       "source_file": "Cairn/Core/Services/CoachInsights.swift",
-      "source_location": "L112",
-      "id": "services_coachinsights_healthtrend",
+      "source_location": "L115",
+      "id": "services_coachinsights_habitfeel",
       "community": 27,
-      "norm_label": "healthtrend"
+      "norm_label": "habitfeel"
     },
     {
-      "label": "rockSolid",
+      "label": "thriving",
       "file_type": "code",
       "source_file": "Cairn/Core/Services/CoachInsights.swift",
-      "source_location": "L113",
-      "id": "services_coachinsights_healthtrend_rocksolid",
+      "source_location": "L116",
+      "id": "services_coachinsights_habitfeel_thriving",
       "community": 27,
-      "norm_label": "rocksolid"
+      "norm_label": "thriving"
     },
     {
       "label": "steady",
       "file_type": "code",
       "source_file": "Cairn/Core/Services/CoachInsights.swift",
-      "source_location": "L114",
-      "id": "services_coachinsights_healthtrend_steady",
+      "source_location": "L117",
+      "id": "services_coachinsights_habitfeel_steady",
       "community": 27,
       "norm_label": "steady"
     },
     {
-      "label": "slipping",
+      "label": "gentler",
       "file_type": "code",
       "source_file": "Cairn/Core/Services/CoachInsights.swift",
-      "source_location": "L115",
-      "id": "services_coachinsights_healthtrend_slipping",
+      "source_location": "L118",
+      "id": "services_coachinsights_habitfeel_gentler",
       "community": 27,
-      "norm_label": "slipping"
+      "norm_label": "gentler"
+    },
+    {
+      "label": "returning",
+      "file_type": "code",
+      "source_file": "Cairn/Core/Services/CoachInsights.swift",
+      "source_location": "L119",
+      "id": "services_coachinsights_habitfeel_returning",
+      "community": 27,
+      "norm_label": "returning"
     },
     {
       "label": "HabitHealth",
       "file_type": "code",
       "source_file": "Cairn/Core/Services/CoachInsights.swift",
-      "source_location": "L118",
+      "source_location": "L131",
       "id": "services_coachinsights_habithealth",
       "community": 27,
       "norm_label": "habithealth"
@@ -2176,7 +2266,7 @@
       "label": "Lapse",
       "file_type": "code",
       "source_file": "Cairn/Core/Services/CoachInsights.swift",
-      "source_location": "L226",
+      "source_location": "L269",
       "id": "services_coachinsights_lapse",
       "community": 27,
       "norm_label": "lapse"
@@ -2185,7 +2275,7 @@
       "label": "CategoryShare",
       "file_type": "code",
       "source_file": "Cairn/Core/Services/CoachInsights.swift",
-      "source_location": "L250",
+      "source_location": "L293",
       "id": "services_coachinsights_categoryshare",
       "community": 27,
       "norm_label": "categoryshare"
@@ -2194,10 +2284,19 @@
       "label": "Guidance",
       "file_type": "code",
       "source_file": "Cairn/Core/Services/CoachInsights.swift",
-      "source_location": "L287",
+      "source_location": "L330",
       "id": "services_coachinsights_guidance",
       "community": 27,
       "norm_label": "guidance"
+    },
+    {
+      "label": "SmallMove",
+      "file_type": "code",
+      "source_file": "Cairn/Core/Services/CoachInsights.swift",
+      "source_location": "L441",
+      "id": "services_coachinsights_smallmove",
+      "community": 27,
+      "norm_label": "smallmove"
     },
     {
       "label": "RootView.swift",
@@ -2304,7 +2403,7 @@
       "source_file": "Cairn/Features/Settings/AppearanceView.swift",
       "source_location": "L1",
       "id": "cairn_features_settings_appearanceview_swift",
-      "community": 17,
+      "community": 52,
       "norm_label": "appearanceview.swift"
     },
     {
@@ -2313,7 +2412,7 @@
       "source_file": "Cairn/Features/Settings/AppearanceView.swift",
       "source_location": "L10",
       "id": "settings_appearanceview_appearanceview",
-      "community": 17,
+      "community": 52,
       "norm_label": "appearanceview"
     },
     {
@@ -2322,7 +2421,7 @@
       "source_file": "Cairn/Features/Settings/AppearanceView.swift",
       "source_location": "L15",
       "id": "settings_appearanceview_appearanceview_close",
-      "community": 17,
+      "community": 52,
       "norm_label": ".close()"
     },
     {
@@ -2331,7 +2430,7 @@
       "source_file": "Cairn/Features/Settings/AppearanceView.swift",
       "source_location": "L88",
       "id": "settings_appearanceview_appearanceview_themecard",
-      "community": 17,
+      "community": 52,
       "norm_label": ".themecard()"
     },
     {
@@ -2340,7 +2439,7 @@
       "source_file": "Cairn/Features/Settings/AppearanceView.swift",
       "source_location": "L124",
       "id": "settings_appearanceview_appearanceview_themepreview",
-      "community": 17,
+      "community": 52,
       "norm_label": ".themepreview()"
     },
     {
@@ -2349,7 +2448,7 @@
       "source_file": "Cairn/Features/Settings/AppearanceView.swift",
       "source_location": "L141",
       "id": "settings_appearanceview_appearanceview_previewcontent",
-      "community": 17,
+      "community": 52,
       "norm_label": ".previewcontent()"
     },
     {
@@ -2358,7 +2457,7 @@
       "source_file": "Cairn/Features/Settings/AppearanceView.swift",
       "source_location": "L159",
       "id": "settings_appearanceview_appearanceview_sectionlabel",
-      "community": 17,
+      "community": 52,
       "norm_label": ".sectionlabel()"
     },
     {
@@ -2367,7 +2466,7 @@
       "source_file": "Cairn/Features/Settings/AppearanceView.swift",
       "source_location": "L169",
       "id": "settings_appearanceview_diagonalhalf",
-      "community": 17,
+      "community": 52,
       "norm_label": "diagonalhalf"
     },
     {
@@ -2376,7 +2475,7 @@
       "source_file": "Cairn/Features/Settings/AppearanceView.swift",
       "source_location": "L170",
       "id": "settings_appearanceview_diagonalhalf_path",
-      "community": 17,
+      "community": 52,
       "norm_label": ".path()"
     },
     {
@@ -3564,7 +3663,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L1",
       "id": "cairn_features_home_remindersinboxview_swift",
-      "community": 16,
+      "community": 3,
       "norm_label": "remindersinboxview.swift"
     },
     {
@@ -3573,7 +3672,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L21",
       "id": "home_remindersinboxview_remindersinboxview",
-      "community": 16,
+      "community": 3,
       "norm_label": "remindersinboxview"
     },
     {
@@ -3582,7 +3681,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L27",
       "id": "home_remindersinboxview_remindersinboxview_close",
-      "community": 16,
+      "community": 3,
       "norm_label": ".close()"
     },
     {
@@ -3591,7 +3690,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L123",
       "id": "home_remindersinboxview_remindersinboxview_daysection",
-      "community": 16,
+      "community": 3,
       "norm_label": ".daysection()"
     },
     {
@@ -3600,7 +3699,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L150",
       "id": "home_remindersinboxview_remindersinboxview_inboxrow",
-      "community": 16,
+      "community": 3,
       "norm_label": ".inboxrow()"
     },
     {
@@ -3609,7 +3708,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L181",
       "id": "home_remindersinboxview_remindersinboxview_rowsubtitle",
-      "community": 16,
+      "community": 3,
       "norm_label": ".rowsubtitle()"
     },
     {
@@ -3618,7 +3717,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L193",
       "id": "home_remindersinboxview_remindersinboxview_daysummary",
-      "community": 16,
+      "community": 3,
       "norm_label": ".daysummary()"
     },
     {
@@ -3627,7 +3726,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L239",
       "id": "home_remindersinboxview_inboxentry",
-      "community": 16,
+      "community": 3,
       "norm_label": "inboxentry"
     },
     {
@@ -3636,7 +3735,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L248",
       "id": "home_remindersinboxview_daygroup",
-      "community": 16,
+      "community": 3,
       "norm_label": "daygroup"
     },
     {
@@ -3645,7 +3744,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L322",
       "id": "home_remindersinboxview_remindersinboxview_isscheduledon",
-      "community": 16,
+      "community": 3,
       "norm_label": ".isscheduledon()"
     },
     {
@@ -3654,7 +3753,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L331",
       "id": "home_remindersinboxview_remindersinboxview_projectonto",
-      "community": 16,
+      "community": 3,
       "norm_label": ".projectonto()"
     },
     {
@@ -3663,7 +3762,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L340",
       "id": "home_remindersinboxview_remindersinboxview_daylabel",
-      "community": 16,
+      "community": 3,
       "norm_label": ".daylabel()"
     },
     {
@@ -3672,7 +3771,7 @@
       "source_file": "Cairn/Features/Home/RemindersInboxView.swift",
       "source_location": "L350",
       "id": "home_remindersinboxview_remindersinboxview_timestring",
-      "community": 16,
+      "community": 3,
       "norm_label": ".timestring()"
     },
     {
@@ -3697,7 +3796,7 @@
       "label": "HabitGroup",
       "file_type": "code",
       "source_file": "Cairn/Features/Home/HomeView.swift",
-      "source_location": "L284",
+      "source_location": "L297",
       "id": "home_homeview_habitgroup",
       "community": 19,
       "norm_label": "habitgroup"
@@ -3706,7 +3805,7 @@
       "label": ".groupedHabits()",
       "file_type": "code",
       "source_file": "Cairn/Features/Home/HomeView.swift",
-      "source_location": "L289",
+      "source_location": "L302",
       "id": "home_homeview_homeview_groupedhabits",
       "community": 19,
       "norm_label": ".groupedhabits()"
@@ -3715,7 +3814,7 @@
       "label": ".recordMood()",
       "file_type": "code",
       "source_file": "Cairn/Features/Home/HomeView.swift",
-      "source_location": "L394",
+      "source_location": "L407",
       "id": "home_homeview_homeview_recordmood",
       "community": 19,
       "norm_label": ".recordmood()"
@@ -3724,7 +3823,7 @@
       "label": ".log()",
       "file_type": "code",
       "source_file": "Cairn/Features/Home/HomeView.swift",
-      "source_location": "L417",
+      "source_location": "L432",
       "id": "home_homeview_homeview_log",
       "community": 19,
       "norm_label": ".log()"
@@ -3733,7 +3832,7 @@
       "label": ".isComeback()",
       "file_type": "code",
       "source_file": "Cairn/Features/Home/HomeView.swift",
-      "source_location": "L456",
+      "source_location": "L471",
       "id": "home_homeview_homeview_iscomeback",
       "community": 19,
       "norm_label": ".iscomeback()"
@@ -3742,7 +3841,7 @@
       "label": ".showAffirmation()",
       "file_type": "code",
       "source_file": "Cairn/Features/Home/HomeView.swift",
-      "source_location": "L468",
+      "source_location": "L483",
       "id": "home_homeview_homeview_showaffirmation",
       "community": 19,
       "norm_label": ".showaffirmation()"
@@ -3751,25 +3850,25 @@
       "label": ".affirmationToast()",
       "file_type": "code",
       "source_file": "Cairn/Features/Home/HomeView.swift",
-      "source_location": "L481",
+      "source_location": "L496",
       "id": "home_homeview_homeview_affirmationtoast",
       "community": 19,
       "norm_label": ".affirmationtoast()"
     },
     {
-      "label": ".undo()",
+      "label": ".performUndo()",
       "file_type": "code",
       "source_file": "Cairn/Features/Home/HomeView.swift",
-      "source_location": "L505",
-      "id": "home_homeview_homeview_undo",
+      "source_location": "L536",
+      "id": "home_homeview_homeview_performundo",
       "community": 19,
-      "norm_label": ".undo()"
+      "norm_label": ".performundo()"
     },
     {
       "label": ".orchestratePostPlant()",
       "file_type": "code",
       "source_file": "Cairn/Features/Home/HomeView.swift",
-      "source_location": "L517",
+      "source_location": "L550",
       "id": "home_homeview_homeview_orchestratepostplant",
       "community": 19,
       "norm_label": ".orchestratepostplant()"
@@ -3778,7 +3877,7 @@
       "label": ".rescheduleNotificationsIfAuthorized()",
       "file_type": "code",
       "source_file": "Cairn/Features/Home/HomeView.swift",
-      "source_location": "L537",
+      "source_location": "L570",
       "id": "home_homeview_homeview_reschedulenotificationsifauthorized",
       "community": 19,
       "norm_label": ".reschedulenotificationsifauthorized()"
@@ -3787,7 +3886,7 @@
       "label": ".performSwipeDelete()",
       "file_type": "code",
       "source_file": "Cairn/Features/Home/HomeView.swift",
-      "source_location": "L568",
+      "source_location": "L601",
       "id": "home_homeview_homeview_performswipedelete",
       "community": 2,
       "norm_label": ".performswipedelete()"
@@ -3796,18 +3895,18 @@
       "label": "InspectedHabit",
       "file_type": "code",
       "source_file": "Cairn/Features/Home/HomeView.swift",
-      "source_location": "L583",
+      "source_location": "L616",
       "id": "home_homeview_inspectedhabit",
-      "community": 19,
+      "community": 20,
       "norm_label": "inspectedhabit"
     },
     {
       "label": ".hash()",
       "file_type": "code",
       "source_file": "Cairn/Features/Home/HomeView.swift",
-      "source_location": "L588",
+      "source_location": "L621",
       "id": "home_homeview_inspectedhabit_hash",
-      "community": 19,
+      "community": 20,
       "norm_label": ".hash()"
     },
     {
@@ -3816,7 +3915,7 @@
       "source_file": "Cairn/Features/Home/TodayScheduleView.swift",
       "source_location": "L1",
       "id": "cairn_features_home_todayscheduleview_swift",
-      "community": 24,
+      "community": 117,
       "norm_label": "todayscheduleview.swift"
     },
     {
@@ -3906,7 +4005,7 @@
       "source_file": "Cairn/Features/Home/TodayScheduleView.swift",
       "source_location": "L223",
       "id": "home_todayscheduleview_daysection",
-      "community": 24,
+      "community": 117,
       "norm_label": "daysection"
     },
     {
@@ -3942,7 +4041,7 @@
       "source_file": "Cairn/Features/Home/TodayScheduleView.swift",
       "source_location": "L285",
       "id": "home_todayscheduleview_timelineentry",
-      "community": 24,
+      "community": 117,
       "norm_label": "timelineentry"
     },
     {
@@ -4023,7 +4122,7 @@
       "source_file": "Cairn/Features/Home/Schedule/ScheduleHabitCard.swift",
       "source_location": "L12",
       "id": "schedule_schedulehabitcard_state",
-      "community": 0,
+      "community": 112,
       "norm_label": "state"
     },
     {
@@ -4032,7 +4131,7 @@
       "source_file": "Cairn/Features/Home/Schedule/ScheduleHabitCard.swift",
       "source_location": "L13",
       "id": "schedule_schedulehabitcard_state_completed",
-      "community": 0,
+      "community": 112,
       "norm_label": "completed"
     },
     {
@@ -4041,7 +4140,7 @@
       "source_file": "Cairn/Features/Home/Schedule/ScheduleHabitCard.swift",
       "source_location": "L14",
       "id": "schedule_schedulehabitcard_state_upcoming",
-      "community": 0,
+      "community": 112,
       "norm_label": "upcoming"
     },
     {
@@ -4050,7 +4149,7 @@
       "source_file": "Cairn/Features/Home/Schedule/ScheduleHabitCard.swift",
       "source_location": "L15",
       "id": "schedule_schedulehabitcard_state_missed",
-      "community": 0,
+      "community": 112,
       "norm_label": "missed"
     },
     {
@@ -4095,7 +4194,7 @@
       "source_file": "Cairn/Features/Home/Garden/GardenIntensityLegend.swift",
       "source_location": "L1",
       "id": "cairn_features_home_garden_gardenintensitylegend_swift",
-      "community": 92,
+      "community": 6,
       "norm_label": "gardenintensitylegend.swift"
     },
     {
@@ -4104,7 +4203,7 @@
       "source_file": "Cairn/Features/Home/Garden/GardenIntensityLegend.swift",
       "source_location": "L5",
       "id": "garden_gardenintensitylegend_gardenintensitylegend",
-      "community": 92,
+      "community": 6,
       "norm_label": "gardenintensitylegend"
     },
     {
@@ -4410,7 +4509,7 @@
       "source_file": "Cairn/Features/Home/Components/StonesWidget.swift",
       "source_location": "L1",
       "id": "cairn_features_home_components_stoneswidget_swift",
-      "community": 17,
+      "community": 16,
       "norm_label": "stoneswidget.swift"
     },
     {
@@ -4419,7 +4518,7 @@
       "source_file": "Cairn/Features/Home/Components/StonesWidget.swift",
       "source_location": "L13",
       "id": "components_stoneswidget_stoneswidget",
-      "community": 17,
+      "community": 16,
       "norm_label": "stoneswidget"
     },
     {
@@ -4428,7 +4527,7 @@
       "source_file": "Cairn/Features/Home/Components/StonesWidget.swift",
       "source_location": "L71",
       "id": "components_stoneswidget_stoneswidget_stonesilhouette",
-      "community": 17,
+      "community": 16,
       "norm_label": ".stonesilhouette()"
     },
     {
@@ -4437,7 +4536,7 @@
       "source_file": "Cairn/Features/Home/Components/StonesWidget.swift",
       "source_location": "L86",
       "id": "components_stoneswidget_stoneswidget_stonespile",
-      "community": 17,
+      "community": 16,
       "norm_label": ".stonespile()"
     },
     {
@@ -4446,7 +4545,7 @@
       "source_file": "Cairn/Features/Home/Components/StonesWidget.swift",
       "source_location": "L100",
       "id": "components_stoneswidget_pilelayout",
-      "community": 17,
+      "community": 16,
       "norm_label": "pilelayout"
     },
     {
@@ -4455,7 +4554,7 @@
       "source_file": "Cairn/Features/Home/Components/StonesWidget.swift",
       "source_location": "L107",
       "id": "components_stoneswidget_stoneswidget_pilelayout",
-      "community": 17,
+      "community": 16,
       "norm_label": ".pilelayout()"
     },
     {
@@ -4464,7 +4563,7 @@
       "source_file": "Cairn/Features/Home/Components/StonesWidget.swift",
       "source_location": "L135",
       "id": "components_stoneswidget_stoneswidget_overflowbadge",
-      "community": 17,
+      "community": 16,
       "norm_label": ".overflowbadge()"
     },
     {
@@ -4473,7 +4572,7 @@
       "source_file": "Cairn/Features/Home/Components/StonesWidget.swift",
       "source_location": "L145",
       "id": "components_stoneswidget_stoneswidget_tintforindex",
-      "community": 17,
+      "community": 16,
       "norm_label": ".tintforindex()"
     },
     {
@@ -4489,34 +4588,43 @@
       "label": "MoodSelector",
       "file_type": "code",
       "source_file": "Cairn/Features/Home/Components/MoodSelector.swift",
-      "source_location": "L10",
+      "source_location": "L11",
       "id": "components_moodselector_moodselector",
       "community": 59,
       "norm_label": "moodselector"
     },
     {
+      "label": ".pick()",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Home/Components/MoodSelector.swift",
+      "source_location": "L20",
+      "id": "components_moodselector_moodselector_pick",
+      "community": 59,
+      "norm_label": ".pick()"
+    },
+    {
       "label": ".moodCard()",
       "file_type": "code",
       "source_file": "Cairn/Features/Home/Components/MoodSelector.swift",
-      "source_location": "L37",
+      "source_location": "L52",
       "id": "components_moodselector_moodselector_moodcard",
       "community": 59,
       "norm_label": ".moodcard()"
     },
     {
-      "label": ".indicatorDot()",
+      "label": ".moodFace()",
       "file_type": "code",
       "source_file": "Cairn/Features/Home/Components/MoodSelector.swift",
-      "source_location": "L63",
-      "id": "components_moodselector_moodselector_indicatordot",
+      "source_location": "L80",
+      "id": "components_moodselector_moodselector_moodface",
       "community": 59,
-      "norm_label": ".indicatordot()"
+      "norm_label": ".moodface()"
     },
     {
       "label": ".backgroundColor()",
       "file_type": "code",
       "source_file": "Cairn/Features/Home/Components/MoodSelector.swift",
-      "source_location": "L73",
+      "source_location": "L104",
       "id": "components_moodselector_moodselector_backgroundcolor",
       "community": 59,
       "norm_label": ".backgroundcolor()"
@@ -4527,7 +4635,7 @@
       "source_file": "Cairn/Features/Home/Components/CoachCard.swift",
       "source_location": "L1",
       "id": "cairn_features_home_components_coachcard_swift",
-      "community": 52,
+      "community": 6,
       "norm_label": "coachcard.swift"
     },
     {
@@ -4536,7 +4644,7 @@
       "source_file": "Cairn/Features/Home/Components/CoachCard.swift",
       "source_location": "L6",
       "id": "components_coachcard_coachcard",
-      "community": 52,
+      "community": 6,
       "norm_label": "coachcard"
     },
     {
@@ -4545,7 +4653,7 @@
       "source_file": "Cairn/Features/Home/Components/UpNextCard.swift",
       "source_location": "L1",
       "id": "cairn_features_home_components_upnextcard_swift",
-      "community": 90,
+      "community": 6,
       "norm_label": "upnextcard.swift"
     },
     {
@@ -4554,7 +4662,7 @@
       "source_file": "Cairn/Features/Home/Components/UpNextCard.swift",
       "source_location": "L10",
       "id": "components_upnextcard_upnextcard",
-      "community": 90,
+      "community": 6,
       "norm_label": "upnextcard"
     },
     {
@@ -4563,7 +4671,7 @@
       "source_file": "Cairn/Features/Home/Components/HabitsCategoryHeader.swift",
       "source_location": "L1",
       "id": "cairn_features_home_components_habitscategoryheader_swift",
-      "community": 6,
+      "community": 120,
       "norm_label": "habitscategoryheader.swift"
     },
     {
@@ -4572,7 +4680,7 @@
       "source_file": "Cairn/Features/Home/Components/HabitsCategoryHeader.swift",
       "source_location": "L6",
       "id": "components_habitscategoryheader_habitscategoryheader",
-      "community": 6,
+      "community": 120,
       "norm_label": "habitscategoryheader"
     },
     {
@@ -4581,7 +4689,7 @@
       "source_file": "Cairn/Features/Home/Components/TodayHabitRow.swift",
       "source_location": "L1",
       "id": "cairn_features_home_components_todayhabitrow_swift",
-      "community": 94,
+      "community": 6,
       "norm_label": "todayhabitrow.swift"
     },
     {
@@ -4590,7 +4698,7 @@
       "source_file": "Cairn/Features/Home/Components/TodayHabitRow.swift",
       "source_location": "L10",
       "id": "components_todayhabitrow_todayhabitrow",
-      "community": 94,
+      "community": 6,
       "norm_label": "todayhabitrow"
     },
     {
@@ -4761,7 +4869,7 @@
       "source_file": "Cairn/Features/Habits/CalendarMonthView.swift",
       "source_location": "L1",
       "id": "cairn_features_habits_calendarmonthview_swift",
-      "community": 14,
+      "community": 12,
       "norm_label": "calendarmonthview.swift"
     },
     {
@@ -4770,7 +4878,7 @@
       "source_file": "Cairn/Features/Habits/CalendarMonthView.swift",
       "source_location": "L4",
       "id": "habits_calendarmonthview_calendarmonthview",
-      "community": 14,
+      "community": 12,
       "norm_label": "calendarmonthview"
     },
     {
@@ -4779,7 +4887,7 @@
       "source_file": "Cairn/Features/Habits/CalendarMonthView.swift",
       "source_location": "L39",
       "id": "habits_calendarmonthview_calendarmonthview_navbutton",
-      "community": 14,
+      "community": 12,
       "norm_label": ".navbutton()"
     },
     {
@@ -4788,7 +4896,7 @@
       "source_file": "Cairn/Features/Habits/CalendarMonthView.swift",
       "source_location": "L72",
       "id": "habits_calendarmonthview_calendarmonthview_cellview",
-      "community": 14,
+      "community": 12,
       "norm_label": ".cellview()"
     },
     {
@@ -4797,7 +4905,7 @@
       "source_file": "Cairn/Features/Habits/CalendarMonthView.swift",
       "source_location": "L94",
       "id": "habits_calendarmonthview_calendarmonthview_advance",
-      "community": 14,
+      "community": 12,
       "norm_label": ".advance()"
     },
     {
@@ -4806,7 +4914,7 @@
       "source_file": "Cairn/Features/Habits/CalendarMonthView.swift",
       "source_location": "L101",
       "id": "habits_calendarmonthview_calendarmonthview_computecells",
-      "community": 14,
+      "community": 12,
       "norm_label": ".computecells()"
     },
     {
@@ -4815,7 +4923,7 @@
       "source_file": "Cairn/Features/Habits/CalendarMonthView.swift",
       "source_location": "L134",
       "id": "habits_calendarmonthview_calendarmonthview_logsindisplayedmonth",
-      "community": 14,
+      "community": 12,
       "norm_label": ".logsindisplayedmonth()"
     },
     {
@@ -4824,7 +4932,7 @@
       "source_file": "Cairn/Features/Habits/CalendarMonthView.swift",
       "source_location": "L144",
       "id": "habits_calendarmonthview_dayinfo",
-      "community": 14,
+      "community": 12,
       "norm_label": "dayinfo"
     },
     {
@@ -4833,7 +4941,7 @@
       "source_file": "Cairn/Features/Habits/CalendarMonthView.swift",
       "source_location": "L152",
       "id": "habits_calendarmonthview_daycell",
-      "community": 14,
+      "community": 12,
       "norm_label": "daycell"
     },
     {
@@ -4842,7 +4950,7 @@
       "source_file": "Cairn/Features/Habits/CalendarMonthView.swift",
       "source_location": "L153",
       "id": "habits_calendarmonthview_kind",
-      "community": 14,
+      "community": 12,
       "norm_label": "kind"
     },
     {
@@ -4851,7 +4959,7 @@
       "source_file": "Cairn/Features/Habits/CalendarMonthView.swift",
       "source_location": "L153",
       "id": "habits_calendarmonthview_kind_blank",
-      "community": 14,
+      "community": 12,
       "norm_label": "blank"
     },
     {
@@ -4860,7 +4968,7 @@
       "source_file": "Cairn/Features/Habits/CalendarMonthView.swift",
       "source_location": "L153",
       "id": "habits_calendarmonthview_kind_day",
-      "community": 14,
+      "community": 12,
       "norm_label": "day"
     },
     {
@@ -4869,7 +4977,7 @@
       "source_file": "Cairn/Features/Habits/CalendarMonthView.swift",
       "source_location": "L158",
       "id": "habits_calendarmonthview_daycellview",
-      "community": 14,
+      "community": 12,
       "norm_label": "daycellview"
     },
     {
@@ -4878,7 +4986,7 @@
       "source_file": "Cairn/Features/Habits/CalendarMonthView.swift",
       "source_location": "L240",
       "id": "habits_calendarmonthview_calendar",
-      "community": 14,
+      "community": 12,
       "norm_label": "calendar"
     },
     {
@@ -4887,7 +4995,7 @@
       "source_file": "Cairn/Features/Habits/CalendarMonthView.swift",
       "source_location": "L241",
       "id": "habits_calendarmonthview_calendar_startofmonth",
-      "community": 14,
+      "community": 12,
       "norm_label": ".startofmonth()"
     },
     {
@@ -5103,7 +5211,7 @@
       "source_file": "Cairn/Features/Habits/AddAnother/ConfigureHabitDraft.swift",
       "source_location": "L1",
       "id": "cairn_features_habits_addanother_configurehabitdraft_swift",
-      "community": 10,
+      "community": 8,
       "norm_label": "configurehabitdraft.swift"
     },
     {
@@ -5112,7 +5220,7 @@
       "source_file": "Cairn/Features/Habits/AddAnother/ConfigureHabitDraft.swift",
       "source_location": "L4",
       "id": "addanother_configurehabitdraft_configurehabitdraft",
-      "community": 10,
+      "community": 8,
       "norm_label": "configurehabitdraft"
     },
     {
@@ -5121,7 +5229,7 @@
       "source_file": "Cairn/Features/Habits/AddAnother/ConfigureHabitDraft.swift",
       "source_location": "L19",
       "id": "addanother_configurehabitdraft_configurehabitdraft_init",
-      "community": 10,
+      "community": 8,
       "norm_label": ".init()"
     },
     {
@@ -5130,7 +5238,7 @@
       "source_file": "Cairn/Features/Habits/AddAnother/ConfigureHabitDraft.swift",
       "source_location": "L105",
       "id": "addanother_configurehabitdraft_configurehabitdraft_shortdaylabel",
-      "community": 10,
+      "community": 8,
       "norm_label": ".shortdaylabel()"
     },
     {
@@ -5139,7 +5247,7 @@
       "source_file": "Cairn/Features/Habits/AddAnother/ConfigureHabitDraft.swift",
       "source_location": "L118",
       "id": "addanother_configurehabitdraft_configurehabitdraft_generatecuenote",
-      "community": 10,
+      "community": 8,
       "norm_label": ".generatecuenote()"
     },
     {
@@ -5148,7 +5256,7 @@
       "source_file": "Cairn/Features/Habits/AddAnother/ConfigureHabitDraft.swift",
       "source_location": "L124",
       "id": "addanother_configurehabitdraft_configurehabitdraft_templateactionphrase",
-      "community": 10,
+      "community": 8,
       "norm_label": ".templateactionphrase()"
     },
     {
@@ -5166,7 +5274,7 @@
       "source_file": "Cairn/Features/Habits/AddAnother/ConfigureHabitView.swift",
       "source_location": "L4",
       "id": "addanother_configurehabitview_configurehabitview",
-      "community": 10,
+      "community": 8,
       "norm_label": "configurehabitview"
     },
     {
@@ -5175,7 +5283,7 @@
       "source_file": "Cairn/Features/Habits/AddAnother/ConfigureHabitView.swift",
       "source_location": "L16",
       "id": "addanother_configurehabitview_configurehabitview_init",
-      "community": 10,
+      "community": 8,
       "norm_label": ".init()"
     },
     {
@@ -5184,7 +5292,7 @@
       "source_file": "Cairn/Features/Habits/AddAnother/ConfigureHabitView.swift",
       "source_location": "L240",
       "id": "addanother_configurehabitview_configurehabitview_initial",
-      "community": 10,
+      "community": 8,
       "norm_label": ".initial()"
     },
     {
@@ -5193,7 +5301,7 @@
       "source_file": "Cairn/Features/Habits/AddAnother/ConfigureHabitView.swift",
       "source_location": "L343",
       "id": "addanother_configurehabitview_configurehabitview_stackonrow",
-      "community": 10,
+      "community": 8,
       "norm_label": ".stackonrow()"
     },
     {
@@ -5202,7 +5310,7 @@
       "source_file": "Cairn/Features/Habits/AddAnother/ConfigureHabitView.swift",
       "source_location": "L430",
       "id": "addanother_configurehabitview_configurehabitview_icontile",
-      "community": 10,
+      "community": 8,
       "norm_label": ".icontile()"
     },
     {
@@ -5247,7 +5355,7 @@
       "source_file": "",
       "source_location": "",
       "id": "equatable",
-      "community": 0,
+      "community": 10,
       "norm_label": "equatable"
     },
     {
@@ -5382,7 +5490,7 @@
       "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
       "source_location": "L1",
       "id": "cairn_features_habits_detail_habithistoryview_swift",
-      "community": 3,
+      "community": 90,
       "norm_label": "habithistoryview.swift"
     },
     {
@@ -5391,61 +5499,124 @@
       "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
       "source_location": "L7",
       "id": "detail_habithistoryview_habithistoryview",
-      "community": 3,
+      "community": 90,
       "norm_label": "habithistoryview"
+    },
+    {
+      "label": "TimeRange",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
+      "source_location": "L17",
+      "id": "detail_habithistoryview_timerange",
+      "community": 96,
+      "norm_label": "timerange"
+    },
+    {
+      "label": "week",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
+      "source_location": "L18",
+      "id": "detail_habithistoryview_timerange_week",
+      "community": 96,
+      "norm_label": "week"
+    },
+    {
+      "label": "month",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
+      "source_location": "L18",
+      "id": "detail_habithistoryview_timerange_month",
+      "community": 96,
+      "norm_label": "month"
+    },
+    {
+      "label": "halfYear",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
+      "source_location": "L18",
+      "id": "detail_habithistoryview_timerange_halfyear",
+      "community": 96,
+      "norm_label": "halfyear"
+    },
+    {
+      "label": "year",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
+      "source_location": "L18",
+      "id": "detail_habithistoryview_timerange_year",
+      "community": 96,
+      "norm_label": "year"
+    },
+    {
+      "label": "all",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
+      "source_location": "L18",
+      "id": "detail_habithistoryview_timerange_all",
+      "community": 96,
+      "norm_label": "all"
+    },
+    {
+      "label": ".cutoff()",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
+      "source_location": "L29",
+      "id": "detail_habithistoryview_timerange_cutoff",
+      "community": 96,
+      "norm_label": ".cutoff()"
     },
     {
       "label": ".daySection()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
-      "source_location": "L96",
+      "source_location": "L153",
       "id": "detail_habithistoryview_habithistoryview_daysection",
-      "community": 3,
+      "community": 90,
       "norm_label": ".daysection()"
     },
     {
       "label": ".logRow()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
-      "source_location": "L124",
+      "source_location": "L181",
       "id": "detail_habithistoryview_habithistoryview_logrow",
-      "community": 3,
+      "community": 90,
       "norm_label": ".logrow()"
     },
     {
       "label": "DayGroup",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
-      "source_location": "L173",
+      "source_location": "L230",
       "id": "detail_habithistoryview_daygroup",
-      "community": 3,
+      "community": 90,
       "norm_label": "daygroup"
     },
     {
       "label": ".dayHeader()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
-      "source_location": "L191",
+      "source_location": "L253",
       "id": "detail_habithistoryview_habithistoryview_dayheader",
-      "community": 3,
+      "community": 90,
       "norm_label": ".dayheader()"
     },
     {
       "label": ".relativeDayLabel()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
-      "source_location": "L197",
+      "source_location": "L259",
       "id": "detail_habithistoryview_habithistoryview_relativedaylabel",
-      "community": 3,
+      "community": 90,
       "norm_label": ".relativedaylabel()"
     },
     {
       "label": ".timeString()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
-      "source_location": "L208",
+      "source_location": "L270",
       "id": "detail_habithistoryview_habithistoryview_timestring",
-      "community": 3,
+      "community": 90,
       "norm_label": ".timestring()"
     },
     {
@@ -5461,7 +5632,7 @@
       "label": "HabitHeatmapGrid",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L14",
+      "source_location": "L9",
       "id": "detail_habitheatmapgrid_habitheatmapgrid",
       "community": 13,
       "norm_label": "habitheatmapgrid"
@@ -5470,7 +5641,7 @@
       "label": "Layout",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L49",
+      "source_location": "L39",
       "id": "detail_habitheatmapgrid_layout",
       "community": 13,
       "norm_label": "layout"
@@ -5479,16 +5650,25 @@
       "label": ".computeLayout()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L57",
+      "source_location": "L49",
       "id": "detail_habitheatmapgrid_habitheatmapgrid_computelayout",
       "community": 13,
       "norm_label": ".computelayout()"
     },
     {
+      "label": ".header()",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L71",
+      "id": "detail_habitheatmapgrid_habitheatmapgrid_header",
+      "community": 13,
+      "norm_label": ".header()"
+    },
+    {
       "label": ".grid()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L88",
+      "source_location": "L86",
       "id": "detail_habitheatmapgrid_habitheatmapgrid_grid",
       "community": 13,
       "norm_label": ".grid()"
@@ -5497,88 +5677,52 @@
       "label": ".cell()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L116",
+      "source_location": "L99",
       "id": "detail_habitheatmapgrid_habitheatmapgrid_cell",
       "community": 13,
       "norm_label": ".cell()"
     },
     {
-      "label": ".cellLevel()",
+      "label": ".fill()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L142",
-      "id": "detail_habitheatmapgrid_habitheatmapgrid_celllevel",
+      "source_location": "L126",
+      "id": "detail_habitheatmapgrid_habitheatmapgrid_fill",
       "community": 13,
-      "norm_label": ".celllevel()"
+      "norm_label": ".fill()"
     },
     {
-      "label": ".dateRange()",
+      "label": ".infoLine()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L172",
-      "id": "detail_habitheatmapgrid_habitheatmapgrid_daterange",
+      "source_location": "L134",
+      "id": "detail_habitheatmapgrid_habitheatmapgrid_infoline",
       "community": 13,
-      "norm_label": ".daterange()"
+      "norm_label": ".infoline()"
     },
     {
-      "label": "CellLevel",
+      "label": ".legendSquare()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L189",
-      "id": "detail_habitheatmapgrid_celllevel",
+      "source_location": "L173",
+      "id": "detail_habitheatmapgrid_habitheatmapgrid_legendsquare",
       "community": 13,
-      "norm_label": "celllevel"
+      "norm_label": ".legendsquare()"
     },
     {
-      "label": "future",
+      "label": ".dayLabel()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L190",
-      "id": "detail_habitheatmapgrid_celllevel_future",
+      "source_location": "L179",
+      "id": "detail_habitheatmapgrid_habitheatmapgrid_daylabel",
       "community": 13,
-      "norm_label": "future"
-    },
-    {
-      "label": "beforeCreation",
-      "file_type": "code",
-      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L191",
-      "id": "detail_habitheatmapgrid_celllevel_beforecreation",
-      "community": 13,
-      "norm_label": "beforecreation"
-    },
-    {
-      "label": "empty",
-      "file_type": "code",
-      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L192",
-      "id": "detail_habitheatmapgrid_celllevel_empty",
-      "community": 13,
-      "norm_label": "empty"
-    },
-    {
-      "label": "partial",
-      "file_type": "code",
-      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L193",
-      "id": "detail_habitheatmapgrid_celllevel_partial",
-      "community": 13,
-      "norm_label": "partial"
-    },
-    {
-      "label": "full",
-      "file_type": "code",
-      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L194",
-      "id": "detail_habitheatmapgrid_celllevel_full",
-      "community": 13,
-      "norm_label": "full"
+      "norm_label": ".daylabel()"
     },
     {
       "label": ".bucketLogs()",
       "file_type": "code",
       "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L214",
+      "source_location": "L187",
       "id": "detail_habitheatmapgrid_habitheatmapgrid_bucketlogs",
       "community": 13,
       "norm_label": ".bucketlogs()"
@@ -5589,7 +5733,7 @@
       "source_file": "Cairn/Features/Habits/Detail/HabitEditDraft.swift",
       "source_location": "L1",
       "id": "cairn_features_habits_detail_habiteditdraft_swift",
-      "community": 0,
+      "community": 94,
       "norm_label": "habiteditdraft.swift"
     },
     {
@@ -5598,7 +5742,7 @@
       "source_file": "Cairn/Features/Habits/Detail/HabitEditDraft.swift",
       "source_location": "L13",
       "id": "detail_habiteditdraft_habiteditdraft",
-      "community": 0,
+      "community": 94,
       "norm_label": "habiteditdraft"
     },
     {
@@ -5607,7 +5751,7 @@
       "source_file": "Cairn/Features/Habits/Detail/HabitEditDraft.swift",
       "source_location": "L30",
       "id": "detail_habiteditdraft_habiteditdraft_init",
-      "community": 0,
+      "community": 94,
       "norm_label": ".init()"
     },
     {
@@ -5616,7 +5760,7 @@
       "source_file": "Cairn/Features/Habits/Detail/HabitEditDraft.swift",
       "source_location": "L118",
       "id": "detail_habiteditdraft_habiteditdraft_apply",
-      "community": 0,
+      "community": 94,
       "norm_label": ".apply()"
     },
     {
@@ -5625,7 +5769,7 @@
       "source_file": "Cairn/Features/Habits/Detail/HabitEditDraft.swift",
       "source_location": "L132",
       "id": "detail_habiteditdraft_habiteditdraft_shortdaylabel",
-      "community": 0,
+      "community": 94,
       "norm_label": ".shortdaylabel()"
     },
     {
@@ -5634,7 +5778,7 @@
       "source_file": "Cairn/Features/Habits/Detail/HabitEditDraft.swift",
       "source_location": "L146",
       "id": "detail_habiteditdraft_habiteditdraft_weekdays",
-      "community": 0,
+      "community": 94,
       "norm_label": ".weekdays()"
     },
     {
@@ -5643,7 +5787,7 @@
       "source_file": "Cairn/Features/Habits/Detail/HabitEditDraft.swift",
       "source_location": "L155",
       "id": "detail_habiteditdraft_habiteditdraft_defaultremindertime",
-      "community": 0,
+      "community": 94,
       "norm_label": ".defaultremindertime()"
     },
     {
@@ -5733,7 +5877,7 @@
       "source_file": "Cairn/Features/Habits/FirstHabit/ReminderTimeSheet.swift",
       "source_location": "L1",
       "id": "cairn_features_habits_firsthabit_remindertimesheet_swift",
-      "community": 0,
+      "community": 95,
       "norm_label": "remindertimesheet.swift"
     },
     {
@@ -5742,7 +5886,7 @@
       "source_file": "Cairn/Features/Habits/FirstHabit/ReminderTimeSheet.swift",
       "source_location": "L3",
       "id": "firsthabit_remindertimesheet_remindertimesheet",
-      "community": 0,
+      "community": 95,
       "norm_label": "remindertimesheet"
     },
     {
@@ -5751,7 +5895,7 @@
       "source_file": "Cairn/Features/Habits/FirstHabit/ReminderTimeSheet.swift",
       "source_location": "L10",
       "id": "firsthabit_remindertimesheet_remindertimesheet_init",
-      "community": 0,
+      "community": 95,
       "norm_label": ".init()"
     },
     {
@@ -5760,7 +5904,7 @@
       "source_file": "Cairn/Features/Habits/FirstHabit/ReminderTimeSheet.swift",
       "source_location": "L15",
       "id": "firsthabit_remindertimesheet_moment",
-      "community": 0,
+      "community": 95,
       "norm_label": "moment"
     },
     {
@@ -5769,7 +5913,7 @@
       "source_file": "Cairn/Features/Habits/FirstHabit/ReminderTimeSheet.swift",
       "source_location": "L133",
       "id": "firsthabit_remindertimesheet_remindertimesheet_momentchip",
-      "community": 0,
+      "community": 95,
       "norm_label": ".momentchip()"
     },
     {
@@ -5778,7 +5922,7 @@
       "source_file": "Cairn/Features/Habits/FirstHabit/ReminderTimeSheet.swift",
       "source_location": "L159",
       "id": "firsthabit_remindertimesheet_remindertimesheet_iscurrent",
-      "community": 0,
+      "community": 95,
       "norm_label": ".iscurrent()"
     },
     {
@@ -5787,7 +5931,7 @@
       "source_file": "Cairn/Features/Habits/FirstHabit/ReminderTimeSheet.swift",
       "source_location": "L164",
       "id": "firsthabit_remindertimesheet_remindertimesheet_applymoment",
-      "community": 0,
+      "community": 95,
       "norm_label": ".applymoment()"
     },
     {
@@ -5796,7 +5940,7 @@
       "source_file": "Cairn/Features/Habits/FirstHabit/DaysSheet.swift",
       "source_location": "L1",
       "id": "cairn_features_habits_firsthabit_dayssheet_swift",
-      "community": 0,
+      "community": 10,
       "norm_label": "dayssheet.swift"
     },
     {
@@ -5805,7 +5949,7 @@
       "source_file": "Cairn/Features/Habits/FirstHabit/DaysSheet.swift",
       "source_location": "L3",
       "id": "firsthabit_dayssheet_dayssheet",
-      "community": 0,
+      "community": 98,
       "norm_label": "dayssheet"
     },
     {
@@ -5814,7 +5958,7 @@
       "source_file": "Cairn/Features/Habits/FirstHabit/DaysSheet.swift",
       "source_location": "L10",
       "id": "firsthabit_dayssheet_dayssheet_init",
-      "community": 0,
+      "community": 112,
       "norm_label": ".init()"
     },
     {
@@ -5823,7 +5967,7 @@
       "source_file": "Cairn/Features/Habits/FirstHabit/DaysSheet.swift",
       "source_location": "L18",
       "id": "firsthabit_dayssheet_pattern",
-      "community": 0,
+      "community": 10,
       "norm_label": "pattern"
     },
     {
@@ -5832,7 +5976,7 @@
       "source_file": "Cairn/Features/Habits/FirstHabit/DaysSheet.swift",
       "source_location": "L111",
       "id": "firsthabit_dayssheet_dayssheet_daychip",
-      "community": 0,
+      "community": 98,
       "norm_label": ".daychip()"
     },
     {
@@ -5841,7 +5985,7 @@
       "source_file": "Cairn/Features/Habits/FirstHabit/DaysSheet.swift",
       "source_location": "L137",
       "id": "firsthabit_dayssheet_dayssheet_initial",
-      "community": 0,
+      "community": 98,
       "norm_label": ".initial()"
     },
     {
@@ -5850,7 +5994,7 @@
       "source_file": "Cairn/Features/Habits/FirstHabit/DaysSheet.swift",
       "source_location": "L151",
       "id": "firsthabit_dayssheet_dayssheet_fullname",
-      "community": 0,
+      "community": 98,
       "norm_label": ".fullname()"
     },
     {
@@ -5859,7 +6003,7 @@
       "source_file": "Cairn/Features/Habits/FirstHabit/DaysSheet.swift",
       "source_location": "L155",
       "id": "firsthabit_dayssheet_dayssheet_toggle",
-      "community": 0,
+      "community": 98,
       "norm_label": ".toggle()"
     },
     {
@@ -5868,7 +6012,7 @@
       "source_file": "Cairn/Features/Habits/FirstHabit/DaysSheet.swift",
       "source_location": "L184",
       "id": "firsthabit_dayssheet_dayssheet_patternrow",
-      "community": 0,
+      "community": 98,
       "norm_label": ".patternrow()"
     },
     {
@@ -6093,7 +6237,7 @@
       "source_file": "Cairn/Features/Habits/Custom/CustomDaysSheet.swift",
       "source_location": "L1",
       "id": "cairn_features_habits_custom_customdayssheet_swift",
-      "community": 0,
+      "community": 10,
       "norm_label": "customdayssheet.swift"
     },
     {
@@ -6102,7 +6246,7 @@
       "source_file": "Cairn/Features/Habits/Custom/CustomDaysSheet.swift",
       "source_location": "L3",
       "id": "custom_customdayssheet_customdayssheet",
-      "community": 0,
+      "community": 97,
       "norm_label": "customdayssheet"
     },
     {
@@ -6111,7 +6255,7 @@
       "source_file": "Cairn/Features/Habits/Custom/CustomDaysSheet.swift",
       "source_location": "L9",
       "id": "custom_customdayssheet_customdayssheet_init",
-      "community": 0,
+      "community": 97,
       "norm_label": ".init()"
     },
     {
@@ -6120,7 +6264,7 @@
       "source_file": "Cairn/Features/Habits/Custom/CustomDaysSheet.swift",
       "source_location": "L16",
       "id": "custom_customdayssheet_pattern",
-      "community": 0,
+      "community": 10,
       "norm_label": "pattern"
     },
     {
@@ -6129,7 +6273,7 @@
       "source_file": "Cairn/Features/Habits/Custom/CustomDaysSheet.swift",
       "source_location": "L97",
       "id": "custom_customdayssheet_customdayssheet_daychip",
-      "community": 0,
+      "community": 97,
       "norm_label": ".daychip()"
     },
     {
@@ -6138,7 +6282,7 @@
       "source_file": "Cairn/Features/Habits/Custom/CustomDaysSheet.swift",
       "source_location": "L121",
       "id": "custom_customdayssheet_customdayssheet_initial",
-      "community": 0,
+      "community": 97,
       "norm_label": ".initial()"
     },
     {
@@ -6147,7 +6291,7 @@
       "source_file": "Cairn/Features/Habits/Custom/CustomDaysSheet.swift",
       "source_location": "L134",
       "id": "custom_customdayssheet_customdayssheet_toggle",
-      "community": 0,
+      "community": 97,
       "norm_label": ".toggle()"
     },
     {
@@ -6156,7 +6300,7 @@
       "source_file": "Cairn/Features/Habits/Custom/CustomDaysSheet.swift",
       "source_location": "L161",
       "id": "custom_customdayssheet_customdayssheet_patternrow",
-      "community": 0,
+      "community": 97,
       "norm_label": ".patternrow()"
     },
     {
@@ -6246,7 +6390,7 @@
       "source_file": "Cairn/Features/Habits/Custom/SingleTimeEditorSheet.swift",
       "source_location": "L1",
       "id": "cairn_features_habits_custom_singletimeeditorsheet_swift",
-      "community": 0,
+      "community": 92,
       "norm_label": "singletimeeditorsheet.swift"
     },
     {
@@ -6255,7 +6399,7 @@
       "source_file": "Cairn/Features/Habits/Custom/SingleTimeEditorSheet.swift",
       "source_location": "L8",
       "id": "custom_singletimeeditorsheet_singletimeeditorsheet",
-      "community": 0,
+      "community": 92,
       "norm_label": "singletimeeditorsheet"
     },
     {
@@ -6264,7 +6408,7 @@
       "source_file": "Cairn/Features/Habits/Custom/SingleTimeEditorSheet.swift",
       "source_location": "L16",
       "id": "custom_singletimeeditorsheet_singletimeeditorsheet_init",
-      "community": 0,
+      "community": 92,
       "norm_label": ".init()"
     },
     {
@@ -6273,7 +6417,7 @@
       "source_file": "Cairn/Features/Habits/Custom/SingleTimeEditorSheet.swift",
       "source_location": "L23",
       "id": "custom_singletimeeditorsheet_moment",
-      "community": 0,
+      "community": 92,
       "norm_label": "moment"
     },
     {
@@ -6282,7 +6426,7 @@
       "source_file": "Cairn/Features/Habits/Custom/SingleTimeEditorSheet.swift",
       "source_location": "L135",
       "id": "custom_singletimeeditorsheet_singletimeeditorsheet_momentchip",
-      "community": 0,
+      "community": 92,
       "norm_label": ".momentchip()"
     },
     {
@@ -6291,7 +6435,7 @@
       "source_file": "Cairn/Features/Habits/Custom/SingleTimeEditorSheet.swift",
       "source_location": "L158",
       "id": "custom_singletimeeditorsheet_singletimeeditorsheet_iscurrent",
-      "community": 0,
+      "community": 92,
       "norm_label": ".iscurrent()"
     },
     {
@@ -6300,7 +6444,7 @@
       "source_file": "Cairn/Features/Habits/Custom/SingleTimeEditorSheet.swift",
       "source_location": "L163",
       "id": "custom_singletimeeditorsheet_singletimeeditorsheet_applymoment",
-      "community": 0,
+      "community": 92,
       "norm_label": ".applymoment()"
     },
     {
@@ -6325,7 +6469,7 @@
       "label": "Stat",
       "file_type": "code",
       "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L114",
+      "source_location": "L147",
       "id": "coach_coachview_stat",
       "community": 20,
       "norm_label": "stat"
@@ -6334,7 +6478,7 @@
       "label": ".statCard()",
       "file_type": "code",
       "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L153",
+      "source_location": "L186",
       "id": "coach_coachview_coachview_statcard",
       "community": 20,
       "norm_label": ".statcard()"
@@ -6343,7 +6487,7 @@
       "label": ".categoryRow()",
       "file_type": "code",
       "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L189",
+      "source_location": "L222",
       "id": "coach_coachview_coachview_categoryrow",
       "community": 20,
       "norm_label": ".categoryrow()"
@@ -6352,7 +6496,7 @@
       "label": ".weekdayCard()",
       "file_type": "code",
       "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L217",
+      "source_location": "L250",
       "id": "coach_coachview_coachview_weekdaycard",
       "community": 20,
       "norm_label": ".weekdaycard()"
@@ -6361,7 +6505,7 @@
       "label": ".barHeight()",
       "file_type": "code",
       "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L257",
+      "source_location": "L290",
       "id": "coach_coachview_coachview_barheight",
       "community": 20,
       "norm_label": ".barheight()"
@@ -6370,52 +6514,79 @@
       "label": ".timeOfDayCard()",
       "file_type": "code",
       "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L265",
+      "source_location": "L298",
       "id": "coach_coachview_coachview_timeofdaycard",
       "community": 20,
       "norm_label": ".timeofdaycard()"
     },
     {
-      "label": ".habitHealthRow()",
+      "label": ".habitFeelRow()",
       "file_type": "code",
       "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L326",
-      "id": "coach_coachview_coachview_habithealthrow",
+      "source_location": "L366",
+      "id": "coach_coachview_coachview_habitfeelrow",
       "community": 20,
-      "norm_label": ".habithealthrow()"
+      "norm_label": ".habitfeelrow()"
     },
     {
-      "label": ".dotTrail()",
+      "label": ".feelStone()",
       "file_type": "code",
       "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L349",
-      "id": "coach_coachview_coachview_dottrail",
+      "source_location": "L400",
+      "id": "coach_coachview_coachview_feelstone",
       "community": 20,
-      "norm_label": ".dottrail()"
+      "norm_label": ".feelstone()"
     },
     {
-      "label": ".trendColor()",
+      "label": ".feelColor()",
       "file_type": "code",
       "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L360",
-      "id": "coach_coachview_coachview_trendcolor",
+      "source_location": "L409",
+      "id": "coach_coachview_coachview_feelcolor",
       "community": 20,
-      "norm_label": ".trendcolor()"
+      "norm_label": ".feelcolor()"
     },
     {
-      "label": ".trendLabel()",
+      "label": ".milestoneCard()",
       "file_type": "code",
       "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L368",
-      "id": "coach_coachview_coachview_trendlabel",
+      "source_location": "L420",
+      "id": "coach_coachview_coachview_milestonecard",
       "community": 20,
-      "norm_label": ".trendlabel()"
+      "norm_label": ".milestonecard()"
+    },
+    {
+      "label": ".milestoneCaption()",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L440",
+      "id": "coach_coachview_coachview_milestonecaption",
+      "community": 20,
+      "norm_label": ".milestonecaption()"
+    },
+    {
+      "label": ".oneSmallMoveCard()",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L450",
+      "id": "coach_coachview_coachview_onesmallmovecard",
+      "community": 20,
+      "norm_label": ".onesmallmovecard()"
+    },
+    {
+      "label": ".saveReflection()",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L576",
+      "id": "coach_coachview_coachview_savereflection",
+      "community": 20,
+      "norm_label": ".savereflection()"
     },
     {
       "label": ".sectionEyebrow()",
       "file_type": "code",
       "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L395",
+      "source_location": "L605",
       "id": "coach_coachview_coachview_sectioneyebrow",
       "community": 20,
       "norm_label": ".sectioneyebrow()"
@@ -6424,7 +6595,7 @@
       "label": ".iconBadge()",
       "file_type": "code",
       "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L408",
+      "source_location": "L618",
       "id": "coach_coachview_coachview_iconbadge",
       "community": 20,
       "norm_label": ".iconbadge()"
@@ -6493,10 +6664,19 @@
       "norm_label": "namefield"
     },
     {
+      "label": "stateStone",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Onboarding/OnboardingPage.swift",
+      "source_location": "L10",
+      "id": "onboarding_onboardingpage_hero_statestone",
+      "community": 31,
+      "norm_label": "statestone"
+    },
+    {
       "label": ".init()",
       "file_type": "code",
       "source_file": "Cairn/Features/Onboarding/OnboardingPage.swift",
-      "source_location": "L19",
+      "source_location": "L23",
       "id": "onboarding_onboardingpage_onboardingpage_init",
       "community": 31,
       "norm_label": ".init()"
@@ -6523,7 +6703,7 @@
       "label": ".animateIn()",
       "file_type": "code",
       "source_file": "Cairn/Features/Onboarding/OnboardingPageView.swift",
-      "source_location": "L115",
+      "source_location": "L144",
       "id": "onboarding_onboardingpageview_onboardingpageview_animatein",
       "community": 55,
       "norm_label": ".animatein()"
@@ -6532,7 +6712,7 @@
       "label": "StackedStonesHero",
       "file_type": "code",
       "source_file": "Cairn/Features/Onboarding/OnboardingPageView.swift",
-      "source_location": "L130",
+      "source_location": "L159",
       "id": "onboarding_onboardingpageview_stackedstoneshero",
       "community": 55,
       "norm_label": "stackedstoneshero"
@@ -6541,7 +6721,7 @@
       "label": ".stone()",
       "file_type": "code",
       "source_file": "Cairn/Features/Onboarding/OnboardingPageView.swift",
-      "source_location": "L145",
+      "source_location": "L174",
       "id": "onboarding_onboardingpageview_stackedstoneshero_stone",
       "community": 55,
       "norm_label": ".stone()"
@@ -6616,6 +6796,231 @@
       "source_location": "L4",
       "id": "assets_xcassets_contents_info_version",
       "community": 65,
+      "norm_label": "version"
+    },
+    {
+      "label": "Contents.json",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-milestone.imageset/Contents.json",
+      "source_location": "L1",
+      "id": "cairn_assets_xcassets_state_milestone_imageset_contents_json",
+      "community": 104,
+      "norm_label": "contents.json"
+    },
+    {
+      "label": "images",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-milestone.imageset/Contents.json",
+      "source_location": "L2",
+      "id": "state_milestone_imageset_contents_images",
+      "community": 104,
+      "norm_label": "images"
+    },
+    {
+      "label": "info",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-milestone.imageset/Contents.json",
+      "source_location": "L8",
+      "id": "state_milestone_imageset_contents_info",
+      "community": 104,
+      "norm_label": "info"
+    },
+    {
+      "label": "author",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-milestone.imageset/Contents.json",
+      "source_location": "L9",
+      "id": "state_milestone_imageset_contents_info_author",
+      "community": 104,
+      "norm_label": "author"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-milestone.imageset/Contents.json",
+      "source_location": "L10",
+      "id": "state_milestone_imageset_contents_info_version",
+      "community": 104,
+      "norm_label": "version"
+    },
+    {
+      "label": "Contents.json",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-thriving.imageset/Contents.json",
+      "source_location": "L1",
+      "id": "cairn_assets_xcassets_state_thriving_imageset_contents_json",
+      "community": 109,
+      "norm_label": "contents.json"
+    },
+    {
+      "label": "images",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-thriving.imageset/Contents.json",
+      "source_location": "L2",
+      "id": "state_thriving_imageset_contents_images",
+      "community": 109,
+      "norm_label": "images"
+    },
+    {
+      "label": "info",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-thriving.imageset/Contents.json",
+      "source_location": "L8",
+      "id": "state_thriving_imageset_contents_info",
+      "community": 109,
+      "norm_label": "info"
+    },
+    {
+      "label": "author",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-thriving.imageset/Contents.json",
+      "source_location": "L9",
+      "id": "state_thriving_imageset_contents_info_author",
+      "community": 109,
+      "norm_label": "author"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-thriving.imageset/Contents.json",
+      "source_location": "L10",
+      "id": "state_thriving_imageset_contents_info_version",
+      "community": 109,
+      "norm_label": "version"
+    },
+    {
+      "label": "Contents.json",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-foggy.imageset/Contents.json",
+      "source_location": "L1",
+      "id": "cairn_assets_xcassets_mood_foggy_imageset_contents_json",
+      "community": 100,
+      "norm_label": "contents.json"
+    },
+    {
+      "label": "images",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-foggy.imageset/Contents.json",
+      "source_location": "L2",
+      "id": "mood_foggy_imageset_contents_images",
+      "community": 100,
+      "norm_label": "images"
+    },
+    {
+      "label": "info",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-foggy.imageset/Contents.json",
+      "source_location": "L17",
+      "id": "mood_foggy_imageset_contents_info",
+      "community": 100,
+      "norm_label": "info"
+    },
+    {
+      "label": "author",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-foggy.imageset/Contents.json",
+      "source_location": "L18",
+      "id": "mood_foggy_imageset_contents_info_author",
+      "community": 100,
+      "norm_label": "author"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-foggy.imageset/Contents.json",
+      "source_location": "L19",
+      "id": "mood_foggy_imageset_contents_info_version",
+      "community": 100,
+      "norm_label": "version"
+    },
+    {
+      "label": "Contents.json",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-slipping.imageset/Contents.json",
+      "source_location": "L1",
+      "id": "cairn_assets_xcassets_state_slipping_imageset_contents_json",
+      "community": 107,
+      "norm_label": "contents.json"
+    },
+    {
+      "label": "images",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-slipping.imageset/Contents.json",
+      "source_location": "L2",
+      "id": "state_slipping_imageset_contents_images",
+      "community": 107,
+      "norm_label": "images"
+    },
+    {
+      "label": "info",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-slipping.imageset/Contents.json",
+      "source_location": "L8",
+      "id": "state_slipping_imageset_contents_info",
+      "community": 107,
+      "norm_label": "info"
+    },
+    {
+      "label": "author",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-slipping.imageset/Contents.json",
+      "source_location": "L9",
+      "id": "state_slipping_imageset_contents_info_author",
+      "community": 107,
+      "norm_label": "author"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-slipping.imageset/Contents.json",
+      "source_location": "L10",
+      "id": "state_slipping_imageset_contents_info_version",
+      "community": 107,
+      "norm_label": "version"
+    },
+    {
+      "label": "Contents.json",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-bright.imageset/Contents.json",
+      "source_location": "L1",
+      "id": "cairn_assets_xcassets_mood_bright_imageset_contents_json",
+      "community": 99,
+      "norm_label": "contents.json"
+    },
+    {
+      "label": "images",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-bright.imageset/Contents.json",
+      "source_location": "L2",
+      "id": "mood_bright_imageset_contents_images",
+      "community": 99,
+      "norm_label": "images"
+    },
+    {
+      "label": "info",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-bright.imageset/Contents.json",
+      "source_location": "L17",
+      "id": "mood_bright_imageset_contents_info",
+      "community": 99,
+      "norm_label": "info"
+    },
+    {
+      "label": "author",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-bright.imageset/Contents.json",
+      "source_location": "L18",
+      "id": "mood_bright_imageset_contents_info_author",
+      "community": 99,
+      "norm_label": "author"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-bright.imageset/Contents.json",
+      "source_location": "L19",
+      "id": "mood_bright_imageset_contents_info_version",
+      "community": 99,
       "norm_label": "version"
     },
     {
@@ -6706,6 +7111,141 @@
       "source_location": "L9",
       "id": "accentcolor_colorset_contents_info_version",
       "community": 48,
+      "norm_label": "version"
+    },
+    {
+      "label": "Contents.json",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-off.imageset/Contents.json",
+      "source_location": "L1",
+      "id": "cairn_assets_xcassets_mood_off_imageset_contents_json",
+      "community": 102,
+      "norm_label": "contents.json"
+    },
+    {
+      "label": "images",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-off.imageset/Contents.json",
+      "source_location": "L2",
+      "id": "mood_off_imageset_contents_images",
+      "community": 102,
+      "norm_label": "images"
+    },
+    {
+      "label": "info",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-off.imageset/Contents.json",
+      "source_location": "L17",
+      "id": "mood_off_imageset_contents_info",
+      "community": 102,
+      "norm_label": "info"
+    },
+    {
+      "label": "author",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-off.imageset/Contents.json",
+      "source_location": "L18",
+      "id": "mood_off_imageset_contents_info_author",
+      "community": 102,
+      "norm_label": "author"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-off.imageset/Contents.json",
+      "source_location": "L19",
+      "id": "mood_off_imageset_contents_info_version",
+      "community": 102,
+      "norm_label": "version"
+    },
+    {
+      "label": "Contents.json",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-resting.imageset/Contents.json",
+      "source_location": "L1",
+      "id": "cairn_assets_xcassets_state_resting_imageset_contents_json",
+      "community": 105,
+      "norm_label": "contents.json"
+    },
+    {
+      "label": "images",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-resting.imageset/Contents.json",
+      "source_location": "L2",
+      "id": "state_resting_imageset_contents_images",
+      "community": 105,
+      "norm_label": "images"
+    },
+    {
+      "label": "info",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-resting.imageset/Contents.json",
+      "source_location": "L8",
+      "id": "state_resting_imageset_contents_info",
+      "community": 105,
+      "norm_label": "info"
+    },
+    {
+      "label": "author",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-resting.imageset/Contents.json",
+      "source_location": "L9",
+      "id": "state_resting_imageset_contents_info_author",
+      "community": 105,
+      "norm_label": "author"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-resting.imageset/Contents.json",
+      "source_location": "L10",
+      "id": "state_resting_imageset_contents_info_version",
+      "community": 105,
+      "norm_label": "version"
+    },
+    {
+      "label": "Contents.json",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-returning.imageset/Contents.json",
+      "source_location": "L1",
+      "id": "cairn_assets_xcassets_state_returning_imageset_contents_json",
+      "community": 106,
+      "norm_label": "contents.json"
+    },
+    {
+      "label": "images",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-returning.imageset/Contents.json",
+      "source_location": "L2",
+      "id": "state_returning_imageset_contents_images",
+      "community": 106,
+      "norm_label": "images"
+    },
+    {
+      "label": "info",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-returning.imageset/Contents.json",
+      "source_location": "L8",
+      "id": "state_returning_imageset_contents_info",
+      "community": 106,
+      "norm_label": "info"
+    },
+    {
+      "label": "author",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-returning.imageset/Contents.json",
+      "source_location": "L9",
+      "id": "state_returning_imageset_contents_info_author",
+      "community": 106,
+      "norm_label": "author"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-returning.imageset/Contents.json",
+      "source_location": "L10",
+      "id": "state_returning_imageset_contents_info_version",
+      "community": 106,
       "norm_label": "version"
     },
     {
@@ -7285,6 +7825,141 @@
       "norm_label": "version"
     },
     {
+      "label": "Contents.json",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-good.imageset/Contents.json",
+      "source_location": "L1",
+      "id": "cairn_assets_xcassets_mood_good_imageset_contents_json",
+      "community": 101,
+      "norm_label": "contents.json"
+    },
+    {
+      "label": "images",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-good.imageset/Contents.json",
+      "source_location": "L2",
+      "id": "mood_good_imageset_contents_images",
+      "community": 101,
+      "norm_label": "images"
+    },
+    {
+      "label": "info",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-good.imageset/Contents.json",
+      "source_location": "L17",
+      "id": "mood_good_imageset_contents_info",
+      "community": 101,
+      "norm_label": "info"
+    },
+    {
+      "label": "author",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-good.imageset/Contents.json",
+      "source_location": "L18",
+      "id": "mood_good_imageset_contents_info_author",
+      "community": 101,
+      "norm_label": "author"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-good.imageset/Contents.json",
+      "source_location": "L19",
+      "id": "mood_good_imageset_contents_info_version",
+      "community": 101,
+      "norm_label": "version"
+    },
+    {
+      "label": "Contents.json",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-steady.imageset/Contents.json",
+      "source_location": "L1",
+      "id": "cairn_assets_xcassets_state_steady_imageset_contents_json",
+      "community": 108,
+      "norm_label": "contents.json"
+    },
+    {
+      "label": "images",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-steady.imageset/Contents.json",
+      "source_location": "L2",
+      "id": "state_steady_imageset_contents_images",
+      "community": 108,
+      "norm_label": "images"
+    },
+    {
+      "label": "info",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-steady.imageset/Contents.json",
+      "source_location": "L8",
+      "id": "state_steady_imageset_contents_info",
+      "community": 108,
+      "norm_label": "info"
+    },
+    {
+      "label": "author",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-steady.imageset/Contents.json",
+      "source_location": "L9",
+      "id": "state_steady_imageset_contents_info_author",
+      "community": 108,
+      "norm_label": "author"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/state-steady.imageset/Contents.json",
+      "source_location": "L10",
+      "id": "state_steady_imageset_contents_info_version",
+      "community": 108,
+      "norm_label": "version"
+    },
+    {
+      "label": "Contents.json",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-okay.imageset/Contents.json",
+      "source_location": "L1",
+      "id": "cairn_assets_xcassets_mood_okay_imageset_contents_json",
+      "community": 103,
+      "norm_label": "contents.json"
+    },
+    {
+      "label": "images",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-okay.imageset/Contents.json",
+      "source_location": "L2",
+      "id": "mood_okay_imageset_contents_images",
+      "community": 103,
+      "norm_label": "images"
+    },
+    {
+      "label": "info",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-okay.imageset/Contents.json",
+      "source_location": "L17",
+      "id": "mood_okay_imageset_contents_info",
+      "community": 103,
+      "norm_label": "info"
+    },
+    {
+      "label": "author",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-okay.imageset/Contents.json",
+      "source_location": "L18",
+      "id": "mood_okay_imageset_contents_info_author",
+      "community": 103,
+      "norm_label": "author"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "Cairn/Assets.xcassets/mood-okay.imageset/Contents.json",
+      "source_location": "L19",
+      "id": "mood_okay_imageset_contents_info_version",
+      "community": 103,
+      "norm_label": "version"
+    },
+    {
       "label": "CairnUITestsLaunchTests.swift",
       "file_type": "code",
       "source_file": "CairnUITests/CairnUITestsLaunchTests.swift",
@@ -7789,6 +8464,168 @@
       "norm_label": "graphify"
     },
     {
+      "label": "HealthTrend",
+      "file_type": "code",
+      "source_file": "Cairn/Core/Services/CoachInsights.swift",
+      "source_location": "L112",
+      "community": 27,
+      "norm_label": "healthtrend",
+      "id": "services_coachinsights_healthtrend"
+    },
+    {
+      "label": "rockSolid",
+      "file_type": "code",
+      "source_file": "Cairn/Core/Services/CoachInsights.swift",
+      "source_location": "L113",
+      "community": 27,
+      "norm_label": "rocksolid",
+      "id": "services_coachinsights_healthtrend_rocksolid"
+    },
+    {
+      "label": "steady",
+      "file_type": "code",
+      "source_file": "Cairn/Core/Services/CoachInsights.swift",
+      "source_location": "L114",
+      "community": 27,
+      "norm_label": "steady",
+      "id": "services_coachinsights_healthtrend_steady"
+    },
+    {
+      "label": "slipping",
+      "file_type": "code",
+      "source_file": "Cairn/Core/Services/CoachInsights.swift",
+      "source_location": "L115",
+      "community": 27,
+      "norm_label": "slipping",
+      "id": "services_coachinsights_healthtrend_slipping"
+    },
+    {
+      "label": ".undo()",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Home/HomeView.swift",
+      "source_location": "L505",
+      "community": 19,
+      "norm_label": ".undo()",
+      "id": "home_homeview_homeview_undo"
+    },
+    {
+      "label": ".indicatorDot()",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Home/Components/MoodSelector.swift",
+      "source_location": "L63",
+      "community": 59,
+      "norm_label": ".indicatordot()",
+      "id": "components_moodselector_moodselector_indicatordot"
+    },
+    {
+      "label": ".cellLevel()",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L142",
+      "community": 13,
+      "norm_label": ".celllevel()",
+      "id": "detail_habitheatmapgrid_habitheatmapgrid_celllevel"
+    },
+    {
+      "label": ".dateRange()",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L172",
+      "community": 13,
+      "norm_label": ".daterange()",
+      "id": "detail_habitheatmapgrid_habitheatmapgrid_daterange"
+    },
+    {
+      "label": "CellLevel",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L189",
+      "community": 13,
+      "norm_label": "celllevel",
+      "id": "detail_habitheatmapgrid_celllevel"
+    },
+    {
+      "label": "future",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L190",
+      "community": 13,
+      "norm_label": "future",
+      "id": "detail_habitheatmapgrid_celllevel_future"
+    },
+    {
+      "label": "beforeCreation",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L191",
+      "community": 13,
+      "norm_label": "beforecreation",
+      "id": "detail_habitheatmapgrid_celllevel_beforecreation"
+    },
+    {
+      "label": "empty",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L192",
+      "community": 13,
+      "norm_label": "empty",
+      "id": "detail_habitheatmapgrid_celllevel_empty"
+    },
+    {
+      "label": "partial",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L193",
+      "community": 13,
+      "norm_label": "partial",
+      "id": "detail_habitheatmapgrid_celllevel_partial"
+    },
+    {
+      "label": "full",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L194",
+      "community": 13,
+      "norm_label": "full",
+      "id": "detail_habitheatmapgrid_celllevel_full"
+    },
+    {
+      "label": ".habitHealthRow()",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L326",
+      "community": 20,
+      "norm_label": ".habithealthrow()",
+      "id": "coach_coachview_coachview_habithealthrow"
+    },
+    {
+      "label": ".dotTrail()",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L349",
+      "community": 20,
+      "norm_label": ".dottrail()",
+      "id": "coach_coachview_coachview_dottrail"
+    },
+    {
+      "label": ".trendColor()",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L360",
+      "community": 20,
+      "norm_label": ".trendcolor()",
+      "id": "coach_coachview_coachview_trendcolor"
+    },
+    {
+      "label": ".trendLabel()",
+      "file_type": "code",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L368",
+      "community": 20,
+      "norm_label": ".trendlabel()",
+      "id": "coach_coachview_coachview_trendlabel"
+    },
+    {
       "label": "SwipeableRow.swift",
       "file_type": "code",
       "source_file": "Cairn/Core/DesignSystem/Components/SwipeableRow.swift",
@@ -7838,7 +8675,7 @@
       "file_type": "code",
       "source_file": "Cairn/Features/Home/Components/StonesWidget.swift",
       "source_location": "L106",
-      "community": 17,
+      "community": 16,
       "norm_label": ".widthforindex()",
       "id": "components_stoneswidget_stoneswidget_widthforindex"
     }
@@ -8448,6 +9285,16 @@
     {
       "relation": "inherits",
       "confidence": "EXTRACTED",
+      "source_file": "Cairn/Core/DesignSystem/Components/StateStone.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "components_statestone_kind",
+      "target": "string",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
       "source_file": "Cairn/Features/Settings/DataExportService.swift",
       "source_location": "L14",
       "weight": 1.0,
@@ -8494,6 +9341,16 @@
       "confidence_score": 1.0,
       "source": "components_habitfilterchips_habitfilter",
       "target": "string"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "detail_habithistoryview_timerange",
+      "target": "string",
+      "confidence_score": 1.0
     },
     {
       "relation": "inherits",
@@ -8598,6 +9455,16 @@
     {
       "relation": "inherits",
       "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "detail_habithistoryview_timerange",
+      "target": "caseiterable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
       "source_file": "Cairn/Core/AppSettings.swift",
       "source_location": "L237",
       "weight": 1.0,
@@ -8641,9 +9508,9 @@
       "source_file": "Cairn/Core/Services/CoachInsights.swift",
       "source_location": "L250",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_coachinsights_categoryshare",
-      "target": "identifiable",
-      "confidence_score": 1.0
+      "target": "identifiable"
     },
     {
       "relation": "inherits",
@@ -8778,6 +9645,16 @@
     {
       "relation": "inherits",
       "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "detail_habithistoryview_timerange",
+      "target": "identifiable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
       "source_file": "Cairn/Features/Habits/Detail/HabitEditView.swift",
       "source_location": "L381",
       "weight": 1.0,
@@ -8841,9 +9718,9 @@
       "source_file": "Cairn/Features/Coach/CoachView.swift",
       "source_location": "L114",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "coach_coachview_stat",
-      "target": "identifiable",
-      "confidence_score": 1.0
+      "target": "identifiable"
     },
     {
       "relation": "inherits",
@@ -9178,6 +10055,16 @@
       "confidence_score": 1.0,
       "source": "components_stoneview_staticripplelines",
       "target": "view"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Core/DesignSystem/Components/StateStone.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "components_statestone_statestone",
+      "target": "view",
+      "confidence_score": 1.0
     },
     {
       "relation": "inherits",
@@ -10089,6 +10976,86 @@
       "confidence_score": 1.0,
       "source": "components_stoneview_staticripplelines",
       "target": "components_stoneview_staticripplelines_line"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Core/DesignSystem/Components/StateStone.swift",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "cairn_core_designsystem_components_statestone_swift",
+      "target": "components_statestone_statestone",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Core/DesignSystem/Components/StateStone.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "cairn_core_designsystem_components_statestone_swift",
+      "target": "components_statestone_kind",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Core/DesignSystem/Components/StateStone.swift",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "components_statestone_kind",
+      "target": "components_statestone_kind_thriving",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Core/DesignSystem/Components/StateStone.swift",
+      "source_location": "L12",
+      "weight": 1.0,
+      "source": "components_statestone_kind",
+      "target": "components_statestone_kind_steady",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Core/DesignSystem/Components/StateStone.swift",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "components_statestone_kind",
+      "target": "components_statestone_kind_slipping",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Core/DesignSystem/Components/StateStone.swift",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "components_statestone_kind",
+      "target": "components_statestone_kind_returning",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Core/DesignSystem/Components/StateStone.swift",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "components_statestone_kind",
+      "target": "components_statestone_kind_resting",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Core/DesignSystem/Components/StateStone.swift",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "components_statestone_kind",
+      "target": "components_statestone_kind_milestone",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -11077,6 +12044,17 @@
       "target": "models_coachmessage_coachmessage_init"
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L579",
+      "weight": 1.0,
+      "source": "coach_coachview_coachview_savereflection",
+      "target": "models_coachmessage_coachmessage"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Core/Models/MoodLog.swift",
@@ -11287,9 +12265,9 @@
       "source_file": "Cairn/Core/Services/CoachMessages.swift",
       "source_location": "L37",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cairn_core_services_coachmessages_swift",
-      "target": "services_coachmessages_stonemoment",
-      "confidence_score": 1.0
+      "target": "services_coachmessages_stonemoment"
     },
     {
       "relation": "method",
@@ -11307,9 +12285,9 @@
       "source_file": "Cairn/Core/Services/CoachMessages.swift",
       "source_location": "L65",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_coachmessages_coachmessages",
-      "target": "services_coachmessages_coachmessages_affirmation",
-      "confidence_score": 1.0
+      "target": "services_coachmessages_coachmessages_affirmation"
     },
     {
       "relation": "method",
@@ -11338,9 +12316,9 @@
       "source_file": "Cairn/Core/Services/CoachMessages.swift",
       "source_location": "L38",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_coachmessages_stonemoment",
-      "target": "services_coachmessages_stonemoment_milestone",
-      "confidence_score": 1.0
+      "target": "services_coachmessages_stonemoment_milestone"
     },
     {
       "relation": "case_of",
@@ -11348,9 +12326,9 @@
       "source_file": "Cairn/Core/Services/CoachMessages.swift",
       "source_location": "L39",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_coachmessages_stonemoment",
-      "target": "services_coachmessages_stonemoment_daycomplete",
-      "confidence_score": 1.0
+      "target": "services_coachmessages_stonemoment_daycomplete"
     },
     {
       "relation": "case_of",
@@ -11358,9 +12336,9 @@
       "source_file": "Cairn/Core/Services/CoachMessages.swift",
       "source_location": "L40",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_coachmessages_stonemoment",
-      "target": "services_coachmessages_stonemoment_comeback",
-      "confidence_score": 1.0
+      "target": "services_coachmessages_stonemoment_comeback"
     },
     {
       "relation": "case_of",
@@ -11368,9 +12346,9 @@
       "source_file": "Cairn/Core/Services/CoachMessages.swift",
       "source_location": "L41",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_coachmessages_stonemoment",
-      "target": "services_coachmessages_stonemoment_firstofday",
-      "confidence_score": 1.0
+      "target": "services_coachmessages_stonemoment_firstofday"
     },
     {
       "relation": "case_of",
@@ -11378,9 +12356,9 @@
       "source_file": "Cairn/Core/Services/CoachMessages.swift",
       "source_location": "L42",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_coachmessages_stonemoment",
-      "target": "services_coachmessages_stonemoment_placed",
-      "confidence_score": 1.0
+      "target": "services_coachmessages_stonemoment_placed"
     },
     {
       "relation": "contains",
@@ -11508,9 +12486,9 @@
       "source_file": "Cairn/Core/Services/HabitService.swift",
       "source_location": "L51",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_habitservice_habitservice",
-      "target": "services_habitservice_habitservice_removelaststonetoday",
-      "confidence_score": 1.0
+      "target": "services_habitservice_habitservice_removelaststonetoday"
     },
     {
       "relation": "method",
@@ -11613,9 +12591,9 @@
       "source_file": "Cairn/Core/Services/HabitService.swift",
       "source_location": "L59",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "services_habitservice_habitservice_removelaststonetoday",
-      "target": "services_habitservice_habitservice_delete",
-      "confidence_score": 1.0
+      "target": "services_habitservice_habitservice_delete"
     },
     {
       "relation": "contains",
@@ -12033,11 +13011,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Core/Services/CoachInsights.swift",
-      "source_location": "L121",
+      "source_location": "L115",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "cairn_core_services_coachinsights_swift",
-      "target": "services_coachinsights_healthtrend"
+      "target": "services_coachinsights_habitfeel",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -12055,9 +13033,9 @@
       "source_file": "Cairn/Core/Services/CoachInsights.swift",
       "source_location": "L226",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cairn_core_services_coachinsights_swift",
-      "target": "services_coachinsights_lapse",
-      "confidence_score": 1.0
+      "target": "services_coachinsights_lapse"
     },
     {
       "relation": "contains",
@@ -12065,9 +13043,9 @@
       "source_file": "Cairn/Core/Services/CoachInsights.swift",
       "source_location": "L250",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cairn_core_services_coachinsights_swift",
-      "target": "services_coachinsights_categoryshare",
-      "confidence_score": 1.0
+      "target": "services_coachinsights_categoryshare"
     },
     {
       "relation": "contains",
@@ -12075,39 +13053,69 @@
       "source_file": "Cairn/Core/Services/CoachInsights.swift",
       "source_location": "L287",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cairn_core_services_coachinsights_swift",
-      "target": "services_coachinsights_guidance",
+      "target": "services_coachinsights_guidance"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Core/Services/CoachInsights.swift",
+      "source_location": "L441",
+      "weight": 1.0,
+      "source": "cairn_core_services_coachinsights_swift",
+      "target": "services_coachinsights_smallmove",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Core/Services/CoachInsights.swift",
+      "source_location": "L121",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "cairn_core_services_coachinsights_swift",
+      "target": "services_coachinsights_healthtrend"
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Core/Services/CoachInsights.swift",
+      "source_location": "L116",
+      "weight": 1.0,
+      "source": "services_coachinsights_habitfeel",
+      "target": "services_coachinsights_habitfeel_thriving",
       "confidence_score": 1.0
     },
     {
       "relation": "case_of",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Core/Services/CoachInsights.swift",
-      "source_location": "L122",
+      "source_location": "L117",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "services_coachinsights_healthtrend",
-      "target": "services_coachinsights_healthtrend_rocksolid"
+      "source": "services_coachinsights_habitfeel",
+      "target": "services_coachinsights_habitfeel_steady",
+      "confidence_score": 1.0
     },
     {
       "relation": "case_of",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Core/Services/CoachInsights.swift",
-      "source_location": "L123",
+      "source_location": "L118",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "services_coachinsights_healthtrend",
-      "target": "services_coachinsights_healthtrend_steady"
+      "source": "services_coachinsights_habitfeel",
+      "target": "services_coachinsights_habitfeel_gentler",
+      "confidence_score": 1.0
     },
     {
       "relation": "case_of",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Core/Services/CoachInsights.swift",
-      "source_location": "L124",
+      "source_location": "L119",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "services_coachinsights_healthtrend",
-      "target": "services_coachinsights_healthtrend_slipping"
+      "source": "services_coachinsights_habitfeel",
+      "target": "services_coachinsights_habitfeel_returning",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -13787,9 +14795,9 @@
       "source_file": "Cairn/Features/Home/HomeView.swift",
       "source_location": "L456",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "home_homeview_homeview",
-      "target": "home_homeview_homeview_iscomeback",
-      "confidence_score": 1.0
+      "target": "home_homeview_homeview_iscomeback"
     },
     {
       "relation": "method",
@@ -13797,9 +14805,9 @@
       "source_file": "Cairn/Features/Home/HomeView.swift",
       "source_location": "L468",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "home_homeview_homeview",
-      "target": "home_homeview_homeview_showaffirmation",
-      "confidence_score": 1.0
+      "target": "home_homeview_homeview_showaffirmation"
     },
     {
       "relation": "method",
@@ -13807,18 +14815,18 @@
       "source_file": "Cairn/Features/Home/HomeView.swift",
       "source_location": "L481",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "home_homeview_homeview",
-      "target": "home_homeview_homeview_affirmationtoast",
-      "confidence_score": 1.0
+      "target": "home_homeview_homeview_affirmationtoast"
     },
     {
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Features/Home/HomeView.swift",
-      "source_location": "L505",
+      "source_location": "L536",
       "weight": 1.0,
       "source": "home_homeview_homeview",
-      "target": "home_homeview_homeview_undo",
+      "target": "home_homeview_homeview_performundo",
       "confidence_score": 1.0
     },
     {
@@ -13852,6 +14860,16 @@
       "target": "home_homeview_homeview_performswipedelete"
     },
     {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Home/HomeView.swift",
+      "source_location": "L505",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "home_homeview_homeview",
+      "target": "home_homeview_homeview_undo"
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -13869,9 +14887,9 @@
       "source_file": "Cairn/Features/Home/HomeView.swift",
       "source_location": "L421",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "home_homeview_homeview_log",
-      "target": "home_homeview_homeview_iscomeback",
-      "confidence_score": 1.0
+      "target": "home_homeview_homeview_iscomeback"
     },
     {
       "relation": "calls",
@@ -13880,9 +14898,9 @@
       "source_file": "Cairn/Features/Home/HomeView.swift",
       "source_location": "L448",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "home_homeview_homeview_log",
-      "target": "home_homeview_homeview_showaffirmation",
-      "confidence_score": 1.0
+      "target": "home_homeview_homeview_showaffirmation"
     },
     {
       "relation": "method",
@@ -13893,6 +14911,28 @@
       "confidence_score": 1.0,
       "source": "home_homeview_inspectedhabit",
       "target": "home_homeview_inspectedhabit_hash"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L369",
+      "weight": 1.0,
+      "source": "coach_coachview_coachview_habitfeelrow",
+      "target": "home_homeview_inspectedhabit"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L477",
+      "weight": 1.0,
+      "source": "coach_coachview_coachview_onesmallmovecard",
+      "target": "home_homeview_inspectedhabit"
     },
     {
       "relation": "contains",
@@ -14658,9 +15698,9 @@
       "source_file": "Cairn/Features/Home/Components/StonesWidget.swift",
       "source_location": "L100",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cairn_features_home_components_stoneswidget_swift",
-      "target": "components_stoneswidget_pilelayout",
-      "confidence_score": 1.0
+      "target": "components_stoneswidget_pilelayout"
     },
     {
       "relation": "method",
@@ -14678,9 +15718,9 @@
       "source_file": "Cairn/Features/Home/Components/StonesWidget.swift",
       "source_location": "L86",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_stoneswidget_stoneswidget",
-      "target": "components_stoneswidget_stoneswidget_stonespile",
-      "confidence_score": 1.0
+      "target": "components_stoneswidget_stoneswidget_stonespile"
     },
     {
       "relation": "method",
@@ -14688,9 +15728,9 @@
       "source_file": "Cairn/Features/Home/Components/StonesWidget.swift",
       "source_location": "L107",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_stoneswidget_stoneswidget",
-      "target": "components_stoneswidget_stoneswidget_pilelayout",
-      "confidence_score": 1.0
+      "target": "components_stoneswidget_stoneswidget_pilelayout"
     },
     {
       "relation": "method",
@@ -14698,9 +15738,9 @@
       "source_file": "Cairn/Features/Home/Components/StonesWidget.swift",
       "source_location": "L135",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_stoneswidget_stoneswidget",
-      "target": "components_stoneswidget_stoneswidget_overflowbadge",
-      "confidence_score": 1.0
+      "target": "components_stoneswidget_stoneswidget_overflowbadge"
     },
     {
       "relation": "method",
@@ -14729,9 +15769,9 @@
       "source_file": "Cairn/Features/Home/Components/StonesWidget.swift",
       "source_location": "L87",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_stoneswidget_stoneswidget_stonespile",
-      "target": "components_stoneswidget_stoneswidget_pilelayout",
-      "confidence_score": 1.0
+      "target": "components_stoneswidget_stoneswidget_pilelayout"
     },
     {
       "relation": "calls",
@@ -14740,9 +15780,9 @@
       "source_file": "Cairn/Features/Home/Components/StonesWidget.swift",
       "source_location": "L91",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_stoneswidget_stoneswidget_stonespile",
-      "target": "components_stoneswidget_stoneswidget_tintforindex",
-      "confidence_score": 1.0
+      "target": "components_stoneswidget_stoneswidget_tintforindex"
     },
     {
       "relation": "calls",
@@ -14751,9 +15791,9 @@
       "source_file": "Cairn/Features/Home/Components/StonesWidget.swift",
       "source_location": "L95",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_stoneswidget_stoneswidget_stonespile",
-      "target": "components_stoneswidget_stoneswidget_overflowbadge",
-      "confidence_score": 1.0
+      "target": "components_stoneswidget_stoneswidget_overflowbadge"
     },
     {
       "relation": "calls",
@@ -14762,9 +15802,9 @@
       "source_file": "Cairn/Features/Home/Components/StonesWidget.swift",
       "source_location": "L112",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_stoneswidget_stoneswidget_pilelayout",
-      "target": "components_stoneswidget_pilelayout",
-      "confidence_score": 1.0
+      "target": "components_stoneswidget_pilelayout"
     },
     {
       "relation": "contains",
@@ -14780,6 +15820,16 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Features/Home/Components/MoodSelector.swift",
+      "source_location": "L20",
+      "weight": 1.0,
+      "source": "components_moodselector_moodselector",
+      "target": "components_moodselector_moodselector_pick",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Home/Components/MoodSelector.swift",
       "source_location": "L37",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -14790,11 +15840,11 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Features/Home/Components/MoodSelector.swift",
-      "source_location": "L63",
+      "source_location": "L80",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "components_moodselector_moodselector",
-      "target": "components_moodselector_moodselector_indicatordot"
+      "target": "components_moodselector_moodselector_moodface",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -14807,15 +15857,36 @@
       "target": "components_moodselector_moodselector_backgroundcolor"
     },
     {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Home/Components/MoodSelector.swift",
+      "source_location": "L63",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_moodselector_moodselector",
+      "target": "components_moodselector_moodselector_indicatordot"
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Features/Home/Components/MoodSelector.swift",
-      "source_location": "L43",
+      "source_location": "L55",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "components_moodselector_moodselector_moodcard",
-      "target": "components_moodselector_moodselector_indicatordot"
+      "target": "components_moodselector_moodselector_pick",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Home/Components/MoodSelector.swift",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "components_moodselector_moodselector_moodcard",
+      "target": "components_moodselector_moodselector_moodface",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -14827,6 +15898,17 @@
       "confidence_score": 1.0,
       "source": "components_moodselector_moodselector_moodcard",
       "target": "components_moodselector_moodselector_backgroundcolor"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Home/Components/MoodSelector.swift",
+      "source_location": "L43",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_moodselector_moodselector_moodcard",
+      "target": "components_moodselector_moodselector_indicatordot"
     },
     {
       "relation": "contains",
@@ -15848,6 +16930,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "cairn_features_habits_detail_habithistoryview_swift",
+      "target": "detail_habithistoryview_timerange",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
       "source_location": "L173",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -15903,6 +16995,66 @@
       "confidence_score": 1.0,
       "source": "detail_habithistoryview_habithistoryview",
       "target": "detail_habithistoryview_habithistoryview_timestring"
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "detail_habithistoryview_timerange",
+      "target": "detail_habithistoryview_timerange_week",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "detail_habithistoryview_timerange",
+      "target": "detail_habithistoryview_timerange_month",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "detail_habithistoryview_timerange",
+      "target": "detail_habithistoryview_timerange_halfyear",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "detail_habithistoryview_timerange",
+      "target": "detail_habithistoryview_timerange_year",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "detail_habithistoryview_timerange",
+      "target": "detail_habithistoryview_timerange_all",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHistoryView.swift",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "detail_habithistoryview_timerange",
+      "target": "detail_habithistoryview_timerange_cutoff",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -16003,6 +17155,16 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L71",
+      "weight": 1.0,
+      "source": "detail_habitheatmapgrid_habitheatmapgrid",
+      "target": "detail_habitheatmapgrid_habitheatmapgrid_header",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
       "source_location": "L88",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -16023,6 +17185,56 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L126",
+      "weight": 1.0,
+      "source": "detail_habitheatmapgrid_habitheatmapgrid",
+      "target": "detail_habitheatmapgrid_habitheatmapgrid_fill",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L134",
+      "weight": 1.0,
+      "source": "detail_habitheatmapgrid_habitheatmapgrid",
+      "target": "detail_habitheatmapgrid_habitheatmapgrid_infoline",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L173",
+      "weight": 1.0,
+      "source": "detail_habitheatmapgrid_habitheatmapgrid",
+      "target": "detail_habitheatmapgrid_habitheatmapgrid_legendsquare",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L179",
+      "weight": 1.0,
+      "source": "detail_habitheatmapgrid_habitheatmapgrid",
+      "target": "detail_habitheatmapgrid_habitheatmapgrid_daylabel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L214",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "detail_habitheatmapgrid_habitheatmapgrid",
+      "target": "detail_habitheatmapgrid_habitheatmapgrid_bucketlogs"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
       "source_location": "L142",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -16038,16 +17250,6 @@
       "confidence_score": 1.0,
       "source": "detail_habitheatmapgrid_habitheatmapgrid",
       "target": "detail_habitheatmapgrid_habitheatmapgrid_daterange"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L214",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "detail_habitheatmapgrid_habitheatmapgrid",
-      "target": "detail_habitheatmapgrid_habitheatmapgrid_bucketlogs"
     },
     {
       "relation": "calls",
@@ -16087,6 +17289,17 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L107",
+      "weight": 1.0,
+      "source": "detail_habitheatmapgrid_habitheatmapgrid_cell",
+      "target": "detail_habitheatmapgrid_habitheatmapgrid_fill",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
       "source_location": "L126",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -16094,54 +17307,26 @@
       "target": "detail_habitheatmapgrid_habitheatmapgrid_celllevel"
     },
     {
-      "relation": "case_of",
+      "relation": "calls",
+      "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L190",
+      "source_location": "L174",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "detail_habitheatmapgrid_celllevel",
-      "target": "detail_habitheatmapgrid_celllevel_future"
+      "source": "detail_habitheatmapgrid_habitheatmapgrid_legendsquare",
+      "target": "detail_habitheatmapgrid_habitheatmapgrid_fill",
+      "confidence_score": 1.0
     },
     {
-      "relation": "case_of",
+      "relation": "calls",
+      "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L191",
+      "source_location": "L139",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "detail_habitheatmapgrid_celllevel",
-      "target": "detail_habitheatmapgrid_celllevel_beforecreation"
-    },
-    {
-      "relation": "case_of",
-      "confidence": "EXTRACTED",
-      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L192",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "detail_habitheatmapgrid_celllevel",
-      "target": "detail_habitheatmapgrid_celllevel_empty"
-    },
-    {
-      "relation": "case_of",
-      "confidence": "EXTRACTED",
-      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L193",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "detail_habitheatmapgrid_celllevel",
-      "target": "detail_habitheatmapgrid_celllevel_partial"
-    },
-    {
-      "relation": "case_of",
-      "confidence": "EXTRACTED",
-      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
-      "source_location": "L194",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "detail_habitheatmapgrid_celllevel",
-      "target": "detail_habitheatmapgrid_celllevel_full"
+      "source": "detail_habitheatmapgrid_habitheatmapgrid_infoline",
+      "target": "detail_habitheatmapgrid_habitheatmapgrid_daylabel",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -17016,9 +18201,9 @@
       "source_file": "Cairn/Features/Coach/CoachView.swift",
       "source_location": "L114",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cairn_features_coach_coachview_swift",
-      "target": "coach_coachview_stat",
-      "confidence_score": 1.0
+      "target": "coach_coachview_stat"
     },
     {
       "relation": "method",
@@ -17026,9 +18211,9 @@
       "source_file": "Cairn/Features/Coach/CoachView.swift",
       "source_location": "L153",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "coach_coachview_coachview",
-      "target": "coach_coachview_coachview_statcard",
-      "confidence_score": 1.0
+      "target": "coach_coachview_coachview_statcard"
     },
     {
       "relation": "method",
@@ -17036,9 +18221,9 @@
       "source_file": "Cairn/Features/Coach/CoachView.swift",
       "source_location": "L189",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "coach_coachview_coachview",
-      "target": "coach_coachview_coachview_categoryrow",
-      "confidence_score": 1.0
+      "target": "coach_coachview_coachview_categoryrow"
     },
     {
       "relation": "method",
@@ -17074,41 +18259,71 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L162",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "coach_coachview_coachview",
-      "target": "coach_coachview_coachview_habithealthrow"
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L349",
+      "source_location": "L366",
       "weight": 1.0,
       "source": "coach_coachview_coachview",
-      "target": "coach_coachview_coachview_dottrail",
+      "target": "coach_coachview_coachview_habitfeelrow",
       "confidence_score": 1.0
     },
     {
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L190",
+      "source_location": "L400",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "coach_coachview_coachview",
-      "target": "coach_coachview_coachview_trendcolor"
+      "target": "coach_coachview_coachview_feelstone",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L198",
+      "source_location": "L409",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "coach_coachview_coachview",
-      "target": "coach_coachview_coachview_trendlabel"
+      "target": "coach_coachview_coachview_feelcolor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L420",
+      "weight": 1.0,
+      "source": "coach_coachview_coachview",
+      "target": "coach_coachview_coachview_milestonecard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L440",
+      "weight": 1.0,
+      "source": "coach_coachview_coachview",
+      "target": "coach_coachview_coachview_milestonecaption",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L450",
+      "weight": 1.0,
+      "source": "coach_coachview_coachview",
+      "target": "coach_coachview_coachview_onesmallmovecard",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L576",
+      "weight": 1.0,
+      "source": "coach_coachview_coachview",
+      "target": "coach_coachview_coachview_savereflection",
+      "confidence_score": 1.0
     },
     {
       "relation": "method",
@@ -17131,15 +18346,55 @@
       "target": "coach_coachview_coachview_iconbadge"
     },
     {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L162",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "coach_coachview_coachview",
+      "target": "coach_coachview_coachview_habithealthrow"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L349",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "coach_coachview_coachview",
+      "target": "coach_coachview_coachview_dottrail"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L190",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "coach_coachview_coachview",
+      "target": "coach_coachview_coachview_trendcolor"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L198",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "coach_coachview_coachview",
+      "target": "coach_coachview_coachview_trendlabel"
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Features/Coach/CoachView.swift",
       "source_location": "L155",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "coach_coachview_coachview_statcard",
-      "target": "coach_coachview_coachview_iconbadge",
-      "confidence_score": 1.0
+      "target": "coach_coachview_coachview_iconbadge"
     },
     {
       "relation": "calls",
@@ -17148,9 +18403,9 @@
       "source_file": "Cairn/Features/Coach/CoachView.swift",
       "source_location": "L191",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "coach_coachview_coachview_categoryrow",
-      "target": "coach_coachview_coachview_iconbadge",
-      "confidence_score": 1.0
+      "target": "coach_coachview_coachview_iconbadge"
     },
     {
       "relation": "calls",
@@ -17212,32 +18467,10 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L165",
+      "source_location": "L373",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "coach_coachview_coachview_habithealthrow",
-      "target": "coach_coachview_coachview_iconbadge"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L172",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "coach_coachview_coachview_habithealthrow",
-      "target": "coach_coachview_coachview_trendcolor"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L339",
-      "weight": 1.0,
-      "source": "coach_coachview_coachview_habithealthrow",
-      "target": "coach_coachview_coachview_dottrail",
+      "source": "coach_coachview_coachview_habitfeelrow",
+      "target": "coach_coachview_coachview_feelstone",
       "confidence_score": 1.0
     },
     {
@@ -17245,11 +18478,33 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Features/Coach/CoachView.swift",
-      "source_location": "L183",
+      "source_location": "L382",
+      "weight": 1.0,
+      "source": "coach_coachview_coachview_habitfeelrow",
+      "target": "coach_coachview_coachview_feelcolor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L428",
+      "weight": 1.0,
+      "source": "coach_coachview_coachview_milestonecard",
+      "target": "coach_coachview_coachview_milestonecaption",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L165",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "coach_coachview_coachview_habithealthrow",
-      "target": "coach_coachview_coachview_trendlabel"
+      "target": "coach_coachview_coachview_iconbadge"
     },
     {
       "relation": "contains",
@@ -17320,6 +18575,16 @@
       "confidence_score": 1.0,
       "source": "onboarding_onboardingpage_hero",
       "target": "onboarding_onboardingpage_hero_namefield"
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Onboarding/OnboardingPage.swift",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "onboarding_onboardingpage_hero",
+      "target": "onboarding_onboardingpage_hero_statestone",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -17435,6 +18700,206 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-milestone.imageset/Contents.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_state_milestone_imageset_contents_json",
+      "target": "state_milestone_imageset_contents_images",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-milestone.imageset/Contents.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_state_milestone_imageset_contents_json",
+      "target": "state_milestone_imageset_contents_info",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-milestone.imageset/Contents.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "state_milestone_imageset_contents_info",
+      "target": "state_milestone_imageset_contents_info_author",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-milestone.imageset/Contents.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "state_milestone_imageset_contents_info",
+      "target": "state_milestone_imageset_contents_info_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-thriving.imageset/Contents.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_state_thriving_imageset_contents_json",
+      "target": "state_thriving_imageset_contents_images",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-thriving.imageset/Contents.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_state_thriving_imageset_contents_json",
+      "target": "state_thriving_imageset_contents_info",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-thriving.imageset/Contents.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "state_thriving_imageset_contents_info",
+      "target": "state_thriving_imageset_contents_info_author",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-thriving.imageset/Contents.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "state_thriving_imageset_contents_info",
+      "target": "state_thriving_imageset_contents_info_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-foggy.imageset/Contents.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_mood_foggy_imageset_contents_json",
+      "target": "mood_foggy_imageset_contents_images",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-foggy.imageset/Contents.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_mood_foggy_imageset_contents_json",
+      "target": "mood_foggy_imageset_contents_info",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-foggy.imageset/Contents.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "mood_foggy_imageset_contents_info",
+      "target": "mood_foggy_imageset_contents_info_author",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-foggy.imageset/Contents.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "mood_foggy_imageset_contents_info",
+      "target": "mood_foggy_imageset_contents_info_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-slipping.imageset/Contents.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_state_slipping_imageset_contents_json",
+      "target": "state_slipping_imageset_contents_images",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-slipping.imageset/Contents.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_state_slipping_imageset_contents_json",
+      "target": "state_slipping_imageset_contents_info",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-slipping.imageset/Contents.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "state_slipping_imageset_contents_info",
+      "target": "state_slipping_imageset_contents_info_author",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-slipping.imageset/Contents.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "state_slipping_imageset_contents_info",
+      "target": "state_slipping_imageset_contents_info_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-bright.imageset/Contents.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_mood_bright_imageset_contents_json",
+      "target": "mood_bright_imageset_contents_images",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-bright.imageset/Contents.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_mood_bright_imageset_contents_json",
+      "target": "mood_bright_imageset_contents_info",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-bright.imageset/Contents.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "mood_bright_imageset_contents_info",
+      "target": "mood_bright_imageset_contents_info_author",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-bright.imageset/Contents.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "mood_bright_imageset_contents_info",
+      "target": "mood_bright_imageset_contents_info_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "Cairn/Assets.xcassets/AppIcon.appiconset/Contents.json",
       "source_location": "L2",
       "weight": 1.0,
@@ -17511,6 +18976,126 @@
       "confidence_score": 1.0,
       "source": "accentcolor_colorset_contents_info",
       "target": "accentcolor_colorset_contents_info_version"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-off.imageset/Contents.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_mood_off_imageset_contents_json",
+      "target": "mood_off_imageset_contents_images",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-off.imageset/Contents.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_mood_off_imageset_contents_json",
+      "target": "mood_off_imageset_contents_info",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-off.imageset/Contents.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "mood_off_imageset_contents_info",
+      "target": "mood_off_imageset_contents_info_author",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-off.imageset/Contents.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "mood_off_imageset_contents_info",
+      "target": "mood_off_imageset_contents_info_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-resting.imageset/Contents.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_state_resting_imageset_contents_json",
+      "target": "state_resting_imageset_contents_images",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-resting.imageset/Contents.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_state_resting_imageset_contents_json",
+      "target": "state_resting_imageset_contents_info",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-resting.imageset/Contents.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "state_resting_imageset_contents_info",
+      "target": "state_resting_imageset_contents_info_author",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-resting.imageset/Contents.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "state_resting_imageset_contents_info",
+      "target": "state_resting_imageset_contents_info_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-returning.imageset/Contents.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_state_returning_imageset_contents_json",
+      "target": "state_returning_imageset_contents_images",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-returning.imageset/Contents.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_state_returning_imageset_contents_json",
+      "target": "state_returning_imageset_contents_info",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-returning.imageset/Contents.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "state_returning_imageset_contents_info",
+      "target": "state_returning_imageset_contents_info_author",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-returning.imageset/Contents.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "state_returning_imageset_contents_info",
+      "target": "state_returning_imageset_contents_info_version",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -18021,6 +19606,126 @@
       "confidence_score": 1.0,
       "source": "accent_sage_colorset_contents_info",
       "target": "accent_sage_colorset_contents_info_version"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-good.imageset/Contents.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_mood_good_imageset_contents_json",
+      "target": "mood_good_imageset_contents_images",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-good.imageset/Contents.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_mood_good_imageset_contents_json",
+      "target": "mood_good_imageset_contents_info",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-good.imageset/Contents.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "mood_good_imageset_contents_info",
+      "target": "mood_good_imageset_contents_info_author",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-good.imageset/Contents.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "mood_good_imageset_contents_info",
+      "target": "mood_good_imageset_contents_info_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-steady.imageset/Contents.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_state_steady_imageset_contents_json",
+      "target": "state_steady_imageset_contents_images",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-steady.imageset/Contents.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_state_steady_imageset_contents_json",
+      "target": "state_steady_imageset_contents_info",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-steady.imageset/Contents.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "state_steady_imageset_contents_info",
+      "target": "state_steady_imageset_contents_info_author",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/state-steady.imageset/Contents.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "state_steady_imageset_contents_info",
+      "target": "state_steady_imageset_contents_info_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-okay.imageset/Contents.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_mood_okay_imageset_contents_json",
+      "target": "mood_okay_imageset_contents_images",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-okay.imageset/Contents.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "cairn_assets_xcassets_mood_okay_imageset_contents_json",
+      "target": "mood_okay_imageset_contents_info",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-okay.imageset/Contents.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "mood_okay_imageset_contents_info",
+      "target": "mood_okay_imageset_contents_info_author",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Assets.xcassets/mood-okay.imageset/Contents.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "mood_okay_imageset_contents_info",
+      "target": "mood_okay_imageset_contents_info_version",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -18543,6 +20248,119 @@
       "target": "cairn_claude_graphify"
     },
     {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Core/Services/CoachInsights.swift",
+      "source_location": "L122",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_coachinsights_healthtrend",
+      "target": "services_coachinsights_healthtrend_rocksolid"
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Core/Services/CoachInsights.swift",
+      "source_location": "L123",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_coachinsights_healthtrend",
+      "target": "services_coachinsights_healthtrend_steady"
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Core/Services/CoachInsights.swift",
+      "source_location": "L124",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_coachinsights_healthtrend",
+      "target": "services_coachinsights_healthtrend_slipping"
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L190",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "detail_habitheatmapgrid_celllevel",
+      "target": "detail_habitheatmapgrid_celllevel_future"
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L191",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "detail_habitheatmapgrid_celllevel",
+      "target": "detail_habitheatmapgrid_celllevel_beforecreation"
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L192",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "detail_habitheatmapgrid_celllevel",
+      "target": "detail_habitheatmapgrid_celllevel_empty"
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L193",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "detail_habitheatmapgrid_celllevel",
+      "target": "detail_habitheatmapgrid_celllevel_partial"
+    },
+    {
+      "relation": "case_of",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift",
+      "source_location": "L194",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "detail_habitheatmapgrid_celllevel",
+      "target": "detail_habitheatmapgrid_celllevel_full"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L172",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "coach_coachview_coachview_habithealthrow",
+      "target": "coach_coachview_coachview_trendcolor"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L339",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "coach_coachview_coachview_habithealthrow",
+      "target": "coach_coachview_coachview_dottrail"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "Cairn/Features/Coach/CoachView.swift",
+      "source_location": "L183",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "coach_coachview_coachview_habithealthrow",
+      "target": "coach_coachview_coachview_trendlabel"
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "Cairn/Core/DesignSystem/Components/SwipeableRow.swift",
@@ -18584,5 +20402,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "ea2dd8ed9558936afc3987d724b0e4881a87637f"
+  "built_at_commit": "2b4ef93213ca32fc10ba54d46d625a088cbbb75a"
 }

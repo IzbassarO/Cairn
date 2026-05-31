@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Core/DesignSystem/SlideCover.swift": {
-    "mtime": 1779616860.3428612,
-    "ast_hash": "2d367a2b5c8c9b4b3f8606d78e700cfd",
+    "mtime": 1779991930.2723496,
+    "ast_hash": "9b741bdc63ca50e21586ef92e0f6f091",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Core/DesignSystem/Spacing.swift": {
@@ -50,8 +50,8 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Core/DesignSystem/Components/CairnAlert.swift": {
-    "mtime": 1779549597.9128854,
-    "ast_hash": "9c4fd8151d7cf265568c9db5cb9694a6",
+    "mtime": 1779899280.3845065,
+    "ast_hash": "6dbbfe7489dd5f52304e49d3eebcc09b",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Core/DesignSystem/Components/PrimaryButton.swift": {
@@ -145,8 +145,8 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Core/Services/CoachInsights.swift": {
-    "mtime": 1779886438.395139,
-    "ast_hash": "d3a54c737d6e311925bee6d68e5cf856",
+    "mtime": 1779905711.404576,
+    "ast_hash": "9e895f80d2ce765a10cb2ade7ef4426e",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/App/RootView.swift": {
@@ -285,8 +285,8 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Home/HomeView.swift": {
-    "mtime": 1779886438.3977895,
-    "ast_hash": "76f21cf6b34ad3a16251a7d5b3d99f62",
+    "mtime": 1779899280.3922253,
+    "ast_hash": "bf0cd1fadc0c37358b6c9595a11da956",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Home/TodayScheduleView.swift": {
@@ -350,8 +350,8 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Home/Components/MoodSelector.swift": {
-    "mtime": 1779046600.2611523,
-    "ast_hash": "9b16bb1537d1fb416464c7cd1de2f7af",
+    "mtime": 1779903925.7429566,
+    "ast_hash": "6db1df1dff65dd5269678eda49fce15e",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Home/Components/CoachCard.swift": {
@@ -440,13 +440,13 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Habits/Detail/HabitHistoryView.swift": {
-    "mtime": 1779647302.5061972,
-    "ast_hash": "30566e768cfde45d26a126cdbd9b0161",
+    "mtime": 1779992114.261773,
+    "ast_hash": "c68b4fa5a7f1b49b44939f1da4dea3fd",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Habits/Detail/HabitHeatmapGrid.swift": {
-    "mtime": 1779027581.0555913,
-    "ast_hash": "d6e6081077758767406414ff44930bd0",
+    "mtime": 1779899280.3898783,
+    "ast_hash": "7d1da14a9b7678448edb31fb049dcd36",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Habits/Detail/HabitEditDraft.swift": {
@@ -515,18 +515,18 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Coach/CoachView.swift": {
-    "mtime": 1779886438.396852,
-    "ast_hash": "27dab2c628b8cb1409879986d17a4969",
+    "mtime": 1779905673.6187212,
+    "ast_hash": "e80f97a6057bfdc5050620f494f99382",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Onboarding/OnboardingPage.swift": {
-    "mtime": 1778949922.3444731,
-    "ast_hash": "dfa0a83baf0c74e9e4e9dc1d957576ac",
+    "mtime": 1779991930.2740836,
+    "ast_hash": "01a5dd50c9d39180e0d4c4c9fa1bc413",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Onboarding/OnboardingPageView.swift": {
-    "mtime": 1778949922.344781,
-    "ast_hash": "c6b09199d7bd8f226b7faafe295add7c",
+    "mtime": 1779991930.275307,
+    "ast_hash": "8656e9d801b972c8427ba4e4b66ee925",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Onboarding/OnboardingView.swift": {
@@ -535,7 +535,7 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/Contents.json": {
-    "mtime": 1778357601.324664,
+    "mtime": 1779905792.753839,
     "ast_hash": "9deb2ada1cc834bbebf8bbad9c8978a1",
     "semantic_hash": ""
   },
@@ -637,6 +637,121 @@
   "/Users/izbassar/Documents/Projects/Cairn/CLAUDE.md": {
     "mtime": 1779872100.9999955,
     "ast_hash": "82efb97a359f5c7290bf2513d14686be",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Core/DesignSystem/Components/StateStone.swift": {
+    "mtime": 1779899280.3853667,
+    "ast_hash": "7c830d9a6f8569c15b6fe3f947f98a16",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/state-milestone.imageset/Contents.json": {
+    "mtime": 1779898631.815337,
+    "ast_hash": "85afc83835e640804dd9fd5e53ecac48",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/state-thriving.imageset/Contents.json": {
+    "mtime": 1779898631.815202,
+    "ast_hash": "3bdb920515049666bb1385a35548659b",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/mood-foggy.imageset/Contents.json": {
+    "mtime": 1779905792.753613,
+    "ast_hash": "7688e183e8f2509b18ac7fecd5222607",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/state-slipping.imageset/Contents.json": {
+    "mtime": 1779898631.815422,
+    "ast_hash": "3e0aad6dfac4bcd0d63f3df4b158a48c",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/mood-bright.imageset/Contents.json": {
+    "mtime": 1779905792.753567,
+    "ast_hash": "d155baa9810dfe27125decf3490616e3",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/mood-off.imageset/Contents.json": {
+    "mtime": 1779905792.753509,
+    "ast_hash": "d64d36678caa7c08a03ea8557ed83296",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/state-resting.imageset/Contents.json": {
+    "mtime": 1779898631.815519,
+    "ast_hash": "fc72daaac7c8662725c0045beeaac682",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/state-returning.imageset/Contents.json": {
+    "mtime": 1779898631.814958,
+    "ast_hash": "226cf74b238cc74345fbc54512264bc6",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/mood-good.imageset/Contents.json": {
+    "mtime": 1779905792.753321,
+    "ast_hash": "5f2717e00ac15ff0466de28566205217",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/state-steady.imageset/Contents.json": {
+    "mtime": 1779898631.815247,
+    "ast_hash": "5d9504b754d29cad1d83ccfd099480b1",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/mood-okay.imageset/Contents.json": {
+    "mtime": 1779905792.753697,
+    "ast_hash": "7fa862b111e41a7fa6250eadc532b1c0",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/state-milestone.imageset/state-milestone.png": {
+    "mtime": 1779898588.69642,
+    "ast_hash": "68c70eb1be614add3d245d78871e9157",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/state-thriving.imageset/state-thriving.png": {
+    "mtime": 1779898588.696237,
+    "ast_hash": "9b9fd956264240937c4299c59f1fb725",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/mood-foggy.imageset/mood-foggy.png": {
+    "mtime": 1779905792.753888,
+    "ast_hash": "fa3197eb0e31c1e183c49b1f33eb56fb",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/state-slipping.imageset/state-slipping.png": {
+    "mtime": 1779898588.696205,
+    "ast_hash": "f3ebd75404b33dc8ad6159f3b03cba74",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/mood-bright.imageset/mood-bright.png": {
+    "mtime": 1779905792.753757,
+    "ast_hash": "9319c423078e18978d0813aaeee418d4",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/mood-off.imageset/mood-off.png": {
+    "mtime": 1779905792.753946,
+    "ast_hash": "980fb02255c4aafb131f0396cc1056d3",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/state-resting.imageset/state-resting.png": {
+    "mtime": 1779898588.696718,
+    "ast_hash": "8126919b023d552cdff567e32975f936",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/state-returning.imageset/state-returning.png": {
+    "mtime": 1779898588.695999,
+    "ast_hash": "2ef1fdd8c97ddc286a0652efe6935991",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/mood-good.imageset/mood-good.png": {
+    "mtime": 1779905792.753797,
+    "ast_hash": "aec0770b53cad40a4ea48b78f97784f7",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/state-steady.imageset/state-steady.png": {
+    "mtime": 1779898588.696573,
+    "ast_hash": "ef5c4d4484b79ac8efe843ba0bc20fc8",
+    "semantic_hash": ""
+  },
+  "/Users/izbassar/Documents/Projects/Cairn/Cairn/Assets.xcassets/mood-okay.imageset/mood-okay.png": {
+    "mtime": 1779905792.753407,
+    "ast_hash": "d26dffca86d53997eeabb8880a85b2bd",
     "semantic_hash": ""
   }
 }
