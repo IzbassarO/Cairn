@@ -284,6 +284,8 @@ struct AddAnotherHabitView: View {
         case .sleep: return "Sleep"
         case .transition: return "Transitions"
         case .hyperfocusCheckIn: return "Check-ins"
+        case .learning: return "Learning"
+        case .tidy: return "Tidy"
         case .custom: return "Other"
         }
     }

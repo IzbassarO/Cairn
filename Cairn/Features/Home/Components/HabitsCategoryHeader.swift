@@ -35,6 +35,8 @@ struct HabitsCategoryHeader: View {
         case .sleep: return "Wind down"
         case .transition: return "Transitions"
         case .hyperfocusCheckIn: return "Check-ins"
+        case .learning: return "Learn"
+        case .tidy: return "Tidy"
         case .custom: return "Other"
         }
     }
@@ -48,6 +50,8 @@ struct HabitsCategoryHeader: View {
         case .sleep: return "moon"
         case .transition: return "arrow.triangle.swap"
         case .hyperfocusCheckIn: return "eye"
+        case .learning: return "book"
+        case .tidy: return "sparkles"
         case .custom: return "sparkle"
         }
     }

@@ -465,6 +465,8 @@ struct HabitInfoView: View {
         case .sleep: return "Sleep"
         case .transition: return "Transition"
         case .hyperfocusCheckIn: return "Check-in"
+        case .learning: return "Learning"
+        case .tidy: return "Tidy"
         case .custom: return "Habit"
         }
     }

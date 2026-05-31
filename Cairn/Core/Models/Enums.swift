@@ -8,6 +8,8 @@ enum HabitCategory: Int, Codable, CaseIterable {
     case focus = 4
     case transition = 5
     case hyperfocusCheckIn = 6
+    case learning = 7
+    case tidy = 8
     case custom = 99
 
     var displayName: String {
@@ -19,6 +21,8 @@ enum HabitCategory: Int, Codable, CaseIterable {
         case .focus: return "Focus block"
         case .transition: return "Transition"
         case .hyperfocusCheckIn: return "Hyperfocus check-in"
+        case .learning: return "Learning"
+        case .tidy: return "Tidy"
         case .custom: return "Custom"
         }
     }
@@ -32,6 +36,8 @@ enum HabitCategory: Int, Codable, CaseIterable {
         case .focus: return "brain.head.profile"
         case .transition: return "arrow.triangle.swap"
         case .hyperfocusCheckIn: return "eye.fill"
+        case .learning: return "book.fill"
+        case .tidy: return "sparkles"
         case .custom: return "circle.fill"
         }
     }

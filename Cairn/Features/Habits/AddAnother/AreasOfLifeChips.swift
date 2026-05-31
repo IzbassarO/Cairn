@@ -4,7 +4,8 @@ struct AreasOfLifeChips: View {
     @Binding var selected: Set<HabitCategory>
 
     private let displayCategories: [HabitCategory] = [
-        .meds, .water, .movement, .focus, .sleep, .transition, .hyperfocusCheckIn, .custom
+        .meds, .water, .movement, .focus, .sleep, .transition,
+        .hyperfocusCheckIn, .learning, .tidy, .custom
     ]
 
     var body: some View {
@@ -62,6 +63,8 @@ struct AreasOfLifeChips: View {
         case .sleep: return "Sleep"
         case .transition: return "Transition"
         case .hyperfocusCheckIn: return "Check-in"
+        case .learning: return "Learn"
+        case .tidy: return "Tidy"
         case .custom: return "Other"
         }
     }
@@ -75,6 +78,8 @@ struct AreasOfLifeChips: View {
         case .sleep: return "moon"
         case .transition: return "arrow.triangle.swap"
         case .hyperfocusCheckIn: return "eye"
+        case .learning: return "book"
+        case .tidy: return "sparkles"
         case .custom: return "sparkle"
         }
     }
