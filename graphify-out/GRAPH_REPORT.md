@@ -1,16 +1,16 @@
-# Graph Report - Cairn  (2026-05-28)
+# Graph Report - Cairn  (2026-05-31)
 
 ## Corpus Check
-- 140 files · ~79,842 words
+- 140 files · ~80,837 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 964 nodes · 1155 edges · 121 communities (73 shown, 48 thin omitted)
-- Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 43 edges (avg confidence: 0.8)
+- 975 nodes · 1194 edges · 122 communities (73 shown, 49 thin omitted)
+- Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 61 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2b4ef932`
+- Built from commit: `1845eebf`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -135,6 +135,7 @@
 - [[_COMMUNITY_Community 118|Community 118]]
 - [[_COMMUNITY_Community 119|Community 119]]
 - [[_COMMUNITY_Community 120|Community 120]]
+- [[_COMMUNITY_Community 121|Community 121]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `CoachView` - 20 edges
@@ -142,17 +143,17 @@
 3. `State` - 13 edges
 4. `HabitHeatmapGrid` - 13 edges
 5. `HabitCategory` - 12 edges
-6. `HabitInfoView` - 12 edges
-7. `Cairn Progress Tracker` - 12 edges
-8. `AppSettings` - 11 edges
-9. `StreakCalculator` - 11 edges
-10. `RemindersInboxView` - 11 edges
+6. `HabitService` - 12 edges
+7. `HabitInfoView` - 12 edges
+8. `Cairn Progress Tracker` - 12 edges
+9. `AppSettings` - 11 edges
+10. `StreakCalculator` - 11 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `CairnApp` --inherits--> `app`  [EXTRACTED]
   Cairn/CairnApp.swift → Cairn/Core/Models/Enums.swift
 
-## Communities (121 total, 48 thin omitted)
+## Communities (122 total, 49 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.22
@@ -167,27 +168,27 @@ Cohesion: 0.06
 Nodes (10): CairnUITests, CairnUITestsLaunchTests, HabitInfoView, MonthStats, HabitLog, HabitService, LogResult, alreadyAtCap (+2 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.07
-Nodes (10): CustomHabitDraft, Array, CustomHabitView, DayGroup, InboxEntry, RemindersInboxView, QuietHoursSheet, TimeField (+2 more)
+Cohesion: 0.09
+Nodes (7): CustomHabitDraft, Array, DayGroup, HabitHistoryView, DayGroup, InboxEntry, RemindersInboxView
 
 ### Community 4 - "Community 4"
-Cohesion: 0.08
-Nodes (11): AddAnotherHabitView, PendingTemplate, TemplateGroup, PlantedHabitContext, Hashable, TodayWelcomeView, HabitTemplate, HabitTemplates (+3 more)
+Cohesion: 0.06
+Nodes (16): AddAnotherHabitView, PendingTemplate, TemplateGroup, RootView, Tab, coach, settings, today (+8 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.10
-Nodes (14): RootView, Tab, coach, settings, today, TextSizeModifier, CairnAlert, CairnAlertConfig (+6 more)
+Cohesion: 0.08
+Nodes (15): TextSizeModifier, CairnAlert, CairnAlertConfig, View, Entry, SlideCover, SlideCoverBoolModifier, SlideCoverHost (+7 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.09
-Nodes (15): CoachPairingCard, CoachCard, PlantSecondHabitCard, SettingsProfileCard, TodayHabitRow, UpNextCard, PrePermissionView, GardenIntensityLegend (+7 more)
+Cohesion: 0.11
+Nodes (13): CoachPairingCard, CairnView, CoachCard, ProfileAvatar, SettingsSectionHeader, TodayHabitRow, CairnInfo, InfoFooter (+5 more)
 
 ### Community 7 - "Community 7"
 Cohesion: 0.09
 Nodes (22): 5.1 AppSettings layer — done ✅, 5.2 Notifications — done ✅, 5.3 Profile — done ✅, 5.4 Remaining Settings work — to do, 5.5 Cascade settings into the app — to do, Architecture, Cairn Progress Tracker, code:text (Onboard → choose/create habit → set reminder + cue → place s) (+14 more)
 
 ### Community 8 - "Community 8"
-Cohesion: 0.06
+Cohesion: 0.07
 Nodes (8): ConfigureHabitDraft, ConfigureHabitView, FirstHabitDraft, FirstHabitSheet, HabitCreationViewModel, Habit, Greeting, Sequence
 
 ### Community 9 - "Community 9"
@@ -199,12 +200,8 @@ Cohesion: 0.20
 Nodes (5): ConfigureDaysSheet, Pattern, Pattern, Equatable, Pattern
 
 ### Community 11 - "Community 11"
-Cohesion: 0.12
-Nodes (5): ExportDataView, ShareSheet, URL, NotificationsSettingsView, UIViewControllerRepresentable
-
-### Community 12 - "Community 12"
-Cohesion: 0.11
-Nodes (10): StreakCalculatorTests, Calendar, CalendarMonthView, DayCell, DayCellView, DayInfo, Kind, blank (+2 more)
+Cohesion: 0.29
+Nodes (3): ShareSheet, URL, UIViewControllerRepresentable
 
 ### Community 13 - "Community 13"
 Cohesion: 0.14
@@ -219,8 +216,8 @@ Cohesion: 0.21
 Nodes (5): AuthorizationState, authorized, denied, notDetermined, NotificationService
 
 ### Community 17 - "Community 17"
-Cohesion: 0.17
-Nodes (7): AnimatedStoneView, RestingStoneView, StaticRippleLines, StoneRippleView, StoneShape, StoneView, Shape
+Cohesion: 0.22
+Nodes (5): AnimatedStoneView, RestingStoneView, StaticRippleLines, StoneRippleView, StoneView
 
 ### Community 19 - "Community 19"
 Cohesion: 0.10
@@ -255,8 +252,8 @@ Cohesion: 0.11
 Nodes (17): CategoryShare, CoachInsights, Guidance, HabitFeel, gentler, returning, steady, thriving (+9 more)
 
 ### Community 29 - "Community 29"
-Cohesion: 0.29
-Nodes (8): CaseIterable, HabitFilter, done, pending, ExportFormat, csv, json, String
+Cohesion: 0.18
+Nodes (12): CaseIterable, HabitFilter, done, pending, TextSize, large, small, standard (+4 more)
 
 ### Community 31 - "Community 31"
 Cohesion: 0.22
@@ -268,15 +265,19 @@ Nodes (5): Feedback, dayComplete, milestone, stonePlaced, HapticService
 
 ### Community 33 - "Community 33"
 Cohesion: 0.29
-Nodes (6): Keys, NotificationPause, day, hour, month, week
+Nodes (5): NotificationPause, day, hour, month, week
 
 ### Community 35 - "Community 35"
 Cohesion: 0.33
 Nodes (5): SettingsRow, Trailing, navigation, plain, toggle
 
 ### Community 37 - "Community 37"
-Cohesion: 0.33
-Nodes (5): QuietHoursPreset, evening, morning, night, workday
+Cohesion: 0.25
+Nodes (6): Keys, QuietHoursPreset, evening, morning, night, workday
+
+### Community 38 - "Community 38"
+Cohesion: 0.15
+Nodes (5): CustomHabitView, QuietHoursSheet, TimeField, end, start
 
 ### Community 42 - "Community 42"
 Cohesion: 0.40
@@ -318,13 +319,17 @@ Nodes (4): colors, info, author, version
 Cohesion: 0.40
 Nodes (4): colors, info, author, version
 
+### Community 52 - "Community 52"
+Cohesion: 0.21
+Nodes (4): StoneShape, AppearanceView, DiagonalHalf, Shape
+
 ### Community 56 - "Community 56"
-Cohesion: 0.40
-Nodes (4): ReminderStyle, bold, gentle, standard
+Cohesion: 0.25
+Nodes (7): DaySection, TimelineEntry, Identifiable, ReminderStyle, bold, gentle, standard
 
 ### Community 57 - "Community 57"
-Cohesion: 0.40
-Nodes (4): TextSize, large, small, standard
+Cohesion: 0.19
+Nodes (8): Calendar, CalendarMonthView, DayCell, DayCellView, DayInfo, Kind, blank, day
 
 ### Community 58 - "Community 58"
 Cohesion: 0.40
@@ -438,29 +443,25 @@ Nodes (5): CoachTone, bluntKind, gentle, playful, structured
 Cohesion: 0.40
 Nodes (5): HabitSchedule, custom, daily, weekdays, weekends
 
-### Community 117 - "Community 117"
-Cohesion: 0.67
-Nodes (3): DaySection, TimelineEntry, Identifiable
-
 ## Knowledge Gaps
 - **257 isolated node(s):** `PreToolUse`, `Keys`, `hour`, `day`, `week` (+252 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **48 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **49 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `TodayScheduleView` connect `Community 21` to `Community 117`, `Community 6`?**
-  _High betweenness centrality (0.061) - this node is a cross-community bridge._
-- **Why does `DayPart` connect `Community 24` to `Community 29`, `Community 117`?**
-  _High betweenness centrality (0.050) - this node is a cross-community bridge._
-- **Why does `HomeView` connect `Community 19` to `Community 2`, `Community 6`?**
-  _High betweenness centrality (0.047) - this node is a cross-community bridge._
+- **Why does `TodayScheduleView` connect `Community 21` to `Community 56`, `Community 6`?**
+  _High betweenness centrality (0.059) - this node is a cross-community bridge._
+- **Why does `DayPart` connect `Community 24` to `Community 56`, `Community 29`?**
+  _High betweenness centrality (0.049) - this node is a cross-community bridge._
+- **Why does `HomeView` connect `Community 19` to `Community 6`?**
+  _High betweenness centrality (0.044) - this node is a cross-community bridge._
 - **Are the 9 inferred relationships involving `State` (e.g. with `.init()` and `.init()`) actually correct?**
   _`State` has 9 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `PreToolUse`, `Keys`, `hour` to the rest of the system?**
   _257 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 2` be split into smaller, more focused modules?**
-  _Cohesion score 0.05641025641025641 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05609756097560976 - nodes in this community are weakly interconnected._
 - **Should `Community 3` be split into smaller, more focused modules?**
-  _Cohesion score 0.06984126984126984 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.09359605911330049 - nodes in this community are weakly interconnected._

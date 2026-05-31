@@ -20,8 +20,8 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Core/AppSettings.swift": {
-    "mtime": 1779643046.4303632,
-    "ast_hash": "7575d59a728595a187134a19e45b3383",
+    "mtime": 1779993310.7319558,
+    "ast_hash": "0a241c2d5b582df80d934e5f05b769d2",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Core/DesignSystem/PresentationAnimation.swift": {
@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Core/DesignSystem/SlideCover.swift": {
-    "mtime": 1779991930.2723496,
-    "ast_hash": "9b741bdc63ca50e21586ef92e0f6f091",
+    "mtime": 1780242900.843558,
+    "ast_hash": "2113ecd6574a0db5c620f655893cbc84",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Core/DesignSystem/Spacing.swift": {
@@ -125,8 +125,8 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Core/Services/HabitService.swift": {
-    "mtime": 1779875775.0880237,
-    "ast_hash": "34e502619d7aeae4d15cfd7500264dc0",
+    "mtime": 1779993310.7340596,
+    "ast_hash": "60b0d3b21006d30f088af43657be682f",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Core/Services/NotificationService.swift": {
@@ -150,8 +150,8 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/App/RootView.swift": {
-    "mtime": 1779646515.807839,
-    "ast_hash": "f26508495a7ec11e57f67a1c27ff4430",
+    "mtime": 1779993310.7310205,
+    "ast_hash": "09accdf389c8b4592dd4366f141ed62f",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Settings/AboutView.swift": {
@@ -430,8 +430,8 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Habits/AddAnother/ConfigureHabitView.swift": {
-    "mtime": 1779886263.1753902,
-    "ast_hash": "13eb22d6986e55bcc18ebbfb047f8b91",
+    "mtime": 1780242900.8444479,
+    "ast_hash": "61fbdc487f3d86fc25a495fd8b4c6c6c",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Habits/Detail/HabitInfoView.swift": {
@@ -455,8 +455,8 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Habits/Detail/HabitEditView.swift": {
-    "mtime": 1779886263.1778038,
-    "ast_hash": "ceb3e403ec47e57c1184b9518f5767a9",
+    "mtime": 1780242900.8467152,
+    "ast_hash": "4ef7b24a1674def349472f351b784df2",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Habits/FirstHabit/ReminderTimeSheet.swift": {
@@ -505,8 +505,8 @@
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Habits/Custom/CustomHabitView.swift": {
-    "mtime": 1779886263.1766512,
-    "ast_hash": "144b7a7e8c11ce5f58d90dc344008062",
+    "mtime": 1780242900.845726,
+    "ast_hash": "681530a63f9727aba66f58320a35782d",
     "semantic_hash": ""
   },
   "/Users/izbassar/Documents/Projects/Cairn/Cairn/Features/Habits/Custom/SingleTimeEditorSheet.swift": {
