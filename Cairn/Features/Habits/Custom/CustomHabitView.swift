@@ -15,6 +15,11 @@ struct CustomHabitView: View {
     @State private var editingTimeIndex: Int = 0
     @State private var showDuplicateAlert = false
     @State private var duplicateMessage = ""
+    @State private var showQuietHoursAlert = false
+    @State private var quietHoursAlertMessage = ""
+    /// Flipped on after the user taps "Add anyway" so a re-entered `save()`
+    /// skips the quiet-hours check exactly once.
+    @State private var quietHoursAcknowledged = false
 
     private var service: HabitService { HabitService(context: context) }
 
@@ -58,6 +63,18 @@ struct CustomHabitView: View {
             confirmTitle: "Got it",
             cancelTitle: "Change name",
             onConfirm: { }
+        )
+        .cairnAlert(
+            isPresented: $showQuietHoursAlert,
+            title: "During your quiet hours",
+            message: quietHoursAlertMessage,
+            confirmTitle: "Add anyway",
+            confirmRole: .destructive,
+            cancelTitle: "Adjust",
+            onConfirm: {
+                quietHoursAcknowledged = true
+                Task { await save() }
+            }
         )
     }
 
@@ -492,6 +509,18 @@ struct CustomHabitView: View {
             // the user shouldn't be blocked by an internal fetch failure.
             print("⚠️ Duplicate check failed: \(error)")
         }
+
+        // Surface a confirmation modal when a reminder lands in quiet hours,
+        // so it's impossible to miss. "Add anyway" sets the ack flag and
+        // re-enters save() once, bypassing this branch.
+        if !quietHoursAcknowledged,
+           draft.notificationsEnabled,
+           let conflict = firstQuietHoursConflict {
+            quietHoursAlertMessage = "\(conflict) is inside your quiet hours (\(quietHoursRangeText)). Add this habit anyway, or adjust the time first?"
+            showQuietHoursAlert = true
+            return
+        }
+        quietHoursAcknowledged = false   // reset for the next save attempt
 
         let habit = Habit(
             name: trimmedName,

@@ -13,6 +13,9 @@ struct ConfigureHabitView: View {
     @State private var showDaysSheet = false
     @State private var showDuplicateAlert = false
     @State private var duplicateMessage = ""
+    @State private var showQuietHoursAlert = false
+    @State private var quietHoursAlertMessage = ""
+    @State private var quietHoursAcknowledged = false
     @FocusState private var cueFocused: Bool
 
     init(
@@ -65,6 +68,18 @@ struct ConfigureHabitView: View {
             confirmTitle: "Got it",
             cancelTitle: "OK",
             onConfirm: { }
+        )
+        .cairnAlert(
+            isPresented: $showQuietHoursAlert,
+            title: "During your quiet hours",
+            message: quietHoursAlertMessage,
+            confirmTitle: "Add anyway",
+            confirmRole: .destructive,
+            cancelTitle: "Adjust",
+            onConfirm: {
+                quietHoursAcknowledged = true
+                Task { await save() }
+            }
         )
     }
 
@@ -467,6 +482,16 @@ struct ConfigureHabitView: View {
         } catch {
             print("⚠️ Duplicate check failed: \(error)")
         }
+
+        // Quiet-hours modal — impossible to miss vs. the inline banner.
+        if !quietHoursAcknowledged,
+           draft.notificationsEnabled,
+           settings.isWithinQuietHours(draft.reminderTime) {
+            quietHoursAlertMessage = "\(draft.reminderTimeLabel) is inside your quiet hours (\(quietHoursRangeText)). Add this habit anyway, or adjust the time first?"
+            showQuietHoursAlert = true
+            return
+        }
+        quietHoursAcknowledged = false
 
         let habit = Habit(
             name: name,

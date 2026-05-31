@@ -152,7 +152,10 @@ struct SlideCoverHost<Content: View>: View {
                         .allowsHitTesting(entry.visible)
                 }
             }
-            .ignoresSafeArea()
+            // Ignore *only* the bottom safe area so the cover extends over
+            // the tab bar. Respecting the top safe area keeps the cover's
+            // header (back / close buttons) clear of the iPhone status bar.
+            .ignoresSafeArea(edges: .bottom)
         }
     }
 }

@@ -11,6 +11,9 @@ struct HabitEditView: View {
     @State private var showTimeSheet = false
     @State private var showDaysSheet = false
     @State private var showIconPicker = false
+    @State private var showQuietHoursAlert = false
+    @State private var quietHoursAlertMessage = ""
+    @State private var quietHoursAcknowledged = false
 
     init(habit: Habit) {
         self.habit = habit
@@ -48,6 +51,18 @@ struct HabitEditView: View {
             IconPickerSheet(selected: $draft.iconName)
                 .presentationDetents([.large])
         }
+        .cairnAlert(
+            isPresented: $showQuietHoursAlert,
+            title: "During your quiet hours",
+            message: quietHoursAlertMessage,
+            confirmTitle: "Save anyway",
+            confirmRole: .destructive,
+            cancelTitle: "Adjust",
+            onConfirm: {
+                quietHoursAcknowledged = true
+                save()
+            }
+        )
     }
 
     // MARK: Header
@@ -373,6 +388,18 @@ struct HabitEditView: View {
     // MARK: Save
 
     private func save() {
+        // Quiet-hours modal: when the (about-to-be-saved) reminder time lands
+        // inside the user's quiet hours, surface a confirmation. "Save anyway"
+        // sets the ack flag and re-enters save() once to bypass this branch.
+        if !quietHoursAcknowledged,
+           draft.notificationsEnabled,
+           settings.isWithinQuietHours(draft.reminderTime) {
+            quietHoursAlertMessage = "\(draft.reminderTimeLabel) is inside your quiet hours (\(quietHoursRangeText)). Save anyway, or adjust the time first?"
+            showQuietHoursAlert = true
+            return
+        }
+        quietHoursAcknowledged = false
+
         draft.apply()
         do {
             try context.save()
